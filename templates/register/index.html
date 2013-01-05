@@ -1,0 +1,35 @@
+<div id='register_input'>
+  <form>
+    <input type='text'/>
+  </form>
+</div>
+
+<div id='transactions'>
+  <table>
+{% for line_item in line_items %}
+    <tr>
+      <td>{{ line_item.description }}</td>
+      <td>{{ line_item.quantity }} @ ${{ line_item.price }}</td>
+    </tr>
+{% endfor %}
+  </table>
+</div>
+
+<div id='totals'>
+  <div id='non_tax_total_header' class='total_header'>
+    Pre-Total
+  </div>
+  <div id='non_tax_total_value' class='total_value'>
+    ${{ transaction_total.total }}
+  </div>
+  <div id='tax_total_header' class='total_header'>
+    Tax
+  </div>
+  <div id='tax_total_value' class='total_value'>
+  </div>
+  <div id='total_value' class='total_header'>
+    Total
+  </div>
+  <div id='total_value' class='total_value'>
+  </div>
+</div>
