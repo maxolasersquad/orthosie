@@ -63,26 +63,33 @@ class TransactionTest(TestCase):
     def test_line_item_description(self):
         line_item = self.transaction.create_line_item(self.item, 1)
         self.assertEqual(line_item.description, 'Brand X Product X')
-    def test_get_transaction_totals(self):
+    def test_get_totals(self):
         line_item = self.transaction.create_line_item(self.item, 1)
         line_item.save()
         line_item = self.transaction.create_line_item(self.item, 1)
         line_item.save()
-        transaction_total = self.transaction.get_transaction_totals()
-        self.assertEqual(transaction_total.total, Decimal('46.90'))
+        transaction_total = self.transaction.get_totals()
+        self.assertEqual(transaction_total.sub_total, Decimal('46.90'))
         self.assertEqual(transaction_total.tax_total, Decimal('3.28'))
-        self.assertEqual(transaction_total.grand_total, Decimal('50.18'))
+        self.assertEqual(transaction_total.total, Decimal('50.18'))
 
 class LineItemTest(TestCase):
     def setUp(self):
+        self.shift = Shift(begin_date=timezone.now())
+        self.shift.save()
+        self.transaction = self.shift.create_transaction()
+        self.transaction.save()
         self.vendor = Vendor(name='Brand X')
+        self.vendor.save()
         self.item = Item(\
             upc='12345',\
             name='Product X',\
-            vendor=self.vendor\
+            vendor=self.vendor,\
+            price=23.45,\
+            taxable=True\
         )
-        self.transaction = Transaction(\
-            begin_date=datetime(2012,1,1,8,0,0),\
-            finish_date=datetime(2012,1,1,8,7,0),\
-            status='Started'\
-        )
+        self.item.save()
+    def test_line_item_total(self):
+        line_item = self.transaction.create_line_item(self.item, 2)
+        line_item.save()
+        self.assertEqual(line_item.total(), Decimal(46.90))

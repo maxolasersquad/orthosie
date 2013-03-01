@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
+from decimal import Decimal
 
 class Shift(models.Model):
     begin_date = models.DateTimeField(auto_now=True)
@@ -32,26 +33,23 @@ class Transaction(models.Model):
 
     def create_line_item(self, item, quantity, scale=None):
         if self.finish_date == None:
-            if item.taxable:
-                tax = item.price * .07
-            else:
-                tax = None
             return self.lineitem_set.create(\
                 item=item,\
                 quantity=quantity,\
                 upc=item.upc,\
                 scale=scale,\
                 description=item.vendor.name + ' ' + item.name,\
-                price=item.price * quantity,\
-                tax=tax\
+                price=item.price\
             )
 
-    def get_transaction_totals(self):
+    def get_totals(self):
         total = 0
         tax = 0
         for line_item in self.lineitem_set.all():
             total = total + line_item.price
-            tax = tax + line_item.tax
+            if line_item.item.taxable:
+                tax = Decimal(tax) + line_item.price * Decimal('.07')
+        tax = tax.quantize(Decimal(10) ** -2).normalize()
         transaction_total = TransactionTotal(total, tax)
         return transaction_total
 
@@ -62,14 +60,16 @@ class LineItem(models.Model):
     scale = models.DecimalField(max_digits=19, decimal_places=4, null=True)
     description = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=17, decimal_places=2)
-    tax = models.DecimalField(max_digits=17, decimal_places=2)
     item = models.ForeignKey('inventory.Item')
 
     def __unicode__(self):
-        return str(self.scale) + ' x ' + self.description + ' ' + self.description + ' ' + self.tax
+        return str(self.scale) + ' x ' + self.description + ' ' + self.description
+
+    def total(self):
+        return self.price * self.quantity
 
 class TransactionTotal():
-    def __init__(self, total, tax_total):
-        self.total = total
+    def __init__(self, sub_total, tax_total):
+        self.sub_total = sub_total
         self.tax_total = tax_total
-        self.grand_total = total + tax_total
+        self.total = sub_total + tax_total

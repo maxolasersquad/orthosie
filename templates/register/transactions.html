@@ -1,0 +1,8 @@
+  <table>
+{% for line_item in line_items %}
+    <tr>
+      <td>{{ line_item.description }}</td>
+      <td>{{ line_item.quantity }} @ ${{ line_item.price }}</td>
+    </tr>
+{% endfor %}
+  </table>
