@@ -1,14 +1,18 @@
-  <div id='non_tax_total_header' class='total_header'>
-    Pre-Total
+  <div id='sub_total_header' class='total_header'>
+    SubTotal
   </div>
-  <div id='non_tax_total_value' class='total_value'>
-    ${{ transaction_total.total }}
+  <div id='sub_total_value' class='total_value'>
+    ${{ transaction_total.sub_total }}
   </div>
   <div id='tax_total_header' class='total_header'>
     Tax
   </div>
   <div id='tax_total_value' class='total_value'>
+    ${{ transaction_total.tax_total }}
   </div>
-  <div id='total_value' class='total_header'>
+  <div id='total_header' class='total_header'>
     Total
+  </div>
+  <div id='total_value' class='total_value'>
+    ${{ transaction_total.total }}
   </div>
