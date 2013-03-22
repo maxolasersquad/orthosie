@@ -2,7 +2,7 @@ if (Orthosie === undefined) {
   var Orthosie = {};
 }
 
-Orthosie.numpad = {
+Orthosie.input = {
   append: function(key) {
     $('#register_input').append(key);
   },

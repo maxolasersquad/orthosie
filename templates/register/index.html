@@ -4,7 +4,7 @@
     <title>Orthosie Cash Register</title>
     <link rel='stylesheet' type='text/css' href='/static/css/register.css' />
     <script type="text/javascript" src="/static/js/jquery.js"></script>
-    <script type="text/javascript" src="/static/js/numpad.js"></script>
+    <script type="text/javascript" src="/static/js/input.js"></script>
     <meta charset="UTF-8">
   </head>
   <body>
@@ -12,10 +12,10 @@
       document.onkeyup = function(e) {
         console.log(e.keyCode);
         if (e.keyCode == 8) {
-          Orthosie.numpad.backspace();
+          Orthosie.input.backspace();
         }
         else if (e.keyCode == 32 || e.keyCode >= 64 && e.keyCode <= 90) {
-          Orthosie.numpad.append(String.fromCharCode(e.keyCode));
+          Orthosie.input.append(String.fromCharCode(e.keyCode));
         }
       }
     </script>
