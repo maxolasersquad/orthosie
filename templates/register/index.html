@@ -10,10 +10,11 @@
   <body>
     <script type="text/javascript">
       document.onkeyup = function(e) {
+        console.log(e.keyCode);
         if (e.keyCode == 8) {
           Orthosie.numpad.backspace();
         }
-        else {
+        else if (e.keyCode == 32 || e.keyCode >= 64 && e.keyCode <= 90) {
           Orthosie.numpad.append(String.fromCharCode(e.keyCode));
         }
       }

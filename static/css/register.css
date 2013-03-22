@@ -2,3 +2,50 @@
   border: 1px solid;
   height: 30px;
 }
+
+#transactions {
+  width: 70%;
+  height: 75%;
+  border: solid 2px;
+  margin-top: 5px;
+  position: fixed;
+  display: inline;
+}
+
+#transactions > table {
+  width: 100%;
+  margin: 5px;
+}
+
+#numpad {
+  float: right;
+  width: 25%;
+}
+
+#numpad_enter {
+  font-size: 2.5em;
+  text-align: center;
+}
+
+.numpad_number {
+  margin: 20px;
+  font-size: 3em;
+}
+
+#totals {
+  position: fixed;
+  bottom: 0px;
+}
+
+.total_header {
+  display: inline;
+  font-size: 2.5em;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.total_value {
+  display: inline;
+  font-size: 2em;
+  margin-right: 10px;
+}
