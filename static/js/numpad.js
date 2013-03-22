@@ -4,7 +4,6 @@ if (Orthosie === undefined) {
 
 Orthosie.numpad = {
   append: function(key) {
-  console.log(key);
     $('#register_input').append(key);
   },
   backspace: function() {

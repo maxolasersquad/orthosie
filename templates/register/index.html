@@ -8,6 +8,16 @@
     <meta charset="UTF-8">
   </head>
   <body>
+    <script type="text/javascript">
+      document.onkeyup = function(e) {
+        if (e.keyCode == 8) {
+          Orthosie.numpad.backspace();
+        }
+        else {
+          Orthosie.numpad.append(String.fromCharCode(e.keyCode));
+        }
+      }
+    </script>
     <div id='input'>
 {% include "register/input.html" %}
     </div>
