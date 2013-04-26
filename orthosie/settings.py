@@ -1,3 +1,5 @@
+import os
+
 # Django settings for orthosie project.
 
 DEBUG = True
@@ -12,7 +14,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/home/bread/orthosie/orthosie.db',
+        'NAME': os.path.join(os.path.dirname(__file__), 'orthosie.db').replace('\\','/'),
         'USER': '',
         'PASSWORD': '',
         'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
