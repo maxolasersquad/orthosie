@@ -35,6 +35,9 @@ class Shift(models.Model):
         if self.finish_date == None:
             return self.transaction_set.create(begin_date=timezone.now())
 
+    class Meta:
+        ordering = ['begin_date']
+
 class Transaction(models.Model):
     shift = models.ForeignKey(Shift)
     begin_date = models.DateTimeField()
@@ -69,6 +72,9 @@ class Transaction(models.Model):
         tax = tax.quantize(Decimal(10) ** -2).normalize()
         transaction_total = TransactionTotal(total, tax)
         return transaction_total
+
+    class Meta:
+        ordering = ['begin_date']
 
 class LineItem(models.Model):
     transaction = models.ForeignKey(Transaction)
