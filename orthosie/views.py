@@ -30,6 +30,10 @@ def api_root(request, format=None):
     """
     return Response({
         'item': reverse('item-list', request=request),
+        'vendor': reverse('vendor-list', request=request),
+        'shift': reverse('shift-list', request=request),
+        'transaction': reverse('transaction-list', request=request),
+        'lineitem': reverse('lineitem-list', request=request),
     })
 
 class ItemList(generics.ListCreateAPIView):
