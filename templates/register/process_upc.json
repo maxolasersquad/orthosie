@@ -1,0 +1,14 @@
+{
+  "success": {{ check_passed }},
+{% if item %}
+  "name": "{{ item.name }}",
+  "vendor": "{{ item.vendor.name }}",
+  "price": {{ item.price }},
+  "quantity": {{ quantity }},
+  "subtotal": {{ transaction.sub_total }},
+  "taxtotal": {{ transaction.tax_total }},
+  "total": {{ transaction.total }}
+{% else %}
+  "error": "Invalid Scan"
+{% endif %}
+}

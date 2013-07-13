@@ -20,6 +20,9 @@ from django.db import models
 class Vendor(models.Model):
     name = models.CharField(max_length=50)
 
+    def __unicode__(self):
+        return self.name
+
     class Meta:
         ordering = ['name']
 
@@ -30,6 +33,9 @@ class Item(models.Model):
     scalable = models.BooleanField()
     taxable = models.BooleanField()
     vendor = models.ForeignKey(Vendor)
+
+    def __unicode__(self):
+        return self.name
 
     class Meta:
         ordering = ['name']

@@ -7,7 +7,7 @@ from orthosie.views import ItemList, ItemDetail, VendorList, VendorDetail, Shift
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^register', include('register.urls')),
+    url(r'^register/', include('register.urls')),
     url(r'^$', 'api_root'),
     url(r'^items/$', ItemList.as_view(), name='item-list'),
     url(r'^items/(?P<pk>\d+)/$', ItemDetail.as_view(), name='item-detail'),

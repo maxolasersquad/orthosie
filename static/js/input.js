@@ -23,7 +23,37 @@ Orthosie.input = {
   append: function(key) {
     $('#register_input').append(key);
   },
+
   backspace: function() {
     $('#register_input').html($('#register_input').html().substring(0, $('#register_input').html().length - 1));
+  },
+
+  submit: function() {
+    post_args = {
+      upc: $('#register_input').html(),
+      quantity: 1
+    };
+    post_args[$('#csrf_token>input').attr('name')] = $('#csrf_token>input').attr('value');
+    $.ajax({
+      url: '/register/process_upc/',
+      data: post_args,
+      type: 'POST',
+      dataType: 'json',
+      success: function(data, status) {
+        if (data.success) {
+          $('#transactions>table tr:last').after('<tr><td>' + data.vendor + ' ' + data.name + '</td><td>' + data.quantity + ' @ $' + data.price + '</td></tr>');
+          $('#sub_total_value').html('$' + data.subtotal);
+          $('#tax_total_value').html('$' + data.taxtotal);
+          $('#total_value').html('$' + data.total);
+        }
+        else {
+          alert(data.error);
+        }
+      },
+      error: function(xhr, text, error) {
+        alert('There was an error processing the request.')
+      }
+    });
+    $('#register_input').html('');
   }
 }
