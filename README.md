@@ -20,7 +20,22 @@ Orthosie is licensed under the GPLv3. The details of this license can be viewed 
 Orthosie is a point of sale system written in Python using the Django framework.
 Currently Orthosie supports Python 2 & 3 and Django 1.5.
 
-For the time being the default django settings file relies on being run from /home/bread/ To run it from another location update orthosie/settings.py to the location you are running it from.
-
 Orthosie uses Django REST Framework. It can be grabbed from http://django-rest-framework.org/
 
+Getting Orthosie running for the first time requires we setup the sqlite database file.
+./manay.py syncdb
+
+To run the test server cd in to the orthosie directory and run the following.
+./manage.py runserver
+
+At this point you can browse to http://127.0.0.1:8000/register/ to see the register.
+
+There is currently no easy way to add any inventory to the system. Inventory can be added from the python/django shell by adding a vendor and an item. The following adds Reed's Gingerbrew.
+./manage.py shell
+import inventory.models as inventory
+v = inventory.Vendor(name='Reed''s')
+i = inventory.Item(upc='00827400006', name='Original Ginger Brew', price=1.72, scalable=False, taxable=True, vendor=v)
+v.save()
+i.save()
+
+At this point you should be able to ring up this product. Note that during the ring the UPC checksum is needed for a ring to go through properly, so you will need to input '008274000061' for the ring to work.
