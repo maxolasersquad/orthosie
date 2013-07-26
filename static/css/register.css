@@ -29,6 +29,8 @@
   margin-top: 5px;
   position: fixed;
   display: inline;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 #transactions > table {

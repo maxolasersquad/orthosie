@@ -45,6 +45,7 @@ Orthosie.input = {
           $('#sub_total_value').html('$' + data.subtotal);
           $('#tax_total_value').html('$' + data.taxtotal);
           $('#total_value').html('$' + data.total);
+          $('#transactions').scrollTop($("#transactions")[0].scrollHeight);
         }
         else {
           alert(data.error);

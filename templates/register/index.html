@@ -27,6 +27,9 @@
   </head>
   <body>
     <script type="text/javascript">
+      document.ready = function () {
+        $('#transactions').scrollTop($("#transactions")[0].scrollHeight);
+      };
       document.onkeyup = function(e) {
         if (e.keyCode == 8) {
           Orthosie.input.backspace();
@@ -36,6 +39,9 @@
         }
         else if (e.keyCode == 13 || e.keyCode == 32 || (e.keyCode >= 64 && e.keyCode <= 90) || (e.keyCode >= 48 && e.keyCode <= 57)) {
           Orthosie.input.append(String.fromCharCode(e.keyCode));
+        }
+        else if (e.keyCode >= 96 && e.keyCode <= 105) {
+          Orthosie.input.append(String.fromCharCode(e.keyCode - 48));
         }
       }
     </script>
