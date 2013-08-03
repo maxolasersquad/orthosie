@@ -62,6 +62,13 @@ class Transaction(models.Model):
                 price=item.price\
             )
 
+    def create_tender(self, amount, type):
+        if type in ('CASH', 'CHECK', 'CREDIT', 'EBT'):
+            return self.tender_set.create(\
+                amount=amount,\
+                type=type\
+            )
+
     def get_totals(self):
         total = 0
         tax = 0
@@ -70,7 +77,10 @@ class Transaction(models.Model):
             if line_item.item.taxable:
                 tax = Decimal(tax) + line_item.price * Decimal('.07')
         tax = tax.quantize(Decimal(10) ** -2).normalize()
-        transaction_total = TransactionTotal(total, tax)
+        paid_total = 0
+        for tender in self.tender_set.all():
+            paid_total = paid_total + tender.amount
+        transaction_total = TransactionTotal(total, tax, paid_total)
         return transaction_total
 
     class Meta:
@@ -91,8 +101,14 @@ class LineItem(models.Model):
     def total(self):
         return self.price * self.quantity
 
+class Tender(models.Model):
+    transaction = models.ForeignKey(Transaction)
+    amount = models.DecimalField(max_digits=17, decimal_places=2)
+    type = models.CharField(max_length=30)
+
 class TransactionTotal():
-    def __init__(self, sub_total, tax_total):
+    def __init__(self, sub_total, tax_total, paid_total):
         self.sub_total = sub_total
         self.tax_total = tax_total
-        self.total = sub_total + tax_total
+        self.paid_total = paid_total
+        self.total = sub_total + tax_total - paid_total

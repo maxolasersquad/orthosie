@@ -34,3 +34,11 @@ def process_upc(request):
     context_instance = { 'item': item, 'quantity': quantity, 'check_passed': check, 'transaction': transaction.get_totals() }
  
     return render(request, 'register/process_upc.json', context_instance)
+
+def tender_transaction(request):
+    tender = request.POST['tender']
+    transaction = Transaction.objects.get(finish_date = None)
+    transaction.create_tender(float(tender) / 100, 'CASH')
+
+    context_instance = { 'transaction': transaction.get_totals() }
+    return render(request, 'register/tender_transaction.json', context_instance)

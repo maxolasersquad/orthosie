@@ -48,6 +48,9 @@
     <div id='input'>
 {% include "register/input.html" %}
     </div>
+    <div id='tender'>
+{%include "register/ringtype.html" %}
+    </div>
     <div id='transactions'>
 {% include "register/transactions.html" %}
     </div>
@@ -55,8 +58,8 @@
 {% include "register/totals.html" %}
     </div>
 {% include "register/numpad.html" %}
-  <form id="csrf_token">
-    {% csrf_token %}
-  </form>
+    <form id="csrf_token">
+      {% csrf_token %}
+    </form>
   </body>
 </html>

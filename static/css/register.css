@@ -51,6 +51,7 @@
 .numpad_number {
   margin: 20px;
   font-size: 3em;
+  cursor: pointer;
 }
 
 #totals {
@@ -69,4 +70,13 @@
   display: inline;
   font-size: 2em;
   margin-right: 10px;
+}
+
+.ringtype {
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.selected_ringtype {
+  background-color: #ddd;
 }

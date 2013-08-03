@@ -20,6 +20,8 @@ if (Orthosie === undefined) {
 }
 
 Orthosie.input = {
+  input_mode: 'upc',
+
   append: function(key) {
     $('#register_input').append(key);
   },
@@ -29,32 +31,73 @@ Orthosie.input = {
   },
 
   submit: function() {
-    post_args = {
-      upc: $('#register_input').html(),
-      quantity: 1
-    };
-    post_args[$('#csrf_token>input').attr('name')] = $('#csrf_token>input').attr('value');
-    $.ajax({
-      url: '/register/process_upc/',
-      data: post_args,
-      type: 'POST',
-      dataType: 'json',
-      success: function(data, status) {
-        if (data.success) {
-          $('#transactions>table tr:last').after('<tr><td>' + data.vendor + ' ' + data.name + '</td><td>' + data.quantity + ' @ $' + data.price + '</td></tr>');
-          $('#sub_total_value').html('$' + data.subtotal);
-          $('#tax_total_value').html('$' + data.taxtotal);
-          $('#total_value').html('$' + data.total);
-          $('#transactions').scrollTop($("#transactions")[0].scrollHeight);
-        }
-        else {
-          alert(data.error);
-        }
-      },
-      error: function(xhr, text, error) {
-        alert('There was an error processing the request.')
-      }
-    });
+    switch (Orthosie.input.input_mode) {
+      case 'upc':
+        post_args = {
+          upc: $('#register_input').html(),
+          quantity: 1
+        };
+        post_args[$('#csrf_token>input').attr('name')] = $('#csrf_token>input').attr('value');
+        $.ajax({
+          url: '/register/process_upc/',
+          data: post_args,
+          type: 'POST',
+          dataType: 'json',
+          success: function(data, status) {
+            if (data.success) {
+              $('#transactions>table tr:last').after('<tr><td>' + data.vendor + ' ' + data.name + '</td><td>' + data.quantity + ' @ $' + data.price + '</td></tr>');
+              $('#sub_total_value').html('$' + data.subtotal);
+              $('#tax_total_value').html('$' + data.taxtotal);
+              $('#paid_total_value').html('$' + data.paidtotal);
+              $('#total_value').html('$' + data.total);
+              $('#transactions').scrollTop($("#transactions")[0].scrollHeight);
+            }
+            else {
+              alert(data.error);
+            }
+          },
+          error: function(xhr, text, error) {
+            alert('There was an error processing the request.')
+          }
+        });
+        break;
+      case 'tender':
+        post_args = {
+          tender: $('#register_input').html(),
+          quantity: 1
+        };
+        post_args[$('#csrf_token>input').attr('name')] = $('#csrf_token>input').attr('value');
+        $.ajax({
+          url: '/register/tender_transaction/',
+          data: post_args,
+          type: 'POST',
+          dataType: 'json',
+          success: function(data, status) {
+            $('#sub_total_value').html('$' + data.subtotal);
+            $('#tax_total_value').html('$' + data.taxtotal);
+            $('#paid_total_value').html('$' + data.paidtotal);
+            $('#total_value').html('$' + data.total);
+          },
+          error: function(xhr, text, error) {
+            alert('There was an error processing the request.')
+          }
+        });
+        break;
+        
+    }
     $('#register_input').html('');
+  },
+  set_inputtype: function(type) {
+    $('.selected_ringtype').removeClass('selected_ringtype');
+    switch (type) {
+      case 'upc':
+        Orthosie.input.input_mode = 'upc';
+        $('#ring_upc').addClass('selected_ringtype');
+      break;
+      case 'tender':
+        Orthosie.input.input_mode = 'tender';
+        $('#ring_tender').addClass('selected_ringtype');
+      break;
+    }
   }
 }
