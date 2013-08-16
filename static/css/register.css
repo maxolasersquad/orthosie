@@ -41,6 +41,10 @@
 #numpad {
   float: right;
   width: 25%;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 #numpad_enter {
@@ -79,4 +83,11 @@
 
 .selected_ringtype {
   background-color: #ddd;
+}
+
+#tender {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
