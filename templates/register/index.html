@@ -30,18 +30,18 @@
       document.ready = function () {
         $('#transactions').scrollTop($("#transactions")[0].scrollHeight);
       };
-      document.onkeyup = function(e) {
-        if (e.keyCode == 8) {
-          Orthosie.input.backspace();
-        }
+      document.onkeypress = function(e) {
+        console.log(e.keyCode);
         if (e.keyCode == 13) {
           Orthosie.input.submit();
         }
-        else if (e.keyCode == 13 || e.keyCode == 32 || (e.keyCode >= 64 && e.keyCode <= 90) || (e.keyCode >= 48 && e.keyCode <= 57)) {
+        else if (e.keyCode == 32 || e.keyCode == 46 || (e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 97 || 122) || (e.keyCode >= 48 && e.keyCode <= 57)) {
           Orthosie.input.append(String.fromCharCode(e.keyCode));
         }
-        else if (e.keyCode >= 96 && e.keyCode <= 105) {
-          Orthosie.input.append(String.fromCharCode(e.keyCode - 48));
+      }
+      document.onkeydown = function(e) {
+        if (e.keyCode == 8) {
+          Orthosie.input.backspace();
         }
       }
     </script>
