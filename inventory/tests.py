@@ -18,6 +18,7 @@
 from django.test import TestCase
 from inventory.models import Vendor
 from inventory.models import Item
+from inventory.models import Upc
 
 class VendorTest(TestCase):
     def setUp(self):
@@ -35,3 +36,17 @@ class ItemTest(TestCase):
         self.assertEqual(self.item.name, 'Product X')
     def test_item_vendor(self):
         self.assertEqual(self.item.vendor.name, 'Brand X')
+
+class UpcTest(TestCase):
+    def test_verify_correct_check_digit(self):
+        self.test_upc = Upc('008274000061')
+        self.assertEqual(self.test_upc.get_check_digit(), 1)
+        self.test_upc = Upc('090341100019')
+        self.assertEqual(self.test_upc.get_check_digit(), 9)
+    def test_verify_check_digit_passes(self):
+        self.test_upc = Upc('008274000061')
+        self.assertTrue(self.test_upc.verify_check_digit())
+        
+    def test_verify_check_digit_fails(self):
+        self.test_upc = Upc('008274000065')
+        self.assertFalse(self.test_upc.verify_check_digit())

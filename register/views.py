@@ -10,26 +10,17 @@ def index(request):
     return render(request, 'register/index.html', context)
 
 def process_upc(request):
-    upc = request.POST['upc']
+    upc = Upc(request.POST['upc'])
     quantity = request.POST['quantity']
-    check_digit = 0
-    odd_pos = True
-    for char in upc[:-1]:
-        if odd_pos:
-            check_digit += int(char) * 3
-        else:
-            check_digit += int(char)
-        odd_pos = not odd_pos
-    check_digit = (10 - check_digit % 10) % 10
 
-    if str(check_digit) != upc[-1]:
-        check = 'false'
-        item = None
-    else:
+    if upc.verify_check_digit:
         check = 'true'
-        item = Item.objects.get(upc=upc[:-1])
+        item = Item.objects.get(upc=upc.upc[:-1])
         transaction = Transaction.objects.get(finish_date = None) 
         transaction.create_line_item(item, 1)
+    else:
+        check = 'false'
+        item = None
 
     context_instance = { 'item': item, 'quantity': quantity, 'check_passed': check, 'transaction': transaction.get_totals() }
  

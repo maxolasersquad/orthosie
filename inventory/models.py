@@ -39,3 +39,24 @@ class Item(models.Model):
 
     class Meta:
         ordering = ['name']
+
+class Upc:
+    def __init__(self, upc):
+        self.upc = upc
+
+    def verify_check_digit(self):
+        if str(self.get_check_digit()) != self.upc[-1]:
+            return False
+        return True
+
+    def get_check_digit(self):
+        check_digit = 0
+        odd_pos = True
+        for char in self.upc[:-1]:
+            if odd_pos:
+                check_digit += int(char) * 3
+            else:
+                check_digit += int(char)
+            odd_pos = not odd_pos
+        check_digit = (10 - check_digit % 10) % 10
+        return check_digit
