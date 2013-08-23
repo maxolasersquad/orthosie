@@ -89,6 +89,10 @@ class TransactionTest(TestCase):
         self.assertEqual(transaction_total.sub_total, Decimal('46.90'))
         self.assertEqual(transaction_total.tax_total, Decimal('3.28'))
         self.assertEqual(transaction_total.total, Decimal('50.18'))
+    def test_paid_tender_ends_transaction(self):
+        self.transaction.create_line_item(self.item, 1)
+        self.transaction.create_tender(25.09, 'CASH')
+        self.assertIsNotNone(self.transaction.finish_date)
 
 class LineItemTest(TestCase):
     def setUp(self):

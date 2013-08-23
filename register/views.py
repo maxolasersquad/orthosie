@@ -1,9 +1,18 @@
 from django.shortcuts import render
 from register.models import *
 from inventory.models import *
+from django.core.exceptions import ObjectDoesNotExist
 
 def index(request):
-    current_transaction = Transaction.objects.get(finish_date = None)
+    try:
+        current_transaction = Transaction.objects.get(finish_date = None)
+    except ObjectDoesNotExist:
+        try:
+            current_shift = Shift.objects.get(finish_date = None)
+        except ObjectDoesNotExist:
+            current_shift = Shift()
+            current_shift.save()
+        current_transaction = current_shift.create_transaction()
     line_items = current_transaction.lineitem_set.all()
     transaction_total = current_transaction.get_totals()
     context = { 'line_items': line_items, 'transaction_total': transaction_total }

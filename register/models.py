@@ -30,6 +30,7 @@ class Shift(models.Model):
     def end_shift(self):
         if self.finish_date == None:
             self.finish_date = timezone.now()
+            self.save()
 
     def create_transaction(self):
         if self.finish_date == None:
@@ -50,6 +51,7 @@ class Transaction(models.Model):
     def end_transaction(self):
         if self.finish_date == None:
             self.finish_date = timezone.now()
+            self.save()
 
     def create_line_item(self, item, quantity, scale=None):
         if self.finish_date == None:
@@ -64,14 +66,17 @@ class Transaction(models.Model):
 
     def create_tender(self, amount, type):
         if type in ('CASH', 'CHECK', 'CREDIT', 'EBT'):
-            return self.tender_set.create(\
+            tender = self.tender_set.create(\
                 amount=amount,\
                 type=type\
             )
+            if self.get_totals().total <= 0:
+                self.end_transaction()
+            return tender
 
     def get_totals(self):
-        total = 0
-        tax = 0
+        total = Decimal(0.0)
+        tax = Decimal(0.0)
         for line_item in self.lineitem_set.all():
             total = total + line_item.price
             if line_item.item.taxable:
