@@ -13,7 +13,7 @@ def process_upc(request):
     upc = Upc(request.POST['upc'])
     quantity = request.POST['quantity']
 
-    if upc.verify_check_digit:
+    if upc.verify_check_digit():
         check = 'true'
         item = Item.objects.get(upc=upc.upc[:-1])
         transaction = Transaction.objects.get(finish_date = None) 

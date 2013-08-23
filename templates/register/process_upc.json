@@ -8,7 +8,7 @@
   "subtotal": {{ transaction.sub_total }},
   "taxtotal": {{ transaction.tax_total }},
   "paidtotal": {{ transaction.paid_total }},
-  "total": {{ transaction.total }},
+  "total": {{ transaction.total }}
 {% else %}
   "error": "Invalid Scan"
 {% endif %}
