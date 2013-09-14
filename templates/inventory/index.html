@@ -1,18 +1,19 @@
 <!DOCTYPE html>
   <head>
     <title>Orthosie Inventory Management</title>
+    <link rel='stylesheet' type='text/css' href='/static/css/inventory.css' />
     <meta charset="UTF-8" />
   </head>
   <body>
-    <table>
+    <table id="inventory_list">
       <tbody>
 {% for inventory in inventory_items %}
         <tr id="{{ inventory.upc }}" class="inventory_row">
           <td id="{{ inventory.upc }}_upc" class="inventory_upc">{{ inventory.upc }}</td>
           <td id="{{ inventory.upc }}_vendor" class="inventory_vendor">{{ inventory.vendor.name }} {{ inventory.name }}</td>
           <td id="{{ inventory.upc }}_price" class="inventory_price">{{ inventory.price }}</td>
-          <td id="{{ inventory.upc }}_scalable" class="inventory_scalable">{{ inventory.scalable|yesno:"Scalable,," }}</td>
-          <td id="{{ inventory.upc }}_taxable" class="inventory_taxable">{{ inventory.taxable|yesno:"Taxable,," }}</td>
+          <td id="{{ inventory.upc }}_scalable" class="inventory_scalable">{{ inventory.scalable|yesno:"Scalable, ," }}</td>
+          <td id="{{ inventory.upc }}_taxable" class="inventory_taxable">{{ inventory.taxable|yesno:"Taxable, ," }}</td>
         </tr>
 {% endfor %}
       </tbody>
