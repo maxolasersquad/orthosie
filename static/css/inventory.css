@@ -78,6 +78,10 @@
   min-height: 21px;
 }
 
+.inventory_price {
+  height: 20px;
+}
+
 .inventory_scalable {
   vertical-align: middle;
   font-size: 80%;
