@@ -3,5 +3,6 @@ from inventory import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
+    url(r'update_inventory', views.update_inventory, name='update_inventory'),
 )
 

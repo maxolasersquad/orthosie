@@ -7,6 +7,9 @@
     <meta charset="UTF-8" />
   </head>
   <body>
+    <form id="csrf_token">
+{% csrf_token %}
+    </form>
     <table id="inventory_list">
       <tbody>
 {% for inventory in inventory_items %}
@@ -14,8 +17,8 @@
           <td id="{{ inventory.upc }}_upc" class="inventory_upc">{{ inventory.upc }}</td>
           <td id="{{ inventory.upc }}_vendor" class="inventory_vendor">{{ inventory.vendor.name }} {{ inventory.name }}</td>
           <td id="{{ inventory.upc }}_price" class="inventory_price" onclick="Orthosie.inventory.edit_price('{{ inventory.upc }}');">{{ inventory.price }}</td>
-          <td id="{{ inventory.upc }}_scalable" class="inventory_scalable">{{ inventory.scalable|yesno:"Scalable, ," }}</td>
-          <td id="{{ inventory.upc }}_taxable" class="inventory_taxable">{{ inventory.taxable|yesno:"Taxable, ," }}</td>
+          <td id="{{ inventory.upc }}_scalable" class="inventory_scalable">{{ inventory.scalable|yesno:"Scalable, Non-Scalable," }}</td>
+          <td id="{{ inventory.upc }}_taxable" class="inventory_taxable" onclick="Orthosie.inventory.toggle_taxable('{{ inventory.upc }}');">{{ inventory.taxable|yesno:"Taxable, Non-Taxable," }}</td>
         </tr>
 {% endfor %}
       </tbody>

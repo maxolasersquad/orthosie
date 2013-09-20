@@ -57,7 +57,7 @@ Orthosie.input = {
             }
           },
           error: function(xhr, text, error) {
-            alert('There was an error processing the request.')
+            alert('There was an error processing the request.');
           }
         });
         break;

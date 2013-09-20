@@ -22,7 +22,7 @@
   width: 100%;
   border-spacing: 0px;
   padding: 0px;
-  width: 765px;
+  width: 810px;
   display: block;
 }
 
@@ -89,7 +89,7 @@
   empty-cells: show;
   white-space: nowrap;
   font-family: arial, sans-serif;
-  width: 55px;
+  width: 77px;
   padding: 2px 2px 0px 10px;
   float: left;
   overflow: hidden;
@@ -104,7 +104,7 @@
   empty-cells: show;
   white-space: nowrap;
   font-family: arial, sans-serif;
-  width: 50px;
+  width: 73px;
   padding: 2px 2px 0px 10px;
   float: left;
   overflow: hidden;
