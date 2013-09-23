@@ -8,6 +8,7 @@ def index(request):
     return render(request, 'inventory/index.html', context)
 
 def update_inventory(request):
+    print('"' + request.POST['upc'] + '"')
     item = Item.objects.get(upc=request.POST['upc'])
 
     if 'price' in request.POST:
@@ -16,9 +17,9 @@ def update_inventory(request):
         item.name = request.POST['name']
     if 'scalable' in request.POST:
         if request.POST['scalable'] == 'true':
-            item.scalable = true
+            item.scalable = True
         else:
-            item.scalable = false
+            item.scalable = False
     if 'taxable' in request.POST:
         if request.POST['taxable'] == 'true':
             item.taxable = True

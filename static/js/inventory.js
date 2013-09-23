@@ -82,5 +82,40 @@ Orthosie.inventory = {
       }
     });
 
+  },
+
+  toggle_scalable: function(upc) {
+    var scalable;
+    if ($('#' + upc + '_scalable').html() == 'Scalable') {
+      scalable = false;
+    }
+    else {
+      scalable = true;
+    }
+
+    post_args = {
+      upc: upc,
+      scalable: scalable
+    };
+    post_args[$('#csrf_token>input').attr('name')] = $('#csrf_token>input').attr('value');
+
+    $.ajax({
+      url: '/inventory/update_inventory/',
+      data: post_args,
+      type: 'POST',
+      dataType: 'json',
+      success: function(data, status) {
+        if (data.scalable) {
+          $('#' + upc + '_scalable').html('Scalable');
+        }
+        else {
+          $('#' + upc + '_scalable').html('Non-Scalable');
+        }
+      },
+      error: function(xhr, text, error) {
+        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
+      }
+    });
+
   }
 }

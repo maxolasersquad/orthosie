@@ -17,7 +17,7 @@
           <td id="{{ inventory.upc }}_upc" class="inventory_upc">{{ inventory.upc }}</td>
           <td id="{{ inventory.upc }}_vendor" class="inventory_vendor">{{ inventory.vendor.name }} {{ inventory.name }}</td>
           <td id="{{ inventory.upc }}_price" class="inventory_price" onclick="Orthosie.inventory.edit_price('{{ inventory.upc }}');">{{ inventory.price }}</td>
-          <td id="{{ inventory.upc }}_scalable" class="inventory_scalable">{{ inventory.scalable|yesno:"Scalable, Non-Scalable," }}</td>
+          <td id="{{ inventory.upc }}_scalable" class="inventory_scalable" onclick="Orthosie.inventory.toggle_scalable('{{ inventory.upc }}');">{{ inventory.scalable|yesno:"Scalable, Non-Scalable," }}</td>
           <td id="{{ inventory.upc }}_taxable" class="inventory_taxable" onclick="Orthosie.inventory.toggle_taxable('{{ inventory.upc }}');">{{ inventory.taxable|yesno:"Taxable, Non-Taxable," }}</td>
         </tr>
 {% endfor %}
