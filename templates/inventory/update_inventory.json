@@ -1,6 +1,6 @@
 {
   "upc": "{{ item.upc }}",
-  "name": "{{ item.upc }}",
+  "name": "{{ item.name }}",
   "price": {{ item.price }},
   "scalable": {% if item.scalable %}true{% else %}false{% endif %},
   "taxable": {% if item.taxable %}true{% else %}false{% endif %},

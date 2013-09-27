@@ -20,6 +20,63 @@ if (Orthosie === undefined) {
 }
 
 Orthosie.inventory = {
+
+  edit_vendor: function(upc) {
+    $('#' + upc + '_vendor').html("<input type='text' id='" + upc + "_vendor_edit' class='inventory_vendor_edit' value='" + $('#' + upc + '_vendor').html() + "' onblur='Orthosie.inventory.save_vendor(\"" + upc + "\")' >");
+    $('#' + upc + '_vendor_edit').focus();
+  },
+
+  save_vendor: function(upc) {
+    new_vendor = $('#' + upc + '_vendor_edit').val();
+    post_args = {
+      upc: upc,
+      vendor: new_vendor
+    };
+    post_args[$('#csrf_token>input').attr('name')] = $('#csrf_token>input').attr('value');
+
+    $.ajax({
+      url: '/inventory/update_inventory/',
+      data: post_args,
+      type: 'POST',
+      dataType: 'json',
+      success: function(data, status) {
+        $('#' + upc + '_vendor').html(data.vendor_name);
+      },
+      error: function(xhr, text, error) {
+        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
+      }
+    });
+
+  },
+
+  edit_name: function(upc) {
+    $('#' + upc + '_name').html("<input type='text' id='" + upc + "_name_edit' class='inventory_name_edit' value='" + $('#' + upc + '_name').html() + "' onblur='Orthosie.inventory.save_name(\"" + upc + "\")' >");
+    $('#' + upc + '_name_edit').focus();
+  },
+
+  save_name: function(upc) {
+    new_name = $('#' + upc + '_name_edit').val();
+    post_args = {
+      upc: upc,
+      name: new_name
+    };
+    post_args[$('#csrf_token>input').attr('name')] = $('#csrf_token>input').attr('value');
+
+    $.ajax({
+      url: '/inventory/update_inventory/',
+      data: post_args,
+      type: 'POST',
+      dataType: 'json',
+      success: function(data, status) {
+        $('#' + upc + '_name').html(data.name);
+      },
+      error: function(xhr, text, error) {
+        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
+      }
+    });
+
+  },
+
   edit_price: function(upc) {
     $('#' + upc + '_price').html("<input type='number' id='" + upc + "_price_edit' class='inventory_price_edit' value='" + $('#' + upc + '_price').html() + "' onblur='Orthosie.inventory.save_price(\"" + upc + "\")' >");
     $('#' + upc + '_price_edit').focus();

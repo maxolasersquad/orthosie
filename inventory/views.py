@@ -26,8 +26,13 @@ def update_inventory(request):
         else:
             item.taxable = False
     if 'vendor' in request.POST:
-        item.vendor = request.POST['vendor']
-    item.save()
+        try:
+            vendor = Vendor.objects.get(name = request.POST['vendor'])
+        except ObjectDoesNotExist:
+            vendor = Vendor(name=request.POST['vendor'])
+            vendor.save()
+        item.vendor = vendor
+        item.save()
 
     context_instance = { 'item': item }
 
