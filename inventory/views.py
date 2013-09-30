@@ -32,7 +32,7 @@ def update_inventory(request):
             vendor = Vendor(name=request.POST['vendor'])
             vendor.save()
         item.vendor = vendor
-        item.save()
+    item.save()
 
     context_instance = { 'item': item }
 
