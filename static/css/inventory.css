@@ -111,3 +111,17 @@
   text-overflow: ellipsis;
   min-height: 21px;
 }
+
+#add_inventory {
+  font-size: 1.5em;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.inventory_upc > input {
+  width: 95px;
+}
+
+:invalid {
+  border: 2px solid #ff0000;
+}

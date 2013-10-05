@@ -21,7 +21,26 @@
           <td id="{{ inventory.upc }}_taxable" class="inventory_taxable" onclick="Orthosie.inventory.toggle_taxable('{{ inventory.upc }}');">{{ inventory.taxable|yesno:"Taxable, Non-Taxable," }}</td>
         </tr>
 {% endfor %}
+        <tr>
+          <td id="input_upc" class="inventory_upc">
+            <input type="text" required pattern="\d+" placeholder="upc" onblur="Orthosie.inventory.new_inventory();" />
+          </td>
+          <td id="input_vendor_name" class="inventory_vendor_name">
+            <span id="input_vendor">
+              <input type="text" required placeholder="Vendor" onblur="Orthosie.inventory.new_inventory();" />
+            </span>
+            <span id="input_name">
+              <input type="text" required placeholder="Name" onblur="Orthosie.inventory.new_inventory();" />
+            </span>
+          </td>
+          <td id="input_price" class="inventory_price">
+            <input type="number" required placeholder="Price" step="0.01" min="0" onblur="Orthosie.inventory.new_inventory();" />
+          </td>
+          <td id="input_scalable" class="inventory_scalable">Non-Scalable</td>
+          <td id="input_taxable" class="inventory_taxable">Taxable</td> 
+        </tr>
       </tbody>
     </table>
+    <span id="add_inventory" onclick='Orthosie.inventory.new_inventory_row();'>+</span>
   </body>
 </html>

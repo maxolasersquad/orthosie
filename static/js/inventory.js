@@ -174,5 +174,56 @@ Orthosie.inventory = {
       }
     });
 
+  },
+
+  new_inventory: function() {
+    if ($('#input_upc > input').val() == '' || $('#input_vendor > input').val() == '' || $('#input_name > input').val() == '' || $('#input_price > input').val() == '') {
+      console.log('Fail');
+      return
+    }
+    else if ($('#input_upc :invalid').length === 1) {
+      alert('Invalid UPC');
+      return;
+    }
+
+    var scalable;
+    if ($('#input_scalable').html() == 'Scalable') {
+      scalable = false;
+    }
+    else {
+      scalable = true;
+    }
+
+    var taxable;
+    if ($('#input_taxable').html() == 'Taxable') {
+      taxable = false;
+    }
+    else {
+      taxable = true;
+    }
+
+    post_args = {
+      upc: $('#input_upc > input').val(),
+      vendor: $('#input_vendor > input').val(),
+      name: $('#input_name > input').val(),
+      price: $('#input_price > input').val(),
+      scalable: scalable,
+      taxable: taxable
+    };
+
+    post_args[$('#csrf_token>input').attr('name')] = $('#csrf_token>input').attr('value');
+
+    $.ajax({
+      url: '/inventory/create_inventory/',
+      data: post_args,
+      type: 'POST',
+      dataType: 'json',
+      success: function(data, status) {
+        location.reload();
+      },
+      error: function(xhr, text, error) {
+        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
+      }
+    });
   }
 }

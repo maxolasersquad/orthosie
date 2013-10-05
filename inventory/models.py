@@ -18,7 +18,7 @@
 from django.db import models
 
 class Vendor(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
 
     def __unicode__(self):
         return self.name
@@ -27,7 +27,7 @@ class Vendor(models.Model):
         ordering = ['name']
 
 class Item(models.Model):
-    upc = models.CharField(max_length=30)
+    upc = models.CharField(max_length=30, unique=True)
     name = models.CharField(max_length=30)
     price = models.DecimalField(max_digits=17, decimal_places=2)
     scalable = models.BooleanField()
