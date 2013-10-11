@@ -22,8 +22,10 @@ if (Orthosie === undefined) {
 Orthosie.inventory = {
 
   edit_vendor: function(upc) {
-    $('#' + upc + '_vendor').html("<input type='text' id='" + upc + "_vendor_edit' class='inventory_vendor_edit' value='" + $('#' + upc + '_vendor').html() + "' onblur='Orthosie.inventory.save_vendor(\"" + upc + "\")' >");
-    $('#' + upc + '_vendor_edit').focus();
+    if ($('#' + upc + '_vendor > input').length == 0) {
+      $('#' + upc + '_vendor').html("<input type='text' id='" + upc + "_vendor_edit' class='inventory_vendor_edit' value='" + $('#' + upc + '_vendor').html() + "' onblur='Orthosie.inventory.save_vendor(\"" + upc + "\")' >");
+      $('#' + upc + '_vendor_edit').focus();
+    }
   },
 
   save_vendor: function(upc) {
@@ -50,8 +52,10 @@ Orthosie.inventory = {
   },
 
   edit_name: function(upc) {
-    $('#' + upc + '_name').html("<input type='text' id='" + upc + "_name_edit' class='inventory_name_edit' value='" + $('#' + upc + '_name').html() + "' onblur='Orthosie.inventory.save_name(\"" + upc + "\")' >");
-    $('#' + upc + '_name_edit').focus();
+    if ($('#' + upc + '_name > input').length == 0) {
+      $('#' + upc + '_name').html("<input type='text' id='" + upc + "_name_edit' class='inventory_name_edit' value='" + $('#' + upc + '_name').html() + "' onblur='Orthosie.inventory.save_name(\"" + upc + "\")' >");
+      $('#' + upc + '_name_edit').focus();
+    }
   },
 
   save_name: function(upc) {
@@ -78,8 +82,10 @@ Orthosie.inventory = {
   },
 
   edit_price: function(upc) {
-    $('#' + upc + '_price').html("<input type='number' id='" + upc + "_price_edit' class='inventory_price_edit' value='" + $('#' + upc + '_price').html() + "' onblur='Orthosie.inventory.save_price(\"" + upc + "\")' >");
-    $('#' + upc + '_price_edit').focus();
+    if ($('#' + upc + '_price > input').length == 0) {
+      $('#' + upc + '_price').html("<input type='number' id='" + upc + "_price_edit' class='inventory_price_edit' value='" + $('#' + upc + '_price').html() + "' onblur='Orthosie.inventory.save_price(\"" + upc + "\")' >");
+      $('#' + upc + '_price_edit').focus();
+    }
   },
 
   save_price: function(upc) {
