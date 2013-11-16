@@ -17,29 +17,32 @@
     along with Orthosie.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-  <div id='sub_total_header' class='total_header'>
-    SubTotal
-  </div>
-  <div id='sub_total_value' class='total_value'>
-    ${{ transaction_total.sub_total }}
-  </div>
-  <div id='tax_total_header' class='total_header'>
-    Tax
-  </div>
-  <div id='tax_total_value' class='total_value'>
-    ${{ transaction_total.tax_total }}
-  </div>
+  <div class='well well-sm center-block'>
+    <span id='sub_total_header' class='label default-label label-primary total_header'>
+      SubTotal
+    </span>
+    <span id='sub_total_value' class='total_value'>
+      ${{ transaction_total.sub_total }}
+    </span>
 
-  <div id='paid_header' class='total_header'>
-    Paid
-  </div>
-  <div id='paid_total_value' class='total_value'>
-    ${{ transaction_total.paid_total }}
-  </div>
+    <span id='tax_total_header' class='label default-label label-primary total_header'>
+      Tax
+    </span>
+    <span id='tax_total_value' class='total_value'>
+      ${{ transaction_total.tax_total }}
+    </span>
 
-  <div id='total_header' class='total_header'>
-    Total
-  </div>
-  <div id='total_value' class='total_value'>
-    ${{ transaction_total.total }}
+    <span id='paid_header' class='label default-label label-primary total_header'>
+      Paid
+    </span>
+    <span id='paid_total_value' class='total_value'>
+      ${{ transaction_total.paid_total }}
+    </span>
+
+    <span id='total_header' class='label default-label label-primary total_header'>
+      Total
+    </span>
+    <span id='total_value' class='total_value'>
+      ${{ transaction_total.total }}
+    </span>
   </div>

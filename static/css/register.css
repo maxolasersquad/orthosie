@@ -49,18 +49,13 @@
 
 #numpad_enter {
   font-size: 2.5em;
-  text-align: center;
+  width: 80%;
   cursor: pointer;
 }
 
 .numpad_number {
-  margin: 20px;
   font-size: 3em;
   cursor: pointer;
-}
-
-.numpad_number:hover, #numpad_enter:hover {
-  background-color: #DDDDDD;
 }
 
 #totals {
