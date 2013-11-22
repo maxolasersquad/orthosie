@@ -45,7 +45,7 @@ Orthosie.input = {
           dataType: 'json',
           success: function(data, status) {
             if (data.success) {
-              $('#transactions>table tbody:last').after('<tr><td>' + data.vendor + ' ' + data.name + '</td><td>' + data.quantity + ' @ $' + data.price + '</td></tr>');
+              $('#transactions>table tr:last').after('<tr><td>' + data.vendor + ' ' + data.name + '</td><td>' + data.quantity + ' @ $' + data.price + '</td></tr>');
               $('#sub_total_value').html('$' + data.subtotal);
               $('#tax_total_value').html('$' + data.taxtotal);
               $('#paid_total_value').html('$' + data.paidtotal);
