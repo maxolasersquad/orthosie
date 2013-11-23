@@ -88,15 +88,15 @@ Orthosie.input = {
     $('#register_input').html('');
   },
   set_inputtype: function(type) {
-    $('.selected_ringtype').removeClass('selected_ringtype');
+    $('.ringtype.btn-success').removeClass('btn-success');
     switch (type) {
       case 'upc':
         Orthosie.input.input_mode = 'upc';
-        $('#ring_upc').addClass('selected_ringtype');
+        $('#ring_upc').addClass('btn-success');
       break;
       case 'tender':
         Orthosie.input.input_mode = 'tender';
-        $('#ring_tender').addClass('selected_ringtype');
+        $('#ring_tender').addClass('btn-success');
       break;
     }
   }
