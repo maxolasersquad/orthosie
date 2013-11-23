@@ -18,110 +18,38 @@
 */
 
 #inventory_list {
-  table-layout: fixed;
-  width: 100%;
-  border-spacing: 0px;
-  padding: 0px;
-  width: 810px;
-  display: block;
 }
 
 .inventory_row {
   height: 40px;
   cursor: pointer;
-  min-height: 21px;
 }
 
 .inventory_upc {
-  vertical-align: middle;
-  font-size: 80%;
-  border-bottom: 1px #e5e5e5 solid;
-  empty-cells: show;
-  white-space: nowrap;
-  font-family: arial, sans-serif;
-  width: 100px;
-  padding: 2px 2px 0px 10px;
-  float: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-height: 21px;
 }
 
 .inventory_vendor_name {
-  vertical-align: middle;
-  font-size: 80%;
-  border-bottom: 1px #e5e5e5 solid;
-  empty-cells: show;
-  white-space: nowrap;
-  font-family: arial, sans-serif;
-  width: 400px;
   font-weight: bold;
-  padding: 2px 2px 0px 10px;
-  float: left;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-height: 21px;
 }
 
 .inventory_price {
-  vertical-align: middle;
-  font-size: 80%;
-  border-bottom: 1px #e5e5e5 solid;
-  empty-cells: show;
-  white-space: nowrap;
-  font-family: arial, sans-serif;
   width: 100px;
-  padding: 2px 2px 0px 10px;
-  float: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-height: 21px;
-}
-
-.inventory_price {
-  height: 20px;
 }
 
 .inventory_scalable {
-  vertical-align: middle;
-  font-size: 80%;
-  border-bottom: 1px #e5e5e5 solid;
-  empty-cells: show;
-  white-space: nowrap;
-  font-family: arial, sans-serif;
-  width: 77px;
-  padding: 2px 2px 0px 10px;
-  float: left;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-height: 21px;
 }
 
 .inventory_taxable {
-  vertical-align: middle;
-  font-size: 80%;
-  border-bottom: 1px #e5e5e5 solid;
-  empty-cells: show;
-  white-space: nowrap;
-  font-family: arial, sans-serif;
-  width: 73px;
-  padding: 2px 2px 0px 10px;
-  float: left;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-height: 21px;
 }
 
 #add_inventory {
   font-size: 1.5em;
   font-weight: 900;
   cursor: pointer;
-}
-
-.inventory_upc > input {
-  width: 95px;
-}
-
-:invalid {
-  border: 2px solid #ff0000;
 }

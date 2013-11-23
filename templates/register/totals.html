@@ -16,33 +16,22 @@
     You should have received a copy of the GNU General Public License
     along with Orthosie.  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
+  <div class="input-group col-xs-2">
+    <span id="sub_total_header" class="input-group-addon">SubTotal</span>
+    <span id="sub_total_value" class="total_value form-control">${{ transaction_total.sub_total }}</span>
+  </div>
 
-  <div class='well well-sm center-block'>
-    <span id='sub_total_header' class='label default-label label-primary total_header'>
-      SubTotal
-    </span>
-    <span id='sub_total_value' class='total_value'>
-      ${{ transaction_total.sub_total }}
-    </span>
+  <div class="input-group col-xs-2">
+    <span id='tax_total_header' class='input-group-addon'>Tax</span>
+    <span id='tax_total_value' class='total_value form-control'>${{ transaction_total.tax_total }}</span>
+  </div>
 
-    <span id='tax_total_header' class='label default-label label-primary total_header'>
-      Tax
-    </span>
-    <span id='tax_total_value' class='total_value'>
-      ${{ transaction_total.tax_total }}
-    </span>
+  <div class="input-group col-xs-2">
+    <span id='paid_header' class='input-group-addon'>Paid</span>
+    <span id='paid_total_value' class='total_value form-control'>${{ transaction_total.paid_total }}</span>
+  </div>
 
-    <span id='paid_header' class='label default-label label-primary total_header'>
-      Paid
-    </span>
-    <span id='paid_total_value' class='total_value'>
-      ${{ transaction_total.paid_total }}
-    </span>
-
-    <span id='total_header' class='label default-label label-primary total_header'>
-      Total
-    </span>
-    <span id='total_value' class='total_value'>
-      ${{ transaction_total.total }}
-    </span>
+  <div class="input-group col-xs-2">
+    <span id='total_header' class='input-group-addon'>Total</span>
+    <span id='total_value' class='total_value form-control'>${{ transaction_total.total }}</span>
   </div>
