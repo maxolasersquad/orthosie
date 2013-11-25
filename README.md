@@ -1,3 +1,6 @@
+License
+=======
+
     Copyright 2013 Jack David Baucum
 
     This file is part of Orthosie.
@@ -17,31 +20,72 @@
 
 Orthosie is licensed under the GPLv3. The details of this license can be viewed at http://gplv3.fsf.org/ until I get around to properly adding licensing information.
 
+About
+=====
 Orthosie is a point of sale system written in Python using the Django framework.
 Orthosie supports Python 3 and Django 1.6.
 
+Install
+=======
+These instructions are for debian-based versions of GNU/Linux.
+
+Require Packages
+----------------
+    sudo apt-get install python3 python3-setuptools git 
+
+Django
+------
+    wget https://www.djangoproject.com/m/releases/1.6/Django-1.6.tar.gz
+    tar xzvf Django-1.6.tar.gz
+    cd Django-1.6.tar.gz
+    sudo python3 setup.py install
+
+Django-REST-Framework
+---------------------
 Orthosie uses Django REST Framework, which can be grabbed from http://django-rest-framework.org/
-sudo apt-get install python3-setuptools
-git clone git@github.com:tomchristie/django-rest-framework.git
-cd django-rest-framework
-sudo python3 setup.py install
 
+    git clone git@github.com:tomchristie/django-rest-framework.git
+    cd django-rest-framework
+    sudo python3 setup.py install
+
+Orthosie
+--------
+    cd ~
+    git clone https://github.com/maxolasersquad/orthosie.git
+
+SQLite Database
+---------------
 Getting Orthosie running for the first time requires we setup the sqlite database file.
-python3 manage.py syncdb
+If you have a different database you want to use, refer to the django documentation at https://docs.djangoproject.com/en/1.6/ref/databases/
 
+    cd orthosie
+    python3 manage.py syncdb
+
+Running
+=======
 To run the test server cd in to the orthosie directory and run the following.
-python3 manage.py runserver
+
+    python3 manage.py runserver
 
 At this point you can browse to http://127.0.0.1:8000/register/ to see the register.
 
-There is currently no easy way to add any inventory to the system, though it is currently being actively worked on. Inventory can be added from the python/django shell by adding a vendor and an item. The following adds Reed's Gingerbrew.
-python3 manage.py shell
-import inventory.models as inventory
-v = inventory.Vendor(name='Reed''s')
-i = inventory.Item(upc='00827400006', name='Original Ginger Brew', price=1.72, scalable=False, taxable=True, vendor=v)
-v.save()
-i.save()
+This server should only be used for testing your setup and maybe even an initial configuration. For your production setup you should use nginx, Apache, or any other database of your choosing.
 
+Nginx
+-----
+The following article explains setting up nginx on Ubuntu to connect to a django application.
+http://grokcode.com/784/
+
+Apache2
+-------
+The following article explains setting up Apache2 on Ubuntu to connect to a django application.
+https://www.digitalocean.com/community/articles/using-mod_wsgi-to-serve-applications-on-ubuntu-12-04
+
+Adding Inventory
+================
 You can modify existing inventory from http://127.0.0.1:8000/inventory/
 
+Running the Register
+====================
+The register is located at http://127.0.0.1:8000/register/
 You should be able to ring up this product. Note that during the ring the UPC checksum is needed for a ring to go through properly, so you will need to input '008274000061' for the ring to work.
