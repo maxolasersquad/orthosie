@@ -117,3 +117,14 @@ class TransactionTotal():
         self.tax_total = tax_total
         self.paid_total = paid_total
         self.total = sub_total + tax_total - paid_total
+
+class Receipt():
+    def __init__(self, transaction):
+        self.transaction = transaction
+        self.header = settings.HEADER
+        self.footer = setting.FOOTER
+
+    def print(self):
+        printer = open(settings.PRINTER, 'w')
+        printer.write("\n").join(self.header)
+        printer.write("\n").join(self.footer)

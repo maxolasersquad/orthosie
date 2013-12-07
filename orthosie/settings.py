@@ -158,3 +158,6 @@ LOGGING = {
 }
 
 TAX = .07
+PRINTER = ''
+RECEIPT_HEADER = ['Header 1', 'Header 2']
+RECEIPT_FOOTER = ['Footer 1', 'Footer 2']
