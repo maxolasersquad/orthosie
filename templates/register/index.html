@@ -20,12 +20,12 @@
 <html>
   <head>
     <title>Orthosie Cash Register</title>
+    <script type="text/javascript" src="/static/js/jquery.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
     <link rel='stylesheet' type='text/css' href='/static/css/register.css' />
-    <script type="text/javascript" src="/static/js/jquery.js"></script>
     <script type="text/javascript" src="/static/js/input.js"></script>
     <meta charset="UTF-8">
   </head>
@@ -50,9 +50,6 @@
     </script>
     <div id='input'>
 {% include "register/input.html" %}
-    </div>
-    <div id='tender'>
-{%include "register/ringtype.html" %}
     </div>
     <div id='transactions' class="container">
 {% include "register/transactions.html" %}

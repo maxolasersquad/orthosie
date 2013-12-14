@@ -88,16 +88,13 @@ Orthosie.input = {
     $('#register_input').html('');
   },
   set_inputtype: function(type) {
-    $('.ringtype.btn-success').removeClass('btn-success');
-    switch (type) {
-      case 'upc':
-        Orthosie.input.input_mode = 'upc';
-        $('#ring_upc').addClass('btn-success');
-      break;
-      case 'tender':
-        Orthosie.input.input_mode = 'tender';
-        $('#ring_tender').addClass('btn-success');
-      break;
-    }
+    var header = $('#ringtype > button');
+    var selected = $('#ringtype-' + type.toLowerCase());
+    var foo = $('#ringtype-' + header.attr('data-ringtype'));
+    header.html(type + ' <span class=\'caret\'></span>');
+    selected.css('display', 'none');
+    foo.css('display', 'list-item');
+    header.attr('data-ringtype', type.toLowerCase());
+    Orthosie.input.input_mode = type.toLowerCase();
   }
 }

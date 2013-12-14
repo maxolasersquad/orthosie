@@ -16,4 +16,13 @@
     You should have received a copy of the GNU General Public License
     along with Orthosie.  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
-<span id='register_input' class='form-control'></span>
+<div class='input-group'>
+  <div id='ringtype' class='input-group-btn'>
+    <button type='button' class='btn btn-success dropdown-toggle' data-toggle='dropdown' data-ringtype='upc'>UPC <span class='caret'></span></button>
+    <ul class='dropdown-menu'>
+      <li id='ringtype-upc'><a href='#' onclick="Orthosie.input.set_inputtype('UPC');">UPC</a></li>
+      <li id='ringtype-tender'><a href='#' onclick="Orthosie.input.set_inputtype('Tender');">Tender</a></li>
+    </ul>
+  </div>
+  <span id='register_input' class='form-control'></span>
+</div>
