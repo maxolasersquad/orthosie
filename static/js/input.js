@@ -88,13 +88,15 @@ Orthosie.input = {
     $('#register_input').html('');
   },
   set_inputtype: function(type) {
+    var Type = $('#ringtype-' + type + ' > a').html();
     var header = $('#ringtype > button');
-    var selected = $('#ringtype-' + type.toLowerCase());
+    var selected = $('#ringtype-' + type);
     var foo = $('#ringtype-' + header.attr('data-ringtype'));
-    header.html(type + ' <span class=\'caret\'></span>');
+
+    $(header.children()[0]).html(Type);
     selected.css('display', 'none');
     foo.css('display', 'list-item');
-    header.attr('data-ringtype', type.toLowerCase());
-    Orthosie.input.input_mode = type.toLowerCase();
+    header.attr('data-ringtype', type);
+    Orthosie.input.input_mode = type;
   }
 }

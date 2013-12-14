@@ -16,14 +16,22 @@
     You should have received a copy of the GNU General Public License
     along with Orthosie.  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
-<div class='input-group'>
-  <div id='ringtype' class='input-group-btn'>
-    <button type='button' class='btn btn-success dropdown-toggle' data-toggle='dropdown' data-ringtype='upc'><span>UPC</span> <span class='caret'></span></button>
-    <ul class='dropdown-menu'>
-      <li id='ringtype-upc'><a href='#' onclick="Orthosie.input.set_inputtype('upc');">UPC</a></li>
-      <li id='ringtype-tender'><a href='#' onclick="Orthosie.input.set_inputtype('tender');">Tender</a></li>
-      <li id='ringtype-endshift' data-toggle='modal' data-target='#confirm_endshift > div'><a href='#' onclick="Orthosie.input.set_inputtype('endshift');">End Shift</a></li>
-    </ul>
+<div class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Confirm</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+          Are you sure you wish to end the shift?
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Dismiss</button>
+        <button type="button" class="btn btn-warning">Confirm</button>
+      </div>
+    </div>
   </div>
-  <span id='register_input' class='form-control'></span>
 </div>
