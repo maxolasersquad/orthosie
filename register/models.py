@@ -19,6 +19,7 @@ from django.db import models
 from django.utils import timezone
 from django.conf import settings
 from decimal import Decimal
+import time
 
 class Shift(models.Model):
     begin_date = models.DateTimeField(auto_now=True)
@@ -50,8 +51,13 @@ class Transaction(models.Model):
 
     def end_transaction(self):
         if self.finish_date == None:
+            self.print_receipt()
             self.finish_date = timezone.now()
             self.save()
+
+    def print_receipt(self):
+        r = Receipt(self)
+        r.print()
 
     def create_line_item(self, item, quantity, scale=None):
         if self.finish_date == None:
@@ -119,12 +125,54 @@ class TransactionTotal():
         self.total = sub_total + tax_total - paid_total
 
 class Receipt():
-    def __init__(self, transaction):
+    def __init__(self, transaction, lines=None):
         self.transaction = transaction
-        self.header = settings.HEADER
-        self.footer = setting.FOOTER
+        self.header = settings.RECEIPT_HEADER
+        self.footer = settings.RECEIPT_FOOTER
+        self.lines = lines
+        self.printer = Printer(settings.PRINTER)
+        self.printer.open()
 
     def print(self):
-        printer = open(settings.PRINTER, 'w')
-        printer.write("\n").join(self.header)
-        printer.write("\n").join(self.footer)
+        self.print_header()
+        self.print_body()
+        self.print_footer()
+        self.printer.close()
+
+    def print_header(self):
+        self.printer.print_line('\n'.join(settings.RECEIPT_HEADER))
+        self.printer.print_line(time.strftime('%Y-%m-%d %H:%M:%S') + '\n' + '\n')
+
+    def print_footer(self):
+        self.printer.print_line('\n'.join(settings.RECEIPT_FOOTER))
+        for i in range(8):
+            self.printer.print_line('\n')
+        self.printer.kick_drawer()
+        self.printer.cut()
+
+    def print_body(self):
+        trans_totals = self.transaction.get_totals()
+        for line_item in self.transaction.lineitem_set.all():
+            self.printer.print_line(str(line_item.quantity).ljust(4) + line_item.description.ljust(38)[:38] + "{:13,.2f}".format(line_item.price) + (line_item.item.taxable and 'T' or ' ') + '\n')
+        self.printer.print_line('\n')
+        self.printer.print_line('SubTotal: ' + "{:16,.2f}".format(trans_totals.sub_total) + ' Tax: ' + "{:23,.2f}".format(trans_totals.tax_total) + '\n')
+        self.printer.print_line('Total: ' + "{:19,.2f}".format(trans_totals.sub_total + trans_totals.tax_total) + ' Change: ' + "{:20,.2f}".format(trans_totals.total) + '\n\n')
+
+class Printer():
+    def __init__(self, spool):
+        self.spool = spool
+
+    def open(self):
+        self._printer = open(self.spool, 'w')
+
+    def close(self):
+        self._printer.close()
+
+    def print_line(self, line):
+        self._printer.write(line)
+
+    def cut(self):
+        self._printer.write(chr(27) + chr(105) + chr(10))
+
+    def kick_drawer(self):
+        self._printer.write(chr(27) + chr(112) + chr(0) + chr(48) + '0' + chr(10))
