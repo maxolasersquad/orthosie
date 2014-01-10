@@ -63,6 +63,12 @@
   bottom: 0px;
 }
 
+#totals > div {
+  float: left;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 .total_header {
   display: inline;
   font-size: 2.5em;
