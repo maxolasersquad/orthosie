@@ -42,3 +42,9 @@ def tender_transaction(request):
 
     context_instance = { 'transaction': transaction.get_totals() }
     return render(request, 'register/tender_transaction.json', context_instance)
+
+def end_shift(request):
+    shift = Shift.objects.get(finish_date = None)
+    shift.end_shift()
+    context_instance = { 'shift': shift.get_totals() }
+    return render(request, 'register/end_shift.json', context_instance)

@@ -98,5 +98,17 @@ Orthosie.input = {
     foo.css('display', 'list-item');
     header.attr('data-ringtype', type);
     Orthosie.input.input_mode = type;
+  },
+  end_shift: function() {
+    $.ajax({
+      url: '/register/end_shift/',
+      dataType: 'json',
+      success: function(data, status) {
+        $('#confirm_endshift > div').modal('hide');
+      },
+      error: function(xhr, text, error) {
+        alert('An error was encountered while trying to end the shift.')
+      }
+    });
   }
 }

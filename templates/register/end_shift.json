@@ -1,0 +1,6 @@
+{
+  "subtotal": {{ shift.sub_total }},
+  "taxtotal": {{ shift.tax_total }},
+  "total": {{ shift.total }},
+  "transaction_count": {{ shift.transaction_count }}
+}

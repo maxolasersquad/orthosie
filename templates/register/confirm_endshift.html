@@ -16,12 +16,12 @@
     You should have received a copy of the GNU General Public License
     along with Orthosie.  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
-<div class="modal fade">
+<div class="modal fade" role="dialog" aria-labelledby="end-shift-title" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Confirm</h4>
+        <h4 id="end-shift-title" class="modal-title">Confirm</h4>
       </div>
       <div class="modal-body">
         <p>
@@ -30,7 +30,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Dismiss</button>
-        <button type="button" class="btn btn-warning">Confirm</button>
+        <button type="button" class="btn btn-warning" onclick="Orthosie.input.end_shift();">Confirm</button>
       </div>
     </div>
   </div>

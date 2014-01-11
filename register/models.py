@@ -1,4 +1,4 @@
-#    Copyright 2013 Jack David Baucum
+
 #
 #    This file is part of Orthosie.
 #
@@ -30,12 +30,32 @@ class Shift(models.Model):
 
     def end_shift(self):
         if self.finish_date == None:
+            self.print_z_report()
             self.finish_date = timezone.now()
             self.save()
+            return 
 
     def create_transaction(self):
         if self.finish_date == None:
             return self.transaction_set.create(begin_date=timezone.now())
+
+    def get_totals(self):
+        sub_total = Decimal(0.0)
+        tax = Decimal(0.0)
+        total = Decimal(0.0)
+        transaction_count = 0
+        for transaction in self.transaction_set.all():
+            transaction_count += 1
+            totals = transaction.get_totals()
+            sub_total = sub_total + totals.sub_total
+            tax = tax + totals.tax_total
+        total = sub_total + tax
+        shift_total = ShiftTotal(sub_total, tax, total, transaction_count)
+        return shift_total
+
+    def print_z_report(self):
+        z = ZReport(self)
+        z.print()
 
     class Meta:
         ordering = ['begin_date']
@@ -124,6 +144,13 @@ class TransactionTotal():
         self.paid_total = paid_total
         self.total = sub_total + tax_total - paid_total
 
+class ShiftTotal():
+    def __init__(self, sub_total, tax_total, total, transaction_count):
+        self.sub_total = sub_total
+        self.tax_total = tax_total
+        self.total = total
+        self.transaction_count = transaction_count
+
 class Receipt():
     def __init__(self, transaction, lines=None):
         self.transaction = transaction
@@ -137,6 +164,8 @@ class Receipt():
         self.print_header()
         self.print_body()
         self.print_footer()
+        self.printer.kick_drawer()
+        self.printer.cut()
         self.printer.close()
 
     def print_header(self):
@@ -147,8 +176,6 @@ class Receipt():
         self.printer.print_line('\n'.join(settings.RECEIPT_FOOTER))
         for i in range(8):
             self.printer.print_line('\n')
-        self.printer.kick_drawer()
-        self.printer.cut()
 
     def print_body(self):
         trans_totals = self.transaction.get_totals()
@@ -157,6 +184,22 @@ class Receipt():
         self.printer.print_line('\n')
         self.printer.print_line('SubTotal: ' + "{:16,.2f}".format(trans_totals.sub_total) + ' Tax: ' + "{:23,.2f}".format(trans_totals.tax_total) + '\n')
         self.printer.print_line('Total: ' + "{:19,.2f}".format(trans_totals.sub_total + trans_totals.tax_total) + ' Change: ' + "{:20,.2f}".format(trans_totals.total) + '\n\n')
+
+class ZReport(): 
+    def __init__(self, shift):
+        self.shift = shift
+        self.printer = Printer(settings.PRINTER)
+        self.printer.open()
+
+    def print(self):
+        totals = self.shift.get_totals()
+        self.printer.print_line('Transactions: ' + str(totals.transaction_count) + '\n')
+        self.printer.print_line('SubTotal:     ' + str(totals.sub_total) + '\n')
+        self.printer.print_line('TaxTotal:     ' + str(totals.tax_total) + '\n')
+        self.printer.print_line('Total:        ' + str(totals.total) + '\n')
+        self.printer.kick_drawer()
+        self.printer.cut()
+        self.printer.close()
 
 class Printer():
     def __init__(self, spool):
