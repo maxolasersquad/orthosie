@@ -174,8 +174,6 @@ class Receipt():
 
     def print_footer(self):
         self.printer.print_line('\n'.join(settings.RECEIPT_FOOTER))
-        for i in range(8):
-            self.printer.print_line('\n')
 
     def print_body(self):
         trans_totals = self.transaction.get_totals()
@@ -215,6 +213,8 @@ class Printer():
         self._printer.write(line)
 
     def cut(self):
+        for i in range(8):
+            self.print_line('\n')
         self._printer.write(chr(27) + chr(105) + chr(10))
 
     def kick_drawer(self):
