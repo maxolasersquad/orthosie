@@ -1,18 +1,9 @@
 from django.shortcuts import render
 from register.models import *
 from inventory.models import *
-from django.core.exceptions import ObjectDoesNotExist
 
 def index(request):
-    try:
-        current_transaction = Transaction.objects.get(finish_date = None)
-    except ObjectDoesNotExist:
-        try:
-            current_shift = Shift.objects.get(finish_date = None)
-        except ObjectDoesNotExist:
-            current_shift = Shift()
-            current_shift.save()
-        current_transaction = current_shift.create_transaction()
+    current_transaction = Transaction.get_current()
     line_items = current_transaction.lineitem_set.all()
     transaction_total = current_transaction.get_totals()
     context = { 'line_items': line_items, 'transaction_total': transaction_total }
@@ -25,7 +16,7 @@ def process_upc(request):
     if upc.verify_check_digit():
         check = 'true'
         item = Item.objects.get(upc=upc.upc[:-1])
-        transaction = Transaction.objects.get(finish_date = None) 
+        transaction = Transaction.get_current()
         transaction.create_line_item(item, 1)
     else:
         check = 'false'

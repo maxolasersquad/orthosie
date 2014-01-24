@@ -1,4 +1,3 @@
-
 #
 #    This file is part of Orthosie.
 #
@@ -20,6 +19,7 @@ from django.utils import timezone
 from django.conf import settings
 from decimal import Decimal
 import time
+from django.core.exceptions import ObjectDoesNotExist
 
 class Shift(models.Model):
     begin_date = models.DateTimeField(auto_now=True)
@@ -38,6 +38,15 @@ class Shift(models.Model):
     def create_transaction(self):
         if self.finish_date == None:
             return self.transaction_set.create(begin_date=timezone.now())
+
+    @staticmethod
+    def get_current():
+        try:
+            current_shift = Shift.objects.get(finish_date = None)
+        except ObjectDoesNotExist:
+            current_shift = Shift()
+            current_shift.save()
+        return current_shift
 
     def get_totals(self):
         sub_total = Decimal(0.0)
@@ -74,6 +83,14 @@ class Transaction(models.Model):
             self.print_receipt()
             self.finish_date = timezone.now()
             self.save()
+
+    @staticmethod
+    def get_current():
+        try:
+            current_transaction = Transaction.objects.get(finish_date = None)
+        except ObjectDoesNotExist:
+            current_transaction = Shift.get_current().create_transaction()
+        return current_transaction
 
     def print_receipt(self):
         r = Receipt(self)
