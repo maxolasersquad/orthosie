@@ -45,6 +45,10 @@ Orthosie.input = {
           dataType: 'json',
           success: function(data, status) {
             if (data.success) {
+              if ($('#transactions').data('status') == 'end') {
+                $('#transactions>table>tbody').html('');
+                $('#transactions').data('status', 'ring');
+              }
               $('#transactions>table').append('<tr><td>' + data.vendor + ' ' + data.name + '</td><td>' + data.quantity + ' @ $' + data.price + '</td></tr>');
               $('#sub_total_value').html('$' + data.subtotal);
               $('#tax_total_value').html('$' + data.taxtotal);
@@ -73,6 +77,9 @@ Orthosie.input = {
           type: 'POST',
           dataType: 'json',
           success: function(data, status) {
+            if (data.total <= 0) {
+              $('#transactions').data('status', 'end');
+            }
             $('#sub_total_value').html('$' + data.subtotal);
             $('#tax_total_value').html('$' + data.taxtotal);
             $('#paid_total_value').html('$' + data.paidtotal);
@@ -83,7 +90,6 @@ Orthosie.input = {
           }
         });
         break;
-        
     }
     $('#register_input').html('');
   },
