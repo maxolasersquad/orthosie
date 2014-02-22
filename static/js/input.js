@@ -129,5 +129,25 @@ Orthosie.input = {
   disable_product_search: function() {
     $('#product_search').addClass('hidden');
     $('#transactions').removeClass('hidden');
+  },
+  select_item: function(item) {
+    Orthosie.input.set_inputtype('upc');
+    $('#register_input').html(item + Orthosie.input.get_upc_check_digit(item));
+    Orthosie.input.disable_product_search();
+  },
+  get_upc_check_digit: function(upc) {
+    var check_digit = 0;
+    var odd_pos = true;
+    for (var i=0;i < upc.length;i++) {
+      if (odd_pos) {
+        check_digit += parseInt(upc.charAt(i)) * 3;
+      }
+      else {
+        check_digit += parseInt(upc.charAt(i));
+      }
+      odd_pos = !odd_pos;
+    }
+    check_digit = (10 - check_digit % 10) % 10;
+    return check_digit;
   }
 }
