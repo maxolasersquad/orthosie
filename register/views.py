@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.core import serializers
 from register.models import *
 from inventory.models import *
 
@@ -39,3 +40,9 @@ def end_shift(request):
     shift.end_shift()
     context_instance = { 'shift': shift.get_totals() }
     return render(request, 'register/end_shift.json', context_instance)
+
+def product_search(request):
+    search = request.GET['search']
+    results = Item.objects.filter(name__contains=search) | Item.objects.select_related('vendor').filter(name__contains=search).order_by('name')
+    context_instance = { 'search': search, 'results': results}
+    return render(request, 'register/product_search.html', context_instance)

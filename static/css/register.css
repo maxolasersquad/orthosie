@@ -38,6 +38,23 @@
   margin: 5px;
 }
 
+#product_search {
+  width: 70%;
+  height: 75%;
+  border: solid 2px;
+  margin-top: 5px;
+  position: fixed;
+  display: inline;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+#product_search > table {
+  width: 100%;
+  margin: 5px;
+  cursor: pointer;
+}
+
 #numpad {
   float: right;
   width: 25%;

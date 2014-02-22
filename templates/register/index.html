@@ -49,17 +49,20 @@
         }
       }
     </script>
-    <div id='input'>
+    <div id="input">
 {% include "register/input.html" %}
     </div>
-    <div id='transactions' class="container" data-status="ring">
+    <div id="transactions" class="container" data-status="ring">
 {% include "register/transactions.html" %}
     </div>
-    <div id='totals'>
+    <div id="product_search" class="container hidden">
+{% include "register/product_search.html" %}
+    </div>
+    <div id="totals">
 {% include "register/totals.html" %}
     </div>
 {% include "register/numpad.html" %}
-    <div id='confirm_endshift'>
+    <div id="confirm_endshift">
 {% include "register/confirm_endshift.html" %}
     </div>
     <form id="csrf_token">

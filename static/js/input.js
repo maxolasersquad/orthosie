@@ -90,6 +90,9 @@ Orthosie.input = {
           }
         });
         break;
+      case 'product-search':
+        Orthosie.input.product_search($('#register_input').html());
+        break;
     }
     $('#register_input').html('');
   },
@@ -116,5 +119,15 @@ Orthosie.input = {
         alert('An error was encountered while trying to end the shift.')
       }
     });
+  },
+  product_search: function(search) {
+    $('#product_search').load('/register/product_search/?search=' + search + '&csrfmiddlewaretoken=' + $('#csrf_token>input').attr('value'), function() {
+        $('#transactions').addClass('hidden');
+        $('#product_search').removeClass('hidden');
+    });
+  },
+  disable_product_search: function() {
+    $('#product_search').addClass('hidden');
+    $('#transactions').removeClass('hidden');
   }
 }
