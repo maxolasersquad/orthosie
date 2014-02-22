@@ -28,7 +28,7 @@
 {% for item in results %}
     <tr onclick="Orthosie.input.select_item('{{ item.upc }}')">
       <td>{{ item.upc }}</td>
-      <td>{{ item.name }}</td>
+      <td>{{ item.vendor.name}} {{ item.name }}</td>
       <td>{{ item.scalable }}</td>
       <td>{{ item.price }}</td>
     </tr>
