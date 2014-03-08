@@ -58,7 +58,8 @@ class TransactionTest(TestCase):
             name='Product X',\
             vendor=self.vendor,\
             price=23.45,\
-            taxable=True\
+            taxable=True,\
+            scalable=False
         )
         self.item.save()
     def test_end_transaction(self):
@@ -107,10 +108,16 @@ class LineItemTest(TestCase):
             name='Product X',\
             vendor=self.vendor,\
             price=23.45,\
-            taxable=True\
+            taxable=True,\
+            scalable=False
         )
         self.item.save()
     def test_line_item_total(self):
         line_item = self.transaction.create_line_item(self.item, 2)
         line_item.save()
         self.assertEqual(line_item.total(), Decimal(46.90))
+    def test_can_cancel(self):
+        line_item = self.transaction.create_line_item(self.item, 2)
+        line_item.cancel()
+        line_item.save()
+        self.assertEqual(line_item.status, 'INACTIVE')
