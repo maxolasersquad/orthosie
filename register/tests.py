@@ -94,6 +94,26 @@ class TransactionTest(TestCase):
         self.transaction.create_line_item(self.item, 1)
         self.transaction.create_tender(25.09, 'CASH')
         self.assertIsNotNone(self.transaction.finish_date)
+    def test_transaction_totals_with_cancled_item(self):
+        self.transaction.create_line_item(self.item, 1)
+        self.transaction.create_line_item(self.item, 1).cancel()
+        self.assertEqual(transaction_total.total, Decimal('50.18'))
+        self.assertEqual(transaction_total.tax_total, Decimal('3.28'))
+        self.assertEqual(transaction_total.total, Decimal('50.18'))
+    def test_paid_tender_ends_transaction(self):
+        self.transaction.create_line_item(self.item, 1)
+        self.transaction.create_tender(25.09, 'CASH')
+        self.assertIsNotNone(self.transaction.finish_date)
+    def test_transaction_totals_with_cancled_item(self):
+        line_item = self.transaction.create_line_item(self.item, 1)
+        line_item.save()
+        line_item = self.transaction.create_line_item(self.item, 1)
+        line_item.cancel()
+        line_item.save()
+        transaction_total = self.transaction.get_totals()
+        self.assertEqual(transaction_total.sub_total, Decimal('23.45'))
+        self.assertEqual(transaction_total.tax_total, Decimal('1.64'))
+        self.assertEqual(transaction_total.total, Decimal('25.09'))
 
 class LineItemTest(TestCase):
     def setUp(self):

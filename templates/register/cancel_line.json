@@ -1,0 +1,10 @@
+{
+  "id": "{{ line_item.id }}",
+  "upc": "{{ line_item.upc }}",
+  "quantity": {{ line_item.quantity }},
+  "scale": {% if line_item.scale != None %} {{ line_item.scale }} {% else %} null {% endif %},
+  "description": "{{ line_item.description }}",
+  "price": {{ line_item.price }},
+  "item": {{ line_item.item.id }},
+  "status": "{{ line_item.status }}"
+}

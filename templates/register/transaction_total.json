@@ -1,0 +1,6 @@
+{
+  "subtotal": {{ transaction_total.sub_total }},
+  "taxtotal": {{ transaction_total.tax_total }},
+  "paidtotal": {{ transaction_total.paid_total }},
+  "total": {{ transaction_total.total }}
+}

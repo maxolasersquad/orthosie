@@ -121,9 +121,10 @@ class Transaction(models.Model):
         total = Decimal(0.0)
         tax = Decimal(0.0)
         for line_item in self.lineitem_set.all():
-            total = total + line_item.price
-            if line_item.item.taxable:
-                tax = Decimal(tax) + line_item.price * Decimal('.07')
+            if line_item.status == 'ACTIVE':
+                total = total + line_item.price
+                if line_item.item.taxable:
+                    tax = Decimal(tax) + line_item.price * Decimal('.07')
         tax = tax.quantize(Decimal(10) ** -2).normalize()
         paid_total = 0
         for tender in self.tender_set.all():
@@ -142,12 +143,16 @@ class LineItem(models.Model):
     description = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=17, decimal_places=2)
     item = models.ForeignKey('inventory.Item')
+    status = models.CharField(max_length=8, default='ACTIVE')
 
     def __unicode__(self):
         return str(self.scale) + ' x ' + self.description + ' ' + self.description
 
     def total(self):
         return self.price * self.quantity
+
+    def cancel(self):
+        self.status = 'INACTIVE'
 
 class Tender(models.Model):
     transaction = models.ForeignKey(Transaction)

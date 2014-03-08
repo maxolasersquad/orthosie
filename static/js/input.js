@@ -49,7 +49,7 @@ Orthosie.input = {
                 $('#transactions>table>tbody').html('');
                 $('#transactions').data('status', 'ring');
               }
-              $('#transactions>table').append('<tr><td>' + data.vendor + ' ' + data.name + '</td><td>' + data.quantity + ' @ $' + data.price + '</td></tr>');
+              $('#transactions>table').append('<tr id="line-' + data.id + '"><td>' + data.vendor + ' ' + data.name + '</td><td>' + data.quantity + ' @ $' + data.price + '</td><td><i class="fa fa-times text-danger void-line" onclick="Orthosie.input.void_line(' + data.id + ')"></i></td></tr>');
               $('#sub_total_value').html('$' + data.subtotal);
               $('#tax_total_value').html('$' + data.taxtotal);
               $('#paid_total_value').html('$' + data.paidtotal);
@@ -149,5 +149,34 @@ Orthosie.input = {
     }
     check_digit = (10 - check_digit % 10) % 10;
     return check_digit;
+  },
+  void_line: function(id) {
+    post_args = {
+      id: id
+    };
+    post_args[$('#csrf_token>input').attr('name')] = $('#csrf_token>input').attr('value');
+    $.ajax({
+      url: '/register/cancel_line/',
+      data: post_args,
+      type: 'POST',
+      dataType: 'json',
+      success: function(data, status) {
+        $('#line-' + id).addClass('danger');
+        $('#line-' + id + ' td:nth-child(3)').html('')
+        Orthosie.input.update_totals();
+      }
+    });
+  },
+  update_totals: function() {
+    $.ajax({
+      url: '/register/transaction_total',
+      dataType: 'json',
+      success: function(data) {
+        $('#sub_total_value').html('$' + data.subtotal);
+        $('#tax_total_value').html('$' + data.taxtotal);
+        $('#paid_total_value').html('$' + data.paidtotal);
+        $('#total_value').html('$' + data.total);
+      }
+    })
   }
 }

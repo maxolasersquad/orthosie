@@ -102,3 +102,9 @@
 #ringtype-upc {
   display: none;
 }
+
+.void-line {
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+}

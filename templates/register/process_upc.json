@@ -1,6 +1,7 @@
 {
   "success": {{ check_passed }},
 {% if item %}
+  "id": {{ line_item.id }},
   "name": "{{ item.name }}",
   "vendor": "{{ item.vendor.name }}",
   "price": {{ item.price }},

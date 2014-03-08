@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.core import serializers
 from register.models import *
 from inventory.models import *
+from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
     current_transaction = Transaction.get_current()
@@ -18,12 +19,12 @@ def process_upc(request):
         check = 'true'
         item = Item.objects.get(upc=upc.upc[:-1])
         transaction = Transaction.get_current()
-        transaction.create_line_item(item, 1)
+        line_item = transaction.create_line_item(item, 1)
     else:
         check = 'false'
         item = None
 
-    context_instance = { 'item': item, 'quantity': quantity, 'check_passed': check, 'transaction': transaction.get_totals() }
+    context_instance = { 'item': item, 'quantity': quantity, 'check_passed': check, 'transaction': transaction.get_totals(), 'line_item': line_item }
  
     return render(request, 'register/process_upc.json', context_instance)
 
@@ -46,3 +47,16 @@ def product_search(request):
     results = Item.objects.filter(name__contains=search) | Item.objects.filter(price__contains=search) | Item.objects.filter(vendor__name__contains=search).order_by('name')
     context_instance = { 'search': search, 'results': results}
     return render(request, 'register/product_search.html', context_instance)
+
+def cancel_line(request):
+    line_item = LineItem.objects.get(id=request.POST['id'])
+    line_item.cancel()
+    line_item.save()
+    context_instance = { 'line_item': line_item  }
+    return render(request, 'register/cancel_line.json', context_instance, content_type="application/json")
+
+@csrf_exempt
+def transaction_total(request):
+    current_transaction = Transaction.get_current()
+    context = { 'transaction_total': current_transaction.get_totals() }
+    return render(request, 'register/transaction_total.json', context)
