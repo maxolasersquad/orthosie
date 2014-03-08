@@ -98,3 +98,6 @@ Licensed SIL OFL 1.1 and MIT. More information at http://fontawesome.io/license/
 
 ## Bootstrap
 Licensed MIT. More information at https://github.com/twbs/bootstrap/blob/master/LICENSE
+
+## jQuery
+Licenses MIT. More information at https://jquery.org/license/
