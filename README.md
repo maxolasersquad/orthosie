@@ -89,3 +89,12 @@ Running the Register
 ====================
 The register is located at http://127.0.0.1:8000/register/
 You should be able to ring up this product. Note that during the ring the UPC checksum is needed for a ring to go through properly, so you will need to input '008274000061' for the ring to work.
+
+Other Licenses
+==============
+
+## Font-Awesome
+Licensed SIL OFL 1.1 and MIT. More information at http://fontawesome.io/license/
+
+## Bootstrap
+Licensed MIT. More information at https://github.com/twbs/bootstrap/blob/master/LICENSE
