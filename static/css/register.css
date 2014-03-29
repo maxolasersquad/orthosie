@@ -65,12 +65,11 @@
 }
 
 #numpad_enter {
-  font-size: 2.5em;
-  width: 80%;
+  font-size: 2.5em !important;
   cursor: pointer;
 }
 
-.numpad_number {
+.numpad_sm {
   font-size: 3em;
   cursor: pointer;
 }

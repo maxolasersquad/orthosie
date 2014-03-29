@@ -28,28 +28,9 @@
     <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
     <script src="/static/js/bootstrap.min.js"></script>
     <link rel='stylesheet' type='text/css' href='/static/css/register.css' />
-    <script type="text/javascript" src="/static/js/input.js"></script>
     <meta charset="UTF-8">
   </head>
   <body>
-    <script type="text/javascript">
-      document.ready = function () {
-        $('#transactions').scrollTop($("#transactions")[0].scrollHeight);
-      };
-      document.onkeypress = function(e) {
-        if (e.keyCode == 13) {
-          Orthosie.input.submit();
-        }
-        else if (e.keyCode == 32 || (e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 97 && e.keyCode <= 122) || (e.keyCode >= 48 && e.keyCode <= 57)) {
-          Orthosie.input.append(String.fromCharCode(e.keyCode));
-        }
-      }
-      document.onkeydown = function(e) {
-        if (e.keyCode == 8) {
-          Orthosie.input.backspace();
-        }
-      }
-    </script>
     <div id="input">
 {% include "register/input.html" %}
     </div>

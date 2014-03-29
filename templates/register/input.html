@@ -20,10 +20,10 @@
   <div id='ringtype' class='input-group-btn'>
     <button type='button' class='btn btn-success dropdown-toggle' data-toggle='dropdown' data-ringtype='upc'><span>UPC</span> <span class='caret'></span></button>
     <ul class='dropdown-menu'>
-      <li id='ringtype-upc'><a href='#' onclick="Orthosie.input.set_inputtype('upc');">UPC</a></li>
-      <li id='ringtype-tender'><a href='#' onclick="Orthosie.input.set_inputtype('tender');">Tender</a></li>
-      <li id='ringtype-product-search'><a href='#' onclick="Orthosie.input.set_inputtype('product-search');">Product Search</a></li>
-      <li id='ringtype-endshift' data-toggle='modal' data-target='#confirm_endshift > div'><a href='#' onclick="Orthosie.input.set_inputtype('endshift');">End Shift</a></li>
+      <li id='ringtype-upc' class='ringtype'><a href='#' data-input-type='upc'>UPC</a></li>
+      <li id='ringtype-tender' class='ringtype'><a href='#' data-input-type='tender'>Tender</a></li>
+      <li id='ringtype-product-search' class='ringtype'><a href='#' data-input-type='product-search'>Product Search</a></li>
+      <li id='ringtype-endshift' class='ringtype' data-toggle='modal' data-target='#confirm_endshift > div'><a href='#' data-input-type='endshift'>End Shift</a></li>
     </ul>
   </div>
   <span id='register_input' class='form-control'></span>

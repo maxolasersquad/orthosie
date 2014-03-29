@@ -24,7 +24,7 @@
           <td>{{ line_item.quantity }} @ ${{ line_item.price }}</td>
           <td>
   {% if line_item.status == 'ACTIVE' %}
-            <i class="fa fa-times text-danger void-line" onclick="Orthosie.input.void_line({{ line_item.id }})"></i>
+            <i class="fa fa-times text-danger void-line" data-id="{{ line_item.id }}"></i>
   {% endif %}
           </td>
         </tr>

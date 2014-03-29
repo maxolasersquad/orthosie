@@ -18,28 +18,30 @@
 {% endcomment %}
 
 <div id='numpad'>
-  <div id='numpad_numbers'>
-    <div id='first_row' class='btn-group col-xs-12'>
-      <button class='btn btn-primary btn-lg numpad_number col-xs-4' onclick='Orthosie.input.append(7);'>7</button>
-      <button class='btn btn-primary btn-lg numpad_number col-xs-4' onclick='Orthosie.input.append(8);'>8</button>
-      <button class='btn btn-primary btn-lg numpad_number col-xs-4' onclick='Orthosie.input.append(9);'>9</button>
+  <div id='numpad_keys'>
+    <div class="row">
+      <div id='first_row' class='btn-group col-xs-12'>
+        <button class='btn btn-primary btn-lg numpad_key numpad_sm col-xs-4' data-key="7">7</button>
+        <button class='btn btn-primary btn-lg numpad_key numpad_sm col-xs-4' data-key="8">8</button>
+        <button class='btn btn-primary btn-lg numpad_key numpad_sm col-xs-4' data-key="9">9</button>
+      </div>
+      <div id='second_row' class='btn-group col-xs-12'>
+        <button class='btn btn-primary btn-lg numpad_key numpad_sm col-xs-4' data-key="4">4</button>
+        <button class='btn btn-primary btn-lg numpad_key numpad_sm col-xs-4' data-key="5">5</button>
+        <button class='btn btn-primary btn-lg numpad_key numpad_sm col-xs-4' data-key="6">6</button>
+      </div>
+      <div id='third_row' class='btn-group col-xs-12'>
+        <button class='btn btn-primary btn-lg numpad_key numpad_sm col-xs-4' data-key="1">1</button>
+        <button class='btn btn-primary btn-lg numpad_key numpad_sm col-xs-4' data-key="2">2</button>
+        <button class='btn btn-primary btn-lg numpad_key numpad_sm col-xs-4' data-key="3">3</button>
+      </div>
+      <div id='fourth_row' class='btn-group col-xs-12'>
+        <button class='btn btn-primary btn-lg numpad_key numpad_sm col-xs-4' data-key="0">0</button>
+        <button class='btn btn-warning btn-lg numpad_key numpad_sm col-xs-8' data-key="back">Back</button>
+      </div>
+      <div id='numpad_enter' class='btn-group col-xs-12'>
+        <button class='btn btn-success btn-lg numpad_key col-xs-12 ' data-key="enter">Enter</button>
+      </div>
     </div>
-    <div id='second_row' class='btn-group col-xs-12'>
-      <button class='btn btn-primary btn-lg numpad_number col-xs-4' onclick='Orthosie.input.append(4);'>4</button>
-      <button class='btn btn-primary btn-lg numpad_number col-xs-4' onclick='Orthosie.input.append(5);'>5</button>
-      <button class='btn btn-primary btn-lg numpad_number col-xs-4' onclick='Orthosie.input.append(6);'>6</button>
-    </div>
-    <div id='third_row' class='btn-group col-xs-12'>
-      <button class='btn btn-primary btn-lg numpad_number col-xs-4' onclick='Orthosie.input.append(1);'>1</button>
-      <button class='btn btn-primary btn-lg numpad_number col-xs-4' onclick='Orthosie.input.append(2);'>2</button>
-      <button class='btn btn-primary btn-lg numpad_number col-xs-4' onclick='Orthosie.input.append(3);'>3</button>
-    </div>
-    <div id='fourth_row' class='btn-group col-xs-12'>
-      <button class='btn btn-primary btn-lg numpad_number col-xs-4' onclick='Orthosie.input.append(0);'>0</button>
-      <button class='btn btn-warning btn-lg numpad_number col-xs-8' onclick='Orthosie.input.backspace();'>Back</button>
-    </div>
-  </div>
-  <div id='numpad_enter' class='col-xs-12'>
-    <button class='btn btn-success btn-lg col-xs-12' onclick='Orthosie.input.submit();'>Enter</button>
   </div>
 </div>

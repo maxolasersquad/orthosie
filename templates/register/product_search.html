@@ -26,7 +26,7 @@
   </thead>
   <tbody>
 {% for item in results %}
-    <tr onclick="Orthosie.input.select_item('{{ item.upc }}')">
+    <tr class="search-result" data-upc="{{ item.upc }}">
       <td>{{ item.upc }}</td>
       <td>{{ item.vendor.name}} {{ item.name }}</td>
       <td>{{ item.scalable }}</td>
@@ -35,4 +35,4 @@
 {% endfor %}
   </tbody>
 </table>
-<button class="btn btn-danger" onclick="Orthosie.input.disable_product_search()">Cancel Search</button>
+<button class="btn btn-danger" id="cancel-search">Cancel Search</button>
