@@ -16,20 +16,19 @@
     You should have received a copy of the GNU General Public License
     along with Orthosie.  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
-
 <!DOCTYPE html>
 <html>
   <head>
     <title>Orthosie Inventory Management</title>
+    <script type="text/javascript" src="/static/js/jquery.js"></script>
+    <script data-main="/static/js/inventory.js" src="/static/js/require.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/font-awesome.css">
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
     <script src="/static/js/bootstrap.min.js"></script>
     <link rel='stylesheet' type='text/css' href='/static/css/inventory.css' />
-    <script type="text/javascript" src="/static/js/jquery.js"></script>
-    <script type="text/javascript" src="/static/js/inventory.js"></script>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
   </head>
   <body>
     <form id="csrf_token">
@@ -40,26 +39,26 @@
 {% for inventory in inventory_items %}
         <tr id="{{ inventory.upc }}" class="inventory_row">
           <td id="{{ inventory.upc }}_upc" class="inventory_upc form-control-static">{{ inventory.upc }}</td>
-          <td id="{{ inventory.upc }}_vendor_name" class="inventory_vendor_name form-control-static"><span id="{{ inventory.upc }}_vendor" onclick="Orthosie.inventory.edit_vendor('{{ inventory.upc }}');">{{ inventory.vendor.name }}</span> <span id="{{ inventory.upc }}_name" onclick="Orthosie.inventory.edit_name('{{ inventory.upc }}');">{{ inventory.name }}</span></td>
-          <td id="{{ inventory.upc }}_price" class="inventory_price form-control-static" onclick="Orthosie.inventory.edit_price('{{ inventory.upc }}');">{{ inventory.price }}</td>
-          <td id="{{ inventory.upc }}_scalable" class="inventory_scalable" onclick="Orthosie.inventory.toggle_scalable('{{ inventory.upc }}');">{{ inventory.scalable|yesno:"Scalable, Non-Scalable," }}</td>
-          <td id="{{ inventory.upc }}_taxable" class="inventory_taxable" onclick="Orthosie.inventory.toggle_taxable('{{ inventory.upc }}');">{{ inventory.taxable|yesno:"Taxable, Non-Taxable," }}</td>
+          <td id="{{ inventory.upc }}_vendor_name" class="inventory_vendor_name form-control-static"><span id="{{ inventory.upc }}_vendor" class="vendor-name" data-upc="{{ inventory.upc }}">{{ inventory.vendor.name }}</span> <span id="{{ inventory.upc }}_name" class="inventory-name" data-upc="{{ inventory.upc }}">{{ inventory.name }}</span></td>
+          <td id="{{ inventory.upc }}_price" class="inventory_price inventory-price form-control-static" data-upc="{{ inventory.upc }}">{{ inventory.price }}</td>
+          <td id="{{ inventory.upc }}_scalable" class="inventory_scalable inventory-scalable" data-upc="{{ inventory.upc }}">{{ inventory.scalable|yesno:"Scalable, Non-Scalable," }}</td>
+          <td id="{{ inventory.upc }}_taxable" class="inventory_taxable inventory-taxable" data-upc="{{ inventory.upc }}">{{ inventory.taxable|yesno:"Taxable, Non-Taxable," }}</td>
         </tr>
 {% endfor %}
         <tr>
           <td id="input_upc" class="inventory_upc">
-            <input class="form-control" type="text" required pattern="\d+" placeholder="upc" onblur="Orthosie.inventory.new_inventory();" />
+            <input class="form-control new-inventory" type="text" required pattern="\d+" placeholder="upc"/>
           </td>
           <td id="input_vendor_name" class="inventory_vendor_name form-inline">
             <span id="input_vendor">
-              <input class="form-control" type="text" required placeholder="Vendor" onblur="Orthosie.inventory.new_inventory();" />
+              <input class="form-control new-inventory" type="text" required placeholder="Vendor"/>
             </span>
             <span id="input_name">
-              <input class="form-control" type="text" required placeholder="Name" onblur="Orthosie.inventory.new_inventory();" />
+              <input class="form-control new-inventory" type="text" required placeholder="Name"/>
             </span>
           </td>
           <td id="input_price" class="inventory_price">
-            <input class="form-control" type="number" required placeholder="Price" step="0.01" min="0" onblur="Orthosie.inventory.new_inventory();" />
+            <input class="form-control new-inventory" type="number" required placeholder="Price" step="0.01" min="0"/>
           </td>
           <td id="input_scalable" class="inventory_scalable">Non-Scalable</td>
           <td id="input_taxable" class="inventory_taxable">Taxable</td> 

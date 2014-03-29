@@ -1,34 +1,50 @@
-//    Copyright 2013 Jack David Baucum
-//
-//    This file is part of Orthosie.
-//
-//    Orthosie is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU General Public License as published by
-//    the Free Software Foundation, either version 3 of the License, or
-//    (at your option) any later version.
-//
-//    Orthosie is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU General Public License for more details.
-//
-//    You should have received a copy of the GNU General Public License
-//    along with Orthosie.  If not, see <http://www.gnu.org/licenses/>.
+require(['jquery'], function($) {
 
-if (Orthosie === undefined) {
-  var Orthosie = {};
-}
+  $('.vendor-name').each(function() {
+    $(this).click(function() {
+      edit_vendor($(this).data('upc'));
+    });
+  });
 
-Orthosie.inventory = {
+  $('.inventory-name').each(function() {
+    $(this).click(function() {
+      edit_name($(this).data('upc'));
+    });
+  });
 
-  edit_vendor: function(upc) {
+  $('.inventory-price').each(function() {
+    $(this).click(function() {
+      edit_price($(this).data('upc'));
+    });
+  });
+
+  $('.inventory-scalable').each(function() {
+    $(this).click(function() {
+      toggle_scalable($(this).data('upc'));
+    });
+  });
+
+  $('.inventory-taxable').each(function() {
+    $(this).click(function() {
+      toggle_taxable($(this).data('upc'));
+    });
+ 
+  $('.new-inventory').each(function() {
+    $(this).blur(function() {
+      new_inventory();
+    });
+  }); });
+
+  function edit_vendor(upc) {
     if ($('#' + upc + '_vendor > input').length == 0) {
-      $('#' + upc + '_vendor').html("<input type='text' id='" + upc + "_vendor_edit' class='inventory_vendor_edit' value='" + $('#' + upc + '_vendor').html() + "' onblur='Orthosie.inventory.save_vendor(\"" + upc + "\")' >");
-      $('#' + upc + '_vendor_edit').focus();
+      $('#' + upc + '_vendor').html("<input type='text' id='" + upc + "_vendor_edit' class='inventory_vendor_edit' value='" + $('#' + upc + '_vendor').html() + "'>");
+      $('#' + upc + '_vendor_edit').focus().blur(function() {
+        save_vendor(upc);
+      });
     }
-  },
+  }
 
-  save_vendor: function(upc) {
+  function save_vendor(upc) {
     new_vendor = $('#' + upc + '_vendor_edit').val();
     post_args = {
       upc: upc,
@@ -49,16 +65,18 @@ Orthosie.inventory = {
       }
     });
 
-  },
+  }
 
-  edit_name: function(upc) {
+  function edit_name(upc) {
     if ($('#' + upc + '_name > input').length == 0) {
-      $('#' + upc + '_name').html("<input type='text' id='" + upc + "_name_edit' class='inventory_name_edit' value='" + $('#' + upc + '_name').html() + "' onblur='Orthosie.inventory.save_name(\"" + upc + "\")' >");
-      $('#' + upc + '_name_edit').focus();
+      $('#' + upc + '_name').html("<input type='text' id='" + upc + "_name_edit' class='inventory_name_edit' value='" + $('#' + upc + '_name').html() + "'>");
+      $('#' + upc + '_name_edit').focus().blur(function() {
+        save_name(upc);
+      });
     }
-  },
+  }
 
-  save_name: function(upc) {
+  function save_name(upc) {
     new_name = $('#' + upc + '_name_edit').val();
     post_args = {
       upc: upc,
@@ -79,16 +97,18 @@ Orthosie.inventory = {
       }
     });
 
-  },
+  }
 
-  edit_price: function(upc) {
+  function edit_price(upc) {
     if ($('#' + upc + '_price > input').length == 0) {
-      $('#' + upc + '_price').html("<input type='number' id='" + upc + "_price_edit' class='inventory_price_edit' value='" + $('#' + upc + '_price').html() + "' onblur='Orthosie.inventory.save_price(\"" + upc + "\")' >");
-      $('#' + upc + '_price_edit').focus();
+      $('#' + upc + '_price').html("<input type='number' id='" + upc + "_price_edit' class='inventory_price_edit' value='" + $('#' + upc + '_price').html() + "'>");
+      $('#' + upc + '_price_edit').focus().blur(function() {
+        save_price(upc);
+      });
     }
-  },
+  }
 
-  save_price: function(upc) {
+  function save_price(upc) {
     new_price = $('#' + upc + '_price_edit').val();
 
     post_args = {
@@ -110,9 +130,9 @@ Orthosie.inventory = {
       }
     });
 
-  },
+  }
 
-  toggle_taxable: function(upc) {
+  function toggle_taxable(upc) {
     var taxable;
     if ($('#' + upc + '_taxable').html() == 'Taxable') {
       taxable = false;
@@ -145,9 +165,9 @@ Orthosie.inventory = {
       }
     });
 
-  },
+  }
 
-  toggle_scalable: function(upc) {
+  function toggle_scalable(upc) {
     var scalable;
     if ($('#' + upc + '_scalable').html() == 'Scalable') {
       scalable = false;
@@ -180,9 +200,9 @@ Orthosie.inventory = {
       }
     });
 
-  },
+  }
 
-  new_inventory: function() {
+  function new_inventory() {
     if ($('#input_upc > input').val() == '' || $('#input_vendor > input').val() == '' || $('#input_name > input').val() == '' || $('#input_price > input').val() == '') {
       console.log('Fail');
       return
@@ -232,4 +252,5 @@ Orthosie.inventory = {
       }
     });
   }
-}
+
+});
