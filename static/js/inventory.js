@@ -28,12 +28,12 @@ require(['jquery'], function($) {
     $(this).click(function() {
       toggle_taxable($(this).data('upc'));
     });
- 
-  $('.new-inventory').each(function() {
-    $(this).blur(function() {
-      new_inventory();
+    $('.new-inventory').each(function() {
+      $(this).blur(function() {
+        new_inventory();
+      });
     });
-  }); });
+  });
 
   function edit_vendor(upc) {
     if ($('#' + upc + '_vendor > input').length == 0) {
