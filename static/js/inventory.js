@@ -1,4 +1,4 @@
-require(['jquery'], function($) {
+require(['jquery', 'bootstrap.min'], function($) {
 
   $('.vendor-name').each(function() {
     $(this).click(function() {
@@ -212,21 +212,9 @@ require(['jquery'], function($) {
       return;
     }
 
-    var scalable;
-    if ($('#input_scalable').html() == 'Scalable') {
-      scalable = false;
-    }
-    else {
-      scalable = true;
-    }
-
-    var taxable;
-    if ($('#input_taxable').html() == 'Taxable') {
-      taxable = false;
-    }
-    else {
-      taxable = true;
-    }
+    var scalable, taxable;
+    scalable = $('#input_scalable').html() == 'Scalable';
+    taxable = $('#input_taxable').html() == 'Taxable';
 
     post_args = {
       upc: $('#input_upc > input').val(),

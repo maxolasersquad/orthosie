@@ -1,4 +1,4 @@
-require(['jquery'], function($) {
+require(['jquery', 'bootstrap.min'], function($) {
 
   var input_mode = 'upc';
 
