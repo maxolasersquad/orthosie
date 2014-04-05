@@ -114,6 +114,17 @@ class TransactionTest(TestCase):
         self.assertEqual(transaction_total.sub_total, Decimal('23.45'))
         self.assertEqual(transaction_total.tax_total, Decimal('1.64'))
         self.assertEqual(transaction_total.total, Decimal('25.09'))
+    def test_cancel_sets_status(self):
+        self.transaction.cancel()
+        self.assertEqual(self.transaction.status, 'CANCELED');
+    def test_cancel_cancels_children(self):
+        self.transaction.create_line_item(self.item, 1)
+        self.transaction.cancel()
+        for line_item in self.transaction.lineitem_set.all():
+            self.assertEqual(line_item.status, 'INACTIVE')
+    def test_cancel_ends_shift(self):
+        self.transaction.cancel()
+        self.assertIsNotNone(self.transaction.finish_date)
 
 class LineItemTest(TestCase):
     def setUp(self):

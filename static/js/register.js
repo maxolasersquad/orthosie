@@ -1,4 +1,10 @@
-require(['jquery', 'bootstrap.min'], function($) {
+require.config({
+  paths: {
+    configjs: '/static/js/config'
+  }
+})
+
+require(['jquery', 'configjs', 'bootstrap.min'], function($) {
 
   var input_mode = 'upc';
 
@@ -51,6 +57,10 @@ require(['jquery', 'bootstrap.min'], function($) {
 
   $('#confirm-end-shift').click(function() {
     end_shift();
+  });
+
+  $('#confirm-cancel-transaction').click(function() {
+    cancel_transaction();
   });
 
   function backspace() {
@@ -193,6 +203,22 @@ require(['jquery', 'bootstrap.min'], function($) {
       },
       error: function(xhr, text, error) {
         alert('An error was encountered while trying to end the shift.')
+      }
+    });
+  }
+
+  function cancel_transaction() {
+    $.ajax({
+      url: '/register/cancel_transaction/',
+      dataType: 'json',
+      success: function(data, status) {
+        $('#confirm_cancel_transaction > div').modal('hide');
+        $('#transactions').data('status', 'end');
+        $('#transactions>table>tbody>tr').remove();
+        update_totals();
+      },
+      error: function(xhr, text, error) {
+        alert('An error was encountered while trying to cancel this transaction.')
       }
     });
   }

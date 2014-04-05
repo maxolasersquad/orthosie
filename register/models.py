@@ -132,6 +132,13 @@ class Transaction(models.Model):
         transaction_total = TransactionTotal(total, tax, paid_total)
         return transaction_total
 
+    def cancel(self):
+        self.status = 'CANCELED'
+        self.end_transaction()
+        for line_item in self.lineitem_set.all():
+            line_item.cancel()
+            line_item.save()
+
     class Meta:
         ordering = ['begin_date']
 

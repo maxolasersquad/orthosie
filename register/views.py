@@ -55,6 +55,13 @@ def cancel_line(request):
     context_instance = { 'line_item': line_item  }
     return render(request, 'register/cancel_line.json', context_instance, content_type="application/json")
 
+def cancel_transaction(request):
+    current_transaction = Transaction.get_current()
+    current_transaction.cancel()
+    current_transaction.save()
+    context_instance = { 'transaction': current_transaction }
+    return render(request, 'register/cancel_transaction.json', context_instance, content_type="application/json")
+
 @csrf_exempt
 def transaction_total(request):
     current_transaction = Transaction.get_current()
