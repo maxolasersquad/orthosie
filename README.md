@@ -18,7 +18,7 @@ License
     You should have received a copy of the GNU General Public License
     along with Orthosie.  If not, see <http://www.gnu.org/licenses/>.
 
-Orthosie is licensed under the GPLv3. The details of this license can be viewed at http://gplv3.fsf.org/ until I get around to properly adding licensing information.
+Orthosie is licensed under the GPLv3. The details of this license can be viewed at http://gplv3.fsf.org/
 
 About
 =====
@@ -69,7 +69,7 @@ To run the test server cd in to the orthosie directory and run the following.
 
 At this point you can browse to http://127.0.0.1:8000/register/ to see the register.
 
-This server should only be used for testing your setup and maybe even an initial configuration. For your production setup you should use nginx, Apache, or any other database of your choosing.
+This server should only be used for testing your setup and maybe even an initial configuration. For your production setup you should use nginx, Apache, or any other webserver of your choosing.
 
 Nginx
 -----
