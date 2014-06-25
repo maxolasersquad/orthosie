@@ -44,7 +44,7 @@ Django-REST-Framework
 ---------------------
 Orthosie uses Django REST Framework, which can be grabbed from http://django-rest-framework.org/
 
-    git clone git@github.com:tomchristie/django-rest-framework.git
+    git clone https://github.com/tomchristie/django-rest-framework.git
     cd django-rest-framework
     sudo python3 setup.py install
 
