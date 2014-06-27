@@ -41,7 +41,7 @@ Django
 ------
     wget https://www.djangoproject.com/m/releases/1.6/Django-1.6.tar.gz
     tar xzvf Django-1.6.tar.gz
-    cd Django-1.6.tar.gz
+    cd Django-1.6
     sudo python3 setup.py install
 
 Django-REST-Framework
