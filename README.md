@@ -97,6 +97,9 @@ You should be able to ring up this product. Note that during the ring the UPC ch
 Other Licenses
 ==============
 
+## Django
+Licensed BSD. More information at https://github.com/django/django/blob/master/LICENSE
+
 ## Font-Awesome
 Licensed SIL OFL 1.1 and MIT. More information at http://fontawesome.io/license/
 
