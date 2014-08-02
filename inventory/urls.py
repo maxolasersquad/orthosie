@@ -3,7 +3,8 @@ from inventory import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
-    url(r'update_inventory', views.update_inventory, name='update_inventory'),
-    url(r'create_inventory', views.create_inventory, name='create_inventory'),
+    url(r'update_grocery', views.update_grocery, name='update_grocery'),
+    url(r'create_grocery', views.create_grocery, name='create_grocery'),
+    url(r'update_produce', views.update_produce, name='update_produce'),
+    url(r'create_produce', views.create_produce, name='create_produce'),
 )
-

@@ -3,12 +3,12 @@ from inventory.models import *
 from django.core.exceptions import ObjectDoesNotExist
 
 def index(request):
-    inventory = Item.objects.all()
+    inventory = Grocery.objects.all()
     context = { 'inventory_items': inventory}
     return render(request, 'inventory/index.html', context)
 
-def update_inventory(request):
-    item = Item.objects.get(upc=request.POST['upc'])
+def update_grocery(request):
+    item = Grocery.objects.get(upc=request.POST['upc'])
 
     if 'price' in request.POST:
         item.price = request.POST['price']
@@ -37,8 +37,8 @@ def update_inventory(request):
 
     return render(request, 'inventory/update_inventory.json', context_instance, content_type="application/json")
 
-def create_inventory(request):
-    item = Item(upc=request.POST['upc'])
+def create_grocery(request):
+    item = Grocery(upc=request.POST['upc'])
     if 'price' in request.POST:
         item.price = request.POST['price']
     if 'name' in request.POST:
@@ -64,3 +64,9 @@ def create_inventory(request):
 
     context_instance = {'item' : item }
     return render(request, 'inventory/update_inventory.json', context_instance, content_type="application/json")
+
+def update_produce(request):
+    item = Produce(plu=request.POST['plu'])
+
+def create_produce(request):
+    item = Produce(plu=request.POST['plu'])

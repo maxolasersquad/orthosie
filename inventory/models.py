@@ -30,18 +30,26 @@ class Vendor(models.Model):
         ordering = ['name']
 
 class Item(models.Model):
-    upc = models.CharField(max_length=30, unique=True)
     name = models.CharField(max_length=30)
     price = models.DecimalField(max_digits=17, decimal_places=2)
     scalable = models.BooleanField()
     taxable = models.BooleanField()
-    vendor = models.ForeignKey(Vendor)
 
     def __unicode__(self):
         return self.name
 
     class Meta:
         ordering = ['name']
+
+class Grocery(Item):
+    upc = models.CharField(max_length=30, unique=True)
+    vendor = models.ForeignKey(Vendor, default=None, blank=True, null=True)
+
+class Produce(Item):
+    plu = models.IntegerField(max_length=5, unique=True)
+    variety = models.CharField(max_length=100)
+    size = models.CharField(max_length=30)
+    botanical = models.CharField(max_length=100)
 
 class Upc:
     def __init__(self, upc):

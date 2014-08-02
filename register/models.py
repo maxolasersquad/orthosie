@@ -1,3 +1,4 @@
+#    Copyright 2013 Jack David Baucum
 #
 #    This file is part of Orthosie.
 #
@@ -149,7 +150,7 @@ class LineItem(models.Model):
     scale = models.DecimalField(max_digits=19, decimal_places=4, null=True)
     description = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=17, decimal_places=2)
-    item = models.ForeignKey('inventory.Item')
+    item = models.ForeignKey('inventory.Grocery')
     status = models.CharField(max_length=8, default='ACTIVE')
 
     def __unicode__(self):

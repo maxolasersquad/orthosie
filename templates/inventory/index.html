@@ -32,22 +32,22 @@
     <form id="csrf_token">
 {% csrf_token %}
     </form>
-    <table id="inventory_list" class="table table-striped table-hover table-condensed table-responsive ">
+    <table id="inventory-list" class="table table-striped table-hover table-condensed table-responsive ">
       <tbody>
 {% for inventory in inventory_items %}
-        <tr id="{{ inventory.upc }}" class="inventory_row">
-          <td id="{{ inventory.upc }}_upc" class="inventory_upc form-control-static">{{ inventory.upc }}</td>
-          <td id="{{ inventory.upc }}_vendor_name" class="inventory_vendor_name form-control-static"><span id="{{ inventory.upc }}_vendor" class="vendor-name" data-upc="{{ inventory.upc }}">{{ inventory.vendor.name }}</span> <span id="{{ inventory.upc }}_name" class="inventory-name" data-upc="{{ inventory.upc }}">{{ inventory.name }}</span></td>
-          <td id="{{ inventory.upc }}_price" class="inventory_price inventory-price form-control-static" data-upc="{{ inventory.upc }}">{{ inventory.price }}</td>
-          <td id="{{ inventory.upc }}_scalable" class="inventory_scalable inventory-scalable" data-upc="{{ inventory.upc }}">{{ inventory.scalable|yesno:"Scalable, Non-Scalable," }}</td>
-          <td id="{{ inventory.upc }}_taxable" class="inventory_taxable inventory-taxable" data-upc="{{ inventory.upc }}">{{ inventory.taxable|yesno:"Taxable, Non-Taxable," }}</td>
+        <tr id="{{ inventory.upc }}" class="inventory-row">
+          <td id="{{ inventory.upc }}_upc" class="inventory-upc form-control-static">{{ inventory.upc }}</td>
+          <td id="{{ inventory.upc }}_vendor_name" class="inventory-vendor-name form-control-static"><span id="{{ inventory.upc }}_vendor" class="vendor-name" data-upc="{{ inventory.upc }}">{{ inventory.vendor.name }}</span> <span id="{{ inventory.upc }}_name" class="inventory-name" data-upc="{{ inventory.upc }}">{{ inventory.name }}</span></td>
+          <td id="{{ inventory.upc }}_price" class="inventory-price form-control-static" data-upc="{{ inventory.upc }}">{{ inventory.price }}</td>
+          <td id="{{ inventory.upc }}_scalable" class="inventory-scalable" data-upc="{{ inventory.upc }}">{{ inventory.scalable|yesno:"Scalable, Non-Scalable," }}</td>
+          <td id="{{ inventory.upc }}_taxable" class="inventory-taxable" data-upc="{{ inventory.upc }}">{{ inventory.taxable|yesno:"Taxable, Non-Taxable," }}</td>
         </tr>
 {% endfor %}
         <tr>
-          <td id="input_upc" class="inventory_upc">
+          <td id="input_upc" class="inventory-upc">
             <input class="form-control new-inventory" type="text" required pattern="\d+" placeholder="upc"/>
           </td>
-          <td id="input_vendor_name" class="inventory_vendor_name form-inline">
+          <td id="input_vendor_name" class="inventory-vendor-name form-inline">
             <span id="input_vendor">
               <input class="form-control new-inventory" type="text" required placeholder="Vendor"/>
             </span>
@@ -55,11 +55,11 @@
               <input class="form-control new-inventory" type="text" required placeholder="Name"/>
             </span>
           </td>
-          <td id="input_price" class="inventory_price">
+          <td id="input_price" class="inventory-price">
             <input class="form-control new-inventory" type="number" required placeholder="Price" step="0.01" min="0"/>
           </td>
-          <td id="input_scalable" class="inventory_scalable">Non-Scalable</td>
-          <td id="input_taxable" class="inventory_taxable">Taxable</td> 
+          <td id="input_scalable" class="inventory-scalable">Non-Scalable</td>
+          <td id="input_taxable" class="inventory-taxable">Taxable</td> 
         </tr>
       </tbody>
     </table>

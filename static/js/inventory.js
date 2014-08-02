@@ -37,7 +37,7 @@ require(['jquery', 'bootstrap.min'], function($) {
 
   function edit_vendor(upc) {
     if ($('#' + upc + '_vendor > input').length == 0) {
-      $('#' + upc + '_vendor').html("<input type='text' id='" + upc + "_vendor_edit' class='inventory_vendor_edit' value='" + $('#' + upc + '_vendor').html() + "'>");
+      $('#' + upc + '_vendor').html("<input type='text' id='" + upc + "_vendor_edit' class='inventory-vendor-edit' value='" + $('#' + upc + '_vendor').html() + "'>");
       $('#' + upc + '_vendor_edit').focus().blur(function() {
         save_vendor(upc);
       });
@@ -53,7 +53,7 @@ require(['jquery', 'bootstrap.min'], function($) {
     post_args[$('#csrf_token>input').attr('name')] = $('#csrf_token>input').attr('value');
 
     $.ajax({
-      url: '/inventory/update_inventory/',
+      url: '/inventory/update_grocery/',
       data: post_args,
       type: 'POST',
       dataType: 'json',
@@ -69,7 +69,7 @@ require(['jquery', 'bootstrap.min'], function($) {
 
   function edit_name(upc) {
     if ($('#' + upc + '_name > input').length == 0) {
-      $('#' + upc + '_name').html("<input type='text' id='" + upc + "_name_edit' class='inventory_name_edit' value='" + $('#' + upc + '_name').html() + "'>");
+      $('#' + upc + '_name').html("<input type='text' id='" + upc + "_name_edit' class='inventory-name-edit' value='" + $('#' + upc + '_name').html() + "'>");
       $('#' + upc + '_name_edit').focus().blur(function() {
         save_name(upc);
       });
@@ -101,7 +101,7 @@ require(['jquery', 'bootstrap.min'], function($) {
 
   function edit_price(upc) {
     if ($('#' + upc + '_price > input').length == 0) {
-      $('#' + upc + '_price').html("<input type='number' id='" + upc + "_price_edit' class='inventory_price_edit' value='" + $('#' + upc + '_price').html() + "'>");
+      $('#' + upc + '_price').html("<input type='number' id='" + upc + "_price_edit' class='inventory-price-edit' value='" + $('#' + upc + '_price').html() + "'>");
       $('#' + upc + '_price_edit').focus().blur(function() {
         save_price(upc);
       });
@@ -204,7 +204,6 @@ require(['jquery', 'bootstrap.min'], function($) {
 
   function new_inventory() {
     if ($('#input_upc > input').val() == '' || $('#input_vendor > input').val() == '' || $('#input_name > input').val() == '' || $('#input_price > input').val() == '') {
-      console.log('Fail');
       return
     }
     else if ($('#input_upc :invalid').length === 1) {
@@ -228,7 +227,7 @@ require(['jquery', 'bootstrap.min'], function($) {
     post_args[$('#csrf_token>input').attr('name')] = $('#csrf_token>input').attr('value');
 
     $.ajax({
-      url: '/inventory/create_inventory/',
+      url: '/inventory/create_grocery',
       data: post_args,
       type: 'POST',
       dataType: 'json',

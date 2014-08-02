@@ -19,7 +19,7 @@ from django.test import TestCase
 from register.models import Shift
 from register.models import Transaction
 from register.models import LineItem
-from inventory.models import Item
+from inventory.models import Grocery
 from inventory.models import Vendor
 from django.utils import timezone
 from decimal import Decimal
@@ -53,7 +53,7 @@ class TransactionTest(TestCase):
         self.transaction.save()
         self.vendor = Vendor(name='Brand X')
         self.vendor.save()
-        self.item = Item(\
+        self.grocery = Grocery(\
             upc='12345',\
             name='Product X',\
             vendor=self.vendor,\
@@ -61,7 +61,7 @@ class TransactionTest(TestCase):
             taxable=True,\
             scalable=False
         )
-        self.item.save()
+        self.grocery.save()
     def test_end_transaction(self):
         self.transaction.end_transaction()
         self.assertIsNotNone(self.transaction.finish_date)
@@ -71,43 +71,43 @@ class TransactionTest(TestCase):
         self.transaction.end_transaction()
         self.assertEqual(self.transaction.finish_date, finish_date)
     def test_create_line_item(self):
-        line_item = self.transaction.create_line_item(self.item, 1)
+        line_item = self.transaction.create_line_item(self.grocery, 1)
         self.assertIsNotNone(line_item)
     def test_cannot_create_line_item_on_ended_transaction(self):
-        line_item = self.transaction.create_line_item(self.item, 1)
+        line_item = self.transaction.create_line_item(self.grocery, 1)
         self.transaction.end_transaction()
-        line_item = self.transaction.create_line_item(self.item, 1)
+        line_item = self.transaction.create_line_item(self.grocery, 1)
         self.assertIsNone(line_item)
     def test_line_item_description(self):
-        line_item = self.transaction.create_line_item(self.item, 1)
+        line_item = self.transaction.create_line_item(self.grocery, 1)
         self.assertEqual(line_item.description, 'Brand X Product X')
     def test_get_totals(self):
-        line_item = self.transaction.create_line_item(self.item, 1)
+        line_item = self.transaction.create_line_item(self.grocery, 1)
         line_item.save()
-        line_item = self.transaction.create_line_item(self.item, 1)
+        line_item = self.transaction.create_line_item(self.grocery, 1)
         line_item.save()
         transaction_total = self.transaction.get_totals()
         self.assertEqual(transaction_total.sub_total, Decimal('46.90'))
         self.assertEqual(transaction_total.tax_total, Decimal('3.28'))
         self.assertEqual(transaction_total.total, Decimal('50.18'))
     def test_paid_tender_ends_transaction(self):
-        self.transaction.create_line_item(self.item, 1)
+        self.transaction.create_line_item(self.grocery, 1)
         self.transaction.create_tender(25.09, 'CASH')
         self.assertIsNotNone(self.transaction.finish_date)
     def test_transaction_totals_with_cancled_item(self):
-        self.transaction.create_line_item(self.item, 1)
-        self.transaction.create_line_item(self.item, 1).cancel()
+        self.transaction.create_line_item(self.grocery, 1)
+        self.transaction.create_line_item(self.grocery, 1).cancel()
         self.assertEqual(transaction_total.total, Decimal('50.18'))
         self.assertEqual(transaction_total.tax_total, Decimal('3.28'))
         self.assertEqual(transaction_total.total, Decimal('50.18'))
     def test_paid_tender_ends_transaction(self):
-        self.transaction.create_line_item(self.item, 1)
+        self.transaction.create_line_item(self.grocery, 1)
         self.transaction.create_tender(25.09, 'CASH')
         self.assertIsNotNone(self.transaction.finish_date)
     def test_transaction_totals_with_cancled_item(self):
-        line_item = self.transaction.create_line_item(self.item, 1)
+        line_item = self.transaction.create_line_item(self.grocery, 1)
         line_item.save()
-        line_item = self.transaction.create_line_item(self.item, 1)
+        line_item = self.transaction.create_line_item(self.grocery, 1)
         line_item.cancel()
         line_item.save()
         transaction_total = self.transaction.get_totals()
@@ -118,7 +118,7 @@ class TransactionTest(TestCase):
         self.transaction.cancel()
         self.assertEqual(self.transaction.status, 'CANCELED');
     def test_cancel_cancels_children(self):
-        self.transaction.create_line_item(self.item, 1)
+        self.transaction.create_line_item(self.grocery, 1)
         self.transaction.cancel()
         for line_item in self.transaction.lineitem_set.all():
             self.assertEqual(line_item.status, 'INACTIVE')
@@ -134,7 +134,7 @@ class LineItemTest(TestCase):
         self.transaction.save()
         self.vendor = Vendor(name='Brand X')
         self.vendor.save()
-        self.item = Item(\
+        self.grocery = Grocery(\
             upc='12345',\
             name='Product X',\
             vendor=self.vendor,\
@@ -142,13 +142,13 @@ class LineItemTest(TestCase):
             taxable=True,\
             scalable=False
         )
-        self.item.save()
+        self.grocery.save()
     def test_line_item_total(self):
-        line_item = self.transaction.create_line_item(self.item, 2)
+        line_item = self.transaction.create_line_item(self.grocery, 2)
         line_item.save()
         self.assertEqual(line_item.total(), Decimal(46.90))
     def test_can_cancel(self):
-        line_item = self.transaction.create_line_item(self.item, 2)
+        line_item = self.transaction.create_line_item(self.grocery, 2)
         line_item.cancel()
         line_item.save()
         self.assertEqual(line_item.status, 'INACTIVE')

@@ -17,7 +17,7 @@
 
 from django.test import TestCase
 from inventory.models import Vendor
-from inventory.models import Item
+from inventory.models import Grocery
 from inventory.models import Upc
 
 class VendorTest(TestCase):
@@ -26,16 +26,20 @@ class VendorTest(TestCase):
     def test_vendor_name(self):
         self.assertEqual(self.vendor.name, 'Brand X')
 
-class ItemTest(TestCase):
+class GroceryTest(TestCase):
     def setUp(self):
         self.vendor = Vendor(name='Brand X')
-        self.item = Item(upc='12345', name='Product X', vendor=self.vendor)
-    def test_item_upc(self):
-        self.assertEqual(self.item.upc, '12345')
-    def test_item_name(self):
-        self.assertEqual(self.item.name, 'Product X')
-    def test_item_vendor(self):
-        self.assertEqual(self.item.vendor.name, 'Brand X')
+        self.grocery = Grocery(upc='12345', name='Product X', vendor=self.vendor)
+    def test_grocery_upc(self):
+        self.assertEqual(self.grocery.upc, '12345')
+    def test_grocery_name(self):
+        self.assertEqual(self.grocery.name, 'Product X')
+    def test_grocery_vendor(self):
+        self.assertEqual(self.grocery.vendor.name, 'Brand X')
+
+class ProduceTest(TestCase):
+    def setUp(self):
+        self.produce = Produce(name='Kumquat', plu=4303, botanical='Fortunella spp.')
 
 class UpcTest(TestCase):
     def test_verify_correct_check_digit(self):

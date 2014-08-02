@@ -17,38 +17,38 @@
     along with Orthosie.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#inventory_list {
+#inventory-list {
 }
 
-.inventory_row {
+.inventory-row {
   height: 40px;
   cursor: pointer;
 }
 
-.inventory_upc {
+.inventory-upc {
 }
 
-.inventory_vendor_name {
+.inventory-vendor_name {
   font-weight: bold;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.inventory_price {
+.inventory-price {
   width: 100px;
 }
 
-.inventory_scalable {
+.inventory-scalable {
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.inventory_taxable {
+.inventory-taxable {
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-#add_inventory {
+#add-inventory {
   font-size: 1.5em;
   font-weight: 900;
   cursor: pointer;
