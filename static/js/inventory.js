@@ -30,7 +30,7 @@ require(['jquery', 'bootstrap.min'], function($) {
     });
     $('.new-inventory').each(function() {
       $(this).blur(function() {
-        new_inventory();
+        new_grocery();
       });
     });
   });
@@ -85,7 +85,7 @@ require(['jquery', 'bootstrap.min'], function($) {
     post_args[$('#csrf_token>input').attr('name')] = $('#csrf_token>input').attr('value');
 
     $.ajax({
-      url: '/inventory/update_inventory/',
+      url: '/inventory/update_grocery/',
       data: post_args,
       type: 'POST',
       dataType: 'json',
@@ -118,7 +118,7 @@ require(['jquery', 'bootstrap.min'], function($) {
     post_args[$('#csrf_token>input').attr('name')] = $('#csrf_token>input').attr('value');
 
     $.ajax({
-      url: '/inventory/update_inventory/',
+      url: '/inventory/update_grocery/',
       data: post_args,
       type: 'POST',
       dataType: 'json',
@@ -148,7 +148,7 @@ require(['jquery', 'bootstrap.min'], function($) {
     post_args[$('#csrf_token>input').attr('name')] = $('#csrf_token>input').attr('value');
 
     $.ajax({
-      url: '/inventory/update_inventory/',
+      url: '/inventory/update_grocery/',
       data: post_args,
       type: 'POST',
       dataType: 'json',
@@ -183,7 +183,7 @@ require(['jquery', 'bootstrap.min'], function($) {
     post_args[$('#csrf_token>input').attr('name')] = $('#csrf_token>input').attr('value');
 
     $.ajax({
-      url: '/inventory/update_inventory/',
+      url: '/inventory/update_grocery/',
       data: post_args,
       type: 'POST',
       dataType: 'json',
@@ -202,24 +202,24 @@ require(['jquery', 'bootstrap.min'], function($) {
 
   }
 
-  function new_inventory() {
-    if ($('#input_upc > input').val() == '' || $('#input_vendor > input').val() == '' || $('#input_name > input').val() == '' || $('#input_price > input').val() == '') {
+  function new_grocery() {
+    if ($('#input_upc > input').val() == '' || $('#grocery_vendor > input').val() == '' || $('#grocery_name > input').val() == '' || $('#grocery_price > input').val() == '') {
       return
     }
-    else if ($('#input_upc :invalid').length === 1) {
+    else if ($('#grocery_upc :invalid').length === 1) {
       alert('Invalid UPC');
       return;
     }
 
     var scalable, taxable;
-    scalable = $('#input_scalable').html() == 'Scalable';
-    taxable = $('#input_taxable').html() == 'Taxable';
+    scalable = $('#grocery_scalable').html() == 'Scalable';
+    taxable = $('#grocery_taxable').html() == 'Taxable';
 
     post_args = {
-      upc: $('#input_upc > input').val(),
-      vendor: $('#input_vendor > input').val(),
-      name: $('#input_name > input').val(),
-      price: $('#input_price > input').val(),
+      upc: $('#grocery_upc > input').val(),
+      vendor: $('#grocery_vendor > input').val(),
+      name: $('#grocery_name > input').val(),
+      price: $('#grocery_price > input').val(),
       scalable: scalable,
       taxable: taxable
     };
@@ -228,6 +228,46 @@ require(['jquery', 'bootstrap.min'], function($) {
 
     $.ajax({
       url: '/inventory/create_grocery',
+      data: post_args,
+      type: 'POST',
+      dataType: 'json',
+      success: function(data, status) {
+        location.reload();
+      },
+      error: function(xhr, text, error) {
+        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
+      }
+    });
+  }
+
+  function new_produce() {
+    if ($('#produce_plu > input').val() == '' || $('#produce_name > input').val() == '' || $('#produce_price > input').val() == '') {
+      return
+    }
+    else if ($('#produce_plu :invalid').length === 1) {
+      alert('Invalid PLU');
+      return;
+    }
+
+    var scalable, taxable;
+    scalable = $('#produce_scalable').html() == 'Scalable';
+    taxable = $('#produce_taxable').html() == 'Taxable';
+
+    post_args = {
+      upc: $('#produce_plu > input').val(),
+      name: $('#produce_name > input').val(),
+      variety: $('#produce_variety > input').val(),
+      size: $('#produce_size > input').val(),
+      botanical: $('#produce_botanical > input').val(),
+      price: $('#produce_price > input').val(),
+      scalable: scalable,
+      taxable: taxable
+    };
+
+    post_args[$('#csrf_token>input').attr('name')] = $('#csrf_token>input').attr('value');
+
+    $.ajax({
+      url: '/inventory/create_produce',
       data: post_args,
       type: 'POST',
       dataType: 'json',

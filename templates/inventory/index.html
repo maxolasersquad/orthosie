@@ -32,36 +32,77 @@
     <form id="csrf_token">
 {% csrf_token %}
     </form>
-    <table id="inventory-list" class="table table-striped table-hover table-condensed table-responsive ">
-      <tbody>
-{% for inventory in inventory_items %}
-        <tr id="{{ inventory.upc }}" class="inventory-row">
-          <td id="{{ inventory.upc }}_upc" class="inventory-upc form-control-static">{{ inventory.upc }}</td>
-          <td id="{{ inventory.upc }}_vendor_name" class="inventory-vendor-name form-control-static"><span id="{{ inventory.upc }}_vendor" class="vendor-name" data-upc="{{ inventory.upc }}">{{ inventory.vendor.name }}</span> <span id="{{ inventory.upc }}_name" class="inventory-name" data-upc="{{ inventory.upc }}">{{ inventory.name }}</span></td>
-          <td id="{{ inventory.upc }}_price" class="inventory-price form-control-static" data-upc="{{ inventory.upc }}">{{ inventory.price }}</td>
-          <td id="{{ inventory.upc }}_scalable" class="inventory-scalable" data-upc="{{ inventory.upc }}">{{ inventory.scalable|yesno:"Scalable, Non-Scalable," }}</td>
-          <td id="{{ inventory.upc }}_taxable" class="inventory-taxable" data-upc="{{ inventory.upc }}">{{ inventory.taxable|yesno:"Taxable, Non-Taxable," }}</td>
-        </tr>
-{% endfor %}
-        <tr>
-          <td id="input_upc" class="inventory-upc">
-            <input class="form-control new-inventory" type="text" required pattern="\d+" placeholder="upc"/>
-          </td>
-          <td id="input_vendor_name" class="inventory-vendor-name form-inline">
-            <span id="input_vendor">
-              <input class="form-control new-inventory" type="text" required placeholder="Vendor"/>
-            </span>
-            <span id="input_name">
-              <input class="form-control new-inventory" type="text" required placeholder="Name"/>
-            </span>
-          </td>
-          <td id="input_price" class="inventory-price">
-            <input class="form-control new-inventory" type="number" required placeholder="Price" step="0.01" min="0"/>
-          </td>
-          <td id="input_scalable" class="inventory-scalable">Non-Scalable</td>
-          <td id="input_taxable" class="inventory-taxable">Taxable</td> 
-        </tr>
-      </tbody>
-    </table>
+    <ul class="nav nav-pills">
+      <li class="active"><a href="#upc" data-toggle="pill">UPC</a></li>
+      <li><a href="#plu" data-toggle="pill">PLU</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active" id="upc">
+        <table id="grocery-list" class="table table-striped table-hover table-condensed table-responsive ">
+          <tbody>
+  {% for grocery in grocery_items %}
+            <tr id="{{ grocery.upc }}" class="inventory-row">
+              <td id="{{ grocery.upc }}_upc" class="inventory-upc form-control-static">{{ grocery.upc }}</td>
+              <td id="{{ grocery.upc }}_vendor_name" class="inventory-vendor-name form-control-static"><span id="{{ grocery.upc }}_vendor" class="vendor-name" data-upc="{{ grocery.upc }}">{{ grocery.vendor.name }}</span> <span id="{{ grocery.upc }}_name" class="inventory-name" data-upc="{{ grocery.upc }}">{{ grocery.name }}</span></td>
+              <td id="{{ grocery.upc }}_price" class="inventory-price form-control-static" data-upc="{{ grocery.upc }}">{{ grocery.price }}</td>
+              <td id="{{ grocery.upc }}_scalable" class="inventory-scalable" data-upc="{{ grocery.upc }}">{{ grocery.scalable|yesno:"Scalable, Non-Scalable," }}</td>
+              <td id="{{ grocery.upc }}_taxable" class="inventory-taxable" data-upc="{{ grocery.upc }}">{{ grocery.taxable|yesno:"Taxable, Non-Taxable," }}</td>
+            </tr>
+  {% endfor %}
+            <tr>
+              <td id="grocery_upc" class="inventory-upc">
+                <input class="form-control new-inventory" type="text" required pattern="\d+" placeholder="upc"/>
+              </td>
+              <td id="grocery_vendor_name" class="inventory-vendor-name form-inline">
+                <span id="grocery_vendor">
+                  <input class="form-control new-inventory" type="text" required placeholder="Vendor"/>
+                </span>
+                <span id="grocery_name">
+                  <input class="form-control new-inventory" type="text" required placeholder="Name"/>
+                </span>
+              </td>
+              <td id="grocery_price" class="inventory-price">
+                <input class="form-control new-inventory" type="number" required placeholder="Price" step="0.01" min="0"/>
+              </td>
+              <td id="grocery_scalable" class="inventory-scalable">Non-Scalable</td>
+              <td id="grocery_taxable" class="inventory-taxable">Taxable</td> 
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane" id="plu">
+        <table id="grocery-list" class="table table-striped table-hover table-condensed table-responsive ">
+          <tbody>
+  {% for produce in produce_items %}
+            <tr id="{{ produce.plu }}" class="inventory-row">
+              <td id="{{ produce.plu }}_plu" class="inventory-plu form-control-static">{{ produce.plu }}</td>
+            </tr>
+  {% endfor %}
+            <tr>
+              <td id="produce_plu" class="inventory-plu">
+                <input class="form-control new-inventory" type="text" required pattern="\d+" placeholder="PLU"/>
+              </td>
+              <td id="produce_name">
+                <input class="form-control new-inventory" type="text"  placeholder="Name"/>
+              </td>
+              <td id="produce_variety" class="inventory-variety">
+                <input class="form-control new-inventory" type="text" placeholder="Variety"/>
+              </td>
+              <td id="produce_size" class="inventory-size">
+                <input class="form-control new-inventory" type="text" placeholder="Size"/>
+              </td>
+              <td id="produce_botanical" class="inventory-botanical">
+                <input class="form-control new-inventory" type="text" placeholder="Botanical"/>
+              </td>
+              <td id="produce_price" class="inventory-price">
+                <input class="form-control new-inventory" type="number" required placeholder="Price" step="0.01" min="0"/>
+              </td>
+              <td id="produce_scalable" class="inventory-scalable">Non-Scalable</td>
+              <td id="produce_taxable" class="inventory-taxable">Taxable</td> 
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </body>
 </html>

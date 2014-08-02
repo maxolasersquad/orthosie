@@ -17,9 +17,6 @@
     along with Orthosie.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#inventory-list {
-}
-
 .inventory-row {
   height: 40px;
   cursor: pointer;
