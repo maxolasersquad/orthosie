@@ -32,8 +32,8 @@ class Vendor(models.Model):
 class Item(models.Model):
     name = models.CharField(max_length=30)
     price = models.DecimalField(max_digits=17, decimal_places=2)
-    scalable = models.BooleanField()
-    taxable = models.BooleanField()
+    scalable = models.BooleanField(default=False)
+    taxable = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.name
