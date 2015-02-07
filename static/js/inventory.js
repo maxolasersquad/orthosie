@@ -30,9 +30,23 @@ require(['jquery', 'bootstrap.min'], function($) {
     });
     $('.new-inventory').each(function() {
       $(this).blur(function() {
-        new_grocery();
+        switch ($('body').data('tab')) {
+            case 'upc':
+                new_grocery();
+                break;
+            default:
+                new_produce();
+        }
       });
     });
+  });
+
+  $('#upc').click(function(){
+    $('body').data('tab', 'upc');
+  });
+
+  $('#plu').click(function(){
+    $('body').data('tab', 'plu');
   });
 
   function edit_vendor(upc) {
@@ -203,7 +217,7 @@ require(['jquery', 'bootstrap.min'], function($) {
   }
 
   function new_grocery() {
-    if ($('#input_upc > input').val() == '' || $('#grocery_vendor > input').val() == '' || $('#grocery_name > input').val() == '' || $('#grocery_price > input').val() == '') {
+    if ($('#grocery > input').val() == '' || $('#grocery_vendor > input').val() == '' || $('#grocery_name > input').val() == '' || $('#grocery_price > input').val() == '') {
       return
     }
     else if ($('#grocery_upc :invalid').length === 1) {
@@ -254,7 +268,7 @@ require(['jquery', 'bootstrap.min'], function($) {
     taxable = $('#produce_taxable').html() == 'Taxable';
 
     post_args = {
-      upc: $('#produce_plu > input').val(),
+      plu: $('#produce_plu > input').val(),
       name: $('#produce_name > input').val(),
       variety: $('#produce_variety > input').val(),
       size: $('#produce_size > input').val(),

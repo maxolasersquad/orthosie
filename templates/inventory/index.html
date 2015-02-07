@@ -28,7 +28,7 @@
     <link rel='stylesheet' type='text/css' href='/static/css/inventory.css' />
     <meta charset="UTF-8"/>
   </head>
-  <body>
+  <body data-tab="upc">
     <form id="csrf_token">
 {% csrf_token %}
     </form>
@@ -76,6 +76,13 @@
   {% for produce in produce_items %}
             <tr id="{{ produce.plu }}" class="inventory-row">
               <td id="{{ produce.plu }}_plu" class="inventory-plu form-control-static">{{ produce.plu }}</td>
+              <td id="{{ produce.plu }}_name" class="form-control-static">{{ produce.name }}</td>
+              <td id="{{ produce.plu }}_variety" class="form-control-static">{{ produce.variety }}</td>
+              <td id="{{ product.plu }}_size" class="form-control-static">{{ produce.size }}</td>
+              <td id="{{ produce.plu }}_botanical" class="form-control-static">{{ produce.botanical }}</td>
+              <td id="{{ produce.plu }}_price " class="form-control-static">{{ produce.price }}</td>
+              <td id="{{ produce.upc }}_scalable" class="inventory-scalable" data-upc="{{ produce.upc }}">{{ produce.scalable|yesno:"Scalable, Non-Scalable," }}</td>
+              <td id="{{ produce.upc }}_taxable" class="inventory-taxable" data-upc="{{ produce.upc }}">{{ produce.taxable|yesno:"Taxable, Non-Taxable," }}</td>
             </tr>
   {% endfor %}
             <tr>

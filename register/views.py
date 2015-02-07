@@ -12,17 +12,22 @@ def index(request):
     return render(request, 'register/index.html', context)
 
 def process_upc(request):
-    upc = Upc(request.POST['upc'])
+    code = request.POST['upc']
     quantity = request.POST['quantity']
 
-    if upc.verify_check_digit():
-        check = 'true'
-        item = Item.objects.get(upc=upc.upc[:-1])
-        transaction = Transaction.get_current()
-        line_item = transaction.create_line_item(item, 1)
+    if len(code) == 12:
+        upc = Upc(code)
+        if upc.verify_check_digit():
+            check = 'true'
+            item = Grocery.objects.get(upc=upc.upc[:-1])
+        else:
+            check = 'false'
+            item = None
     else:
-        check = 'false'
-        item = None
+        check = 'true'
+        item = Produce.objects.get(plu=code)
+    transaction = Transaction.get_current()
+    line_item = transaction.create_line_item(item, 1)
 
     context_instance = { 'item': item, 'quantity': quantity, 'check_passed': check, 'transaction': transaction.get_totals(), 'line_item': line_item }
  

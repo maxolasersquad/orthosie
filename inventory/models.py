@@ -48,8 +48,8 @@ class Grocery(Item):
 class Produce(Item):
     plu = models.IntegerField(max_length=5, unique=True)
     variety = models.CharField(max_length=100)
-    size = models.CharField(max_length=30)
-    botanical = models.CharField(max_length=100)
+    size = models.CharField(max_length=30, null=True)
+    botanical = models.CharField(max_length=100, null=True)
 
 class Upc:
     def __init__(self, upc):

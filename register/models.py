@@ -99,12 +99,18 @@ class Transaction(models.Model):
 
     def create_line_item(self, item, quantity, scale=None):
         if self.finish_date == None:
+            try:
+                code = item.upc
+                description=item.vendor.name + ' ' + item.name
+            except AttributeError:
+                code = item.plu
+                description = (item.size + ' ' + item.name) if item.size else item.name
             return self.lineitem_set.create(\
                 item=item,\
                 quantity=quantity,\
-                upc=item.upc,\
+                code=code,\
                 scale=scale,\
-                description=item.vendor.name + ' ' + item.name,\
+                description=description,\
                 price=item.price\
             )
 
@@ -145,12 +151,12 @@ class Transaction(models.Model):
 
 class LineItem(models.Model):
     transaction = models.ForeignKey(Transaction)
-    upc = models.CharField(max_length=30)
+    code = models.CharField(max_length=30)
     quantity = models.DecimalField(max_digits=15, decimal_places=0)
     scale = models.DecimalField(max_digits=19, decimal_places=4, null=True)
     description = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=17, decimal_places=2)
-    item = models.ForeignKey('inventory.Grocery')
+    item = models.ForeignKey('inventory.Item')
     status = models.CharField(max_length=8, default='ACTIVE')
 
     def __unicode__(self):
