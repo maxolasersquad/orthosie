@@ -286,10 +286,24 @@ require(['jquery', 'bootstrap.min'], function($) {
       type: 'POST',
       dataType: 'json',
       success: function(data, status) {
-        location.reload();
+          $('#produce-list tr:last').find('input').val('');
+          $('#produce-list tr:last').before(
+            '<tr id="' + data.plu + '" class="inventory-row">' +
+              '<td id="' + data.plu + '_plu" class="inventory-plu form-control-static">' + data.plu + '</td>' +
+              '<td id="' + data.plu + '_name" class="form-control-static">' + data.name + '</td>' +
+              '<td id="' + data.plu + '_variety" class="form-control-static">' + data.variety + '</td>' +
+              '<td id="' + data.plu + '_size" class="form-control-static">' + data.size + '</td>' +
+              '<td id="' + data.plu + '_botanical" class="form-control-static">' + data.botanical + '</td>' +
+              '<td id="' + data.plu + '_price " class="form-control-static">' + data.price + '</td>' +
+              '<td id="' + data.upc + '_scalable" class="inventory-scalable" data-upc="' + data.upc + '</td>' +
+              '<td id="' + data.upc + '_taxable" class="inventory-taxable" data-upc="' + data.upc + '</td>' +
+              '<td id="' + data.upc + '_scalable" class="inventory-scalable" data-upc="' + data.upc + '">' + (!data.scalable?'Non-':'') + 'Scalable</td>' +
+              '<td id="' + data.upc + '_taxable" class="inventory-taxable" data-upc="' + data.upc + '">' + (!data.taxable?'Non-':'') + 'Taxable</td>' +
+            '</tr>'
+          );
       },
       error: function(xhr, text, error) {
-        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
+        //alert('There was an error processing the request.' + '\n' + text + '\n' + error);
       }
     });
   }

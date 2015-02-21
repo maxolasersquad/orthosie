@@ -36,7 +36,7 @@ def update_grocery(request):
 
     context_instance = { 'item': item }
 
-    return render(request, 'inventory/update_inventory.json', context_instance, content_type="application/json")
+    return render(request, 'inventory/update_grocery.json', context_instance, content_type="application/json")
 
 def create_grocery(request):
     item = Grocery(upc=request.POST['upc'])
@@ -64,7 +64,7 @@ def create_grocery(request):
     item.save()
 
     context_instance = {'item' : item }
-    return render(request, 'inventory/update_inventory.json', context_instance, content_type="application/json")
+    return render(request, 'inventory/update_grocery.json', context_instance, content_type="application/json")
 
 def update_produce(request):
     item = Produce(plu=request.POST['plu'])
@@ -94,4 +94,4 @@ def create_produce(request):
     item.save()
 
     context_instance = {'item' : item }
-    return render(request, 'inventory/update_inventory.json', context_instance, content_type="application/json")
+    return render(request, 'inventory/update_produce.json', context_instance, content_type="application/json")

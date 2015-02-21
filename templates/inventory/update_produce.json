@@ -1,0 +1,11 @@
+{
+  "plu": "{{ item.plu }}",
+  "variety": "{{ item.variety }}",
+  "size": "{{ item.size }}",
+  "botanical": "{{ item.botanical }}",
+  "name": "{{ item.name }}",
+  "price": {{ item.price }},
+  "scalable": {% if item.scalable %}true{% else %}false{% endif %},
+  "taxable": {% if item.taxable %}true{% else %}false{% endif %},
+  "vendor_name": "{{ item.vendor.name }}"
+}
