@@ -23,6 +23,7 @@ from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from orthosie.serializers import ItemSerializer, VendorSerializer, ShiftSerializer, TransactionSerializer, LineItemSerializer
 
+
 @api_view(['GET'])
 def api_root(request, format=None):
     """
@@ -36,12 +37,14 @@ def api_root(request, format=None):
         'lineitem': reverse('lineitem-list', request=request),
     })
 
+
 class ItemList(generics.ListCreateAPIView):
     """
     API endpoint that represents a list of items.
     """
     model = Item
     serializer_class = ItemSerializer
+
 
 class ItemDetail(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -50,12 +53,14 @@ class ItemDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Item
     serializer_class = ItemSerializer
 
+
 class VendorList(generics.ListCreateAPIView):
     """
     API endpoint that represents a list of vendors.
     """
     model = Vendor
     serializer_class = VendorSerializer
+
 
 class VendorDetail(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -64,12 +69,14 @@ class VendorDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Vendor
     serializer_class = VendorSerializer
 
+
 class ShiftList(generics.ListCreateAPIView):
     """
     API endpoint that represents a list of shift.
     """
     model = Shift
     serializer_class = ShiftSerializer
+
 
 class ShiftDetail(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -78,12 +85,14 @@ class ShiftDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Shift
     serializer_class = ShiftSerializer
 
+
 class TransactionList(generics.ListCreateAPIView):
     """
     API endpoint that represents a list of transaction.
     """
     model = Transaction
     serializer_class = TransactionSerializer
+
 
 class TransactionDetail(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -92,12 +101,14 @@ class TransactionDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Transaction
     serializer_class = TransactionSerializer
 
+
 class LineItemList(generics.ListCreateAPIView):
     """
     API endpoint that represents a list of line items.
     """
     model = LineItem
     serializer_class = LineItemSerializer
+
 
 class LineItemDetail(generics.RetrieveUpdateDestroyAPIView):
     """

@@ -13,18 +13,33 @@ urlpatterns = patterns('',
     url(r'^items/$', ItemList.as_view(), name='item-list'),
     url(r'^items/(?P<pk>\d+)/$', ItemDetail.as_view(), name='item-detail'),
     url(r'^vendors/$', VendorList.as_view(), name='vendor-list'),
-    url(r'^vendors/(?P<pk>\d+)/$', VendorDetail.as_view(), name='vendor-detail'),
+    url(
+        r'^vendors/(?P<pk>\d+)/$',
+        VendorDetail.as_view(),
+        name='vendor-detail'
+    ),
     url(r'^shifts/$', ShiftList.as_view(), name='shift-list'),
     url(r'^shifts/(?P<pk>\d+)/$', ShiftDetail.as_view(), name='shift-detail'),
     url(r'^transactions/$', TransactionList.as_view(), name='transaction-list'),
-    url(r'^transactions/(?P<pk>\d+)/$', TransactionDetail.as_view(), name='transaction-detail'),
+    url(
+        r'^transactions/(?P<pk>\d+)/$',
+        TransactionDetail.as_view(),
+        name='transaction-detail'
+    ),
     url(r'^line_items/$', LineItemList.as_view(), name='lineitem-list'),
-    url(r'^line_items/(?P<pk>\d+)/$', LineItemDetail.as_view(), name='lineitem-detail'),
+    url(
+        r'^line_items/(?P<pk>\d+)/$',
+        LineItemDetail.as_view(),
+        name='lineitem-detail'
+    ),
 
 )
 
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])
 
 urlpatterns += patterns('',
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(
+        r'^api-auth/',
+        include('rest_framework.urls', namespace='rest_framework')
+    )
 )
