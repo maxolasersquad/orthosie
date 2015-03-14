@@ -67,7 +67,33 @@ def create_grocery(request):
     return render(request, 'inventory/update_grocery.json', context_instance, content_type="application/json")
 
 def update_produce(request):
-    item = Produce(plu=request.POST['plu'])
+    item = Produce.objects.get(plu=request.POST['plu'])
+
+    if 'price' in request.POST:
+        item.price = request.POST['price']
+    if 'name' in request.POST:
+        item.name = request.POST['name']
+    if 'scalable' in request.POST:
+        if request.POST['scalable'] == 'true':
+            item.scalable = True
+        else:
+            item.scalable = False
+    if 'taxable' in request.POST:
+        if request.POST['taxable'] == 'true':
+            item.taxable = True
+        else:
+            item.taxable = False
+    if 'variety' in request.POST:
+        item.variety = request.POST['variety']
+    if 'size' in request.POST:
+        item.size = request.POST['size']
+    if 'botanical' in request.POST:
+        item.botanical = request.POST['botanical']
+    item.save()
+
+    context_instance = { 'item': item }
+
+    return render(request, 'inventory/update_produce.json', context_instance, content_type="application/json")
 
 def create_produce(request):
     item = Produce(plu=request.POST['plu'])
