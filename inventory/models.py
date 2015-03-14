@@ -17,6 +17,7 @@
 
 from django.db import models
 
+
 class Vendor(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
@@ -28,6 +29,7 @@ class Vendor(models.Model):
 
     class Meta:
         ordering = ['name']
+
 
 class Item(models.Model):
     name = models.CharField(max_length=30)
@@ -41,15 +43,18 @@ class Item(models.Model):
     class Meta:
         ordering = ['name']
 
+
 class Grocery(Item):
     upc = models.CharField(max_length=30, unique=True)
     vendor = models.ForeignKey(Vendor, default=None, blank=True, null=True)
+
 
 class Produce(Item):
     plu = models.IntegerField(max_length=5, unique=True)
     variety = models.CharField(max_length=100)
     size = models.CharField(max_length=30, null=True)
     botanical = models.CharField(max_length=100, null=True)
+
 
 class Upc:
     def __init__(self, upc):

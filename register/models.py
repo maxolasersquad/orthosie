@@ -22,6 +22,7 @@ from decimal import Decimal
 import time
 from django.core.exceptions import ObjectDoesNotExist
 
+
 class Shift(models.Model):
     begin_date = models.DateTimeField(auto_now=True)
     finish_date = models.DateTimeField(null=True)
@@ -30,20 +31,20 @@ class Shift(models.Model):
         return str(self.begin_date) + ' to ' + str(self.finish_date)
 
     def end_shift(self):
-        if self.finish_date == None:
+        if self.finish_date is None:
             self.print_z_report()
             self.finish_date = timezone.now()
             self.save()
-            return 
+            return
 
     def create_transaction(self):
-        if self.finish_date == None:
+        if self.finish_date is None:
             return self.transaction_set.create(begin_date=timezone.now())
 
     @staticmethod
     def get_current():
         try:
-            current_shift = Shift.objects.get(finish_date = None)
+            current_shift = Shift.objects.get(finish_date=None)
         except ObjectDoesNotExist:
             current_shift = Shift()
             current_shift.save()
@@ -70,6 +71,7 @@ class Shift(models.Model):
     class Meta:
         ordering = ['begin_date']
 
+
 class Transaction(models.Model):
     shift = models.ForeignKey(Shift)
     begin_date = models.DateTimeField()
@@ -80,7 +82,7 @@ class Transaction(models.Model):
         return str(self.begin_date) + ' to ' + str(self.finish_date)
 
     def end_transaction(self):
-        if self.finish_date == None:
+        if self.finish_date is None:
             self.print_receipt()
             self.finish_date = timezone.now()
             self.save()
@@ -88,7 +90,7 @@ class Transaction(models.Model):
     @staticmethod
     def get_current():
         try:
-            current_transaction = Transaction.objects.get(finish_date = None)
+            current_transaction = Transaction.objects.get(finish_date=None)
         except ObjectDoesNotExist:
             current_transaction = Shift.get_current().create_transaction()
         return current_transaction
@@ -98,27 +100,28 @@ class Transaction(models.Model):
         r.print()
 
     def create_line_item(self, item, quantity, scale=None):
-        if self.finish_date == None:
+        if self.finish_date is None:
             try:
                 code = item.upc
-                description=item.vendor.name + ' ' + item.name
+                description = item.vendor.name + ' ' + item.name
             except AttributeError:
                 code = item.plu
-                description = (item.size + ' ' + item.name) if item.size else item.name
-            return self.lineitem_set.create(\
-                item=item,\
-                quantity=quantity,\
-                code=code,\
-                scale=scale,\
-                description=description,\
-                price=item.price\
+                description = (item.size + ' ' + item.name) if item.size\
+                    else item.name
+            return self.lineitem_set.create(
+                item=item,
+                quantity=quantity,
+                code=code,
+                scale=scale,
+                description=description,
+                price=item.price
             )
 
     def create_tender(self, amount, type):
         if type in ('CASH', 'CHECK', 'CREDIT', 'EBT'):
-            tender = self.tender_set.create(\
-                amount=amount,\
-                type=type\
+            tender = self.tender_set.create(
+                amount=amount,
+                type=type
             )
             if self.get_totals().total <= 0:
                 self.end_transaction()
@@ -149,6 +152,7 @@ class Transaction(models.Model):
     class Meta:
         ordering = ['begin_date']
 
+
 class LineItem(models.Model):
     transaction = models.ForeignKey(Transaction)
     code = models.CharField(max_length=30)
@@ -160,7 +164,8 @@ class LineItem(models.Model):
     status = models.CharField(max_length=8, default='ACTIVE')
 
     def __unicode__(self):
-        return str(self.scale) + ' x ' + self.description + ' ' + self.description
+        return str(self.scale) + ' x ' + self.description + ' ' +\
+        self.description
 
     def total(self):
         return self.price * self.quantity
@@ -168,10 +173,12 @@ class LineItem(models.Model):
     def cancel(self):
         self.status = 'INACTIVE'
 
+
 class Tender(models.Model):
     transaction = models.ForeignKey(Transaction)
     amount = models.DecimalField(max_digits=17, decimal_places=2)
     type = models.CharField(max_length=30)
+
 
 class TransactionTotal():
     def __init__(self, sub_total, tax_total, paid_total):
@@ -180,12 +187,14 @@ class TransactionTotal():
         self.paid_total = paid_total
         self.total = sub_total + tax_total - paid_total
 
+
 class ShiftTotal():
     def __init__(self, sub_total, tax_total, total, transaction_count):
         self.sub_total = sub_total
         self.tax_total = tax_total
         self.total = total
         self.transaction_count = transaction_count
+
 
 class Receipt():
     def __init__(self, transaction, lines=None):
@@ -206,7 +215,9 @@ class Receipt():
 
     def print_header(self):
         self.printer.print_line('\n'.join(settings.RECEIPT_HEADER))
-        self.printer.print_line(time.strftime('%Y-%m-%d %H:%M:%S') + '\n' + '\n')
+        self.printer.print_line(
+            time.strftime('%Y-%m-%d %H:%M:%S') + '\n' + '\n'
+        )
 
     def print_footer(self):
         self.printer.print_line('\n'.join(settings.RECEIPT_FOOTER))
@@ -214,12 +225,25 @@ class Receipt():
     def print_body(self):
         trans_totals = self.transaction.get_totals()
         for line_item in self.transaction.lineitem_set.all():
-            self.printer.print_line(str(line_item.quantity).ljust(4) + line_item.description.ljust(38)[:38] + "{:13,.2f}".format(line_item.price) + (line_item.item.taxable and 'T' or ' ') + '\n')
+            self.printer.print_line(
+                str(line_item.quantity).ljust(4) +
+                line_item.description.ljust(38)[:38] +
+                "{:13,.2f}".format(line_item.price) +
+                (line_item.item.taxable and 'T' or ' ') + '\n'
+            )
         self.printer.print_line('\n')
-        self.printer.print_line('SubTotal: ' + "{:16,.2f}".format(trans_totals.sub_total) + ' Tax: ' + "{:23,.2f}".format(trans_totals.tax_total) + '\n')
-        self.printer.print_line('Total: ' + "{:19,.2f}".format(trans_totals.sub_total + trans_totals.tax_total) + ' Change: ' + "{:20,.2f}".format(trans_totals.total) + '\n\n')
+        self.printer.print_line(
+            'SubTotal: ' + "{:16,.2f}".format(trans_totals.sub_total) +
+            ' Tax: ' + "{:23,.2f}".format(trans_totals.tax_total) + '\n'
+        )
+        self.printer.print_line(
+            'Total: ' + "{:19,.2f}".format(trans_totals.sub_total +
+            trans_totals.tax_total) + ' Change: ' +
+            "{:20,.2f}".format(trans_totals.total) + '\n\n'
+        )
 
-class ZReport(): 
+
+class ZReport():
     def __init__(self, shift):
         self.shift = shift
         self.printer = Printer(settings.PRINTER)
@@ -227,13 +251,16 @@ class ZReport():
 
     def print(self):
         totals = self.shift.get_totals()
-        self.printer.print_line('Transactions: ' + str(totals.transaction_count) + '\n')
+        self.printer.print_line(
+            'Transactions: ' + str(totals.transaction_count) + '\n'
+        )
         self.printer.print_line('SubTotal:     ' + str(totals.sub_total) + '\n')
         self.printer.print_line('TaxTotal:     ' + str(totals.tax_total) + '\n')
         self.printer.print_line('Total:        ' + str(totals.total) + '\n')
         self.printer.kick_drawer()
         self.printer.cut()
         self.printer.close()
+
 
 class Printer():
     def __init__(self, spool):
@@ -254,4 +281,6 @@ class Printer():
         self._printer.write(chr(27) + chr(105) + chr(10))
 
     def kick_drawer(self):
-        self._printer.write(chr(27) + chr(112) + chr(0) + chr(48) + '0' + chr(10))
+        self._printer.write(
+            chr(27) + chr(112) + chr(0) + chr(48) + '0' + chr(10)
+        )
