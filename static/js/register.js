@@ -1,12 +1,5 @@
-require.config({
-  paths: {
-    configjs: '/static/js/config'
-  }
-});
-
-require(['jquery', 'configjs'], function($) {
-  require(['bootstrap.min'], function() {
-
+require(['./config'], function (config) {
+  require(['jquery', 'bootstrap.min'], function($) {
     var input_mode = 'upc';
 
     document.ready = function () {
@@ -149,7 +142,7 @@ require(['jquery', 'configjs'], function($) {
             disable_product_search();
           });
       });
-    };
+    }
 
     function void_line(id) {
       post_args = {
@@ -167,7 +160,7 @@ require(['jquery', 'configjs'], function($) {
           update_totals();
         }
       });
-    };
+    }
 
     function update_totals() {
       $.ajax({
@@ -179,7 +172,7 @@ require(['jquery', 'configjs'], function($) {
           $('#paid_total_value').html('$' + data.paidtotal);
           $('#total_value').html('$' + data.total);
         }
-      })
+      });
     }
 
     function set_inputtype(type) {
