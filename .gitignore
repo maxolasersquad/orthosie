@@ -1,3 +1,4 @@
 *.pyc
 orthosie/orthosie.db
 *.nja
+*.swp
