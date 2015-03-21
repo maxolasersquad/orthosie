@@ -59,11 +59,14 @@ def end_shift(request):
 
 def product_search(request):
     search = request.GET['search']
-    results =\
-        Item.objects.filter(name__contains=search) |\
-        Item.objects.filter(price__contains=search) |\
-        Item.objects.filter(vendor__name__contains=search).order_by('name')
-    context_instance = {'search': search, 'results': results}
+    grocery_results =\
+        Grocery.objects.filter(name__contains=search) |\
+        Grocery.objects.filter(price__contains=search) |\
+        Grocery.objects.filter(vendor__name__contains=search).order_by('name')
+    produce_results =\
+        Produce.objects.filter(name__contains=search) |\
+        Produce.objects.filter(price__contains=search)
+    context_instance = {'search': search, 'grocery_results': grocery_results, 'produce_results': produce_results}
     return render(request, 'register/product_search.html', context_instance)
 
 

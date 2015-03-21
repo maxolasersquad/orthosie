@@ -133,9 +133,14 @@ require(['./config'], function (config) {
       $('#product_search').load('/register/product_search/?search=' + search + '&csrfmiddlewaretoken=' + $('#csrf_token>input').attr('value'), function() {
           $('#transactions').addClass('hidden');
           $('#product_search').removeClass('hidden');
-          $('.search-result').each(function() {
+          $('.grocery-search-result').each(function() {
             $(this).click(function() {
               select_item($(this).data('upc'));
+            });
+          });
+          $('.produce-search-result').each(function() {
+            $(this).click(function() {
+              select_item($(this).data('plu'));
             });
           });
           $('#cancel-search').click(function() {
@@ -219,7 +224,11 @@ require(['./config'], function (config) {
 
     function select_item(item) {
       set_inputtype('upc');
-      $('#register_input').html(item.toString() + get_upc_check_digit(item));
+      if (item.toString().length == 11) {
+          $('#register_input').html(item.toString() + get_upc_check_digit(item));
+      } else {
+          $('#register_input').html(item.toString());
+      }
       disable_product_search();
     }
 

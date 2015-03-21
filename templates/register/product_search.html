@@ -19,15 +19,24 @@
 <table class="table table-striped table-hover table-condensed table-responsive">
   <thead>
     <tr>
-      <th>UPC</th>
+      <th>Code</th>
       <th>Name</th>
       <th>Scalable</th>
       <th>Price</th>
   </thead>
   <tbody>
-{% for item in results %}
-    <tr class="search-result" data-upc="{{ item.upc }}">
+
+{% for item in grocery_results %}
+    <tr class="grocery-search-result" data-upc="{{ item.upc }}">
       <td>{{ item.upc }}</td>
+      <td>{{ item.vendor.name}} {{ item.name }}</td>
+      <td>{{ item.scalable }}</td>
+      <td>{{ item.price }}</td>
+    </tr>
+{% endfor %}
+{% for item in produce_results %}
+    <tr class="produce-search-result" data-plu="{{ item.plu }}">
+      <td>{{ item.plu }}</td>
       <td>{{ item.vendor.name}} {{ item.name }}</td>
       <td>{{ item.scalable }}</td>
       <td>{{ item.price }}</td>
