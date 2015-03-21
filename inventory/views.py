@@ -1,15 +1,17 @@
-from django.shortcuts import render
-from inventory.models import *
+from django.shortcuts import render, get_object_or_404
+from inventory.models import Grocery, Produce, Vendor
 from django.core.exceptions import ObjectDoesNotExist
+
 
 def index(request):
     grocery = Grocery.objects.all()
     produce = Produce.objects.all()
-    context = { 'grocery_items': grocery, 'produce_items': produce }
+    context = {'grocery_items': grocery, 'produce_items': produce}
     return render(request, 'inventory/index.html', context)
 
+
 def update_grocery(request):
-    item = Grocery.objects.get(upc=request.POST['upc'])
+    item = get_object_or_404(Grocery, upc=request.POST['upc'])
 
     if 'price' in request.POST:
         item.price = request.POST['price']
@@ -27,16 +29,22 @@ def update_grocery(request):
             item.taxable = False
     if 'vendor' in request.POST:
         try:
-            vendor = Vendor.objects.get(name = request.POST['vendor'])
+            vendor = Vendor.objects.get(name=request.POST['vendor'])
         except ObjectDoesNotExist:
-            vendor = Vendor(name=request.POST['vendor'])
+            vendor = get_object_or_404(Vendor, name=request.POST['vendor'])
             vendor.save()
         item.vendor = vendor
     item.save()
 
-    context_instance = { 'item': item }
+    context_instance = {'item': item}
 
-    return render(request, 'inventory/update_grocery.json', context_instance, content_type="application/json")
+    return render(
+        request,
+        'inventory/update_grocery.json',
+        context_instance,
+        content_type="application/json"
+    )
+
 
 def create_grocery(request):
     item = Grocery(upc=request.POST['upc'])
@@ -56,18 +64,24 @@ def create_grocery(request):
             item.taxable = False
     if 'vendor' in request.POST:
         try:
-            vendor = Vendor.objects.get(name = request.POST['vendor'])
+            vendor = Vendor.objects.get(name=request.POST['vendor'])
         except ObjectDoesNotExist:
-            vendor = Vendor(name=request.POST['vendor'])
+            vendor = get_object_or_404(Vendor, request.POST['vendor'])
             vendor.save()
         item.vendor = vendor
     item.save()
 
-    context_instance = {'item' : item }
-    return render(request, 'inventory/update_grocery.json', context_instance, content_type="application/json")
+    context_instance = {'item': item}
+    return render(
+        request,
+        'inventory/update_grocery.json',
+        context_instance,
+        content_type="application/json"
+    )
+
 
 def update_produce(request):
-    item = Produce.objects.get(plu=request.POST['plu'])
+    item = get_object_or_404(Produce, plu=request.POST['plu'])
 
     if 'price' in request.POST:
         item.price = request.POST['price']
@@ -91,9 +105,15 @@ def update_produce(request):
         item.botanical = request.POST['botanical']
     item.save()
 
-    context_instance = { 'item': item }
+    context_instance = {'item': item}
 
-    return render(request, 'inventory/update_produce.json', context_instance, content_type="application/json")
+    return render(
+        request,
+        'inventory/update_produce.json',
+        context_instance,
+        content_type="application/json"
+    )
+
 
 def create_produce(request):
     item = Produce(plu=request.POST['plu'])
@@ -119,5 +139,10 @@ def create_produce(request):
             item.taxable = False
     item.save()
 
-    context_instance = {'item' : item }
-    return render(request, 'inventory/update_produce.json', context_instance, content_type="application/json")
+    context_instance = {'item': item}
+    return render(
+        request,
+        'inventory/update_produce.json',
+        context_instance,
+        content_type="application/json"
+    )
