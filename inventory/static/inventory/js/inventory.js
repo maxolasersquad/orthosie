@@ -1,5 +1,5 @@
-require(['./config'], function (config) {
-  require(['jquery', 'bootstrap.min'], function($) {
+require(['/static/js/config.js'], function (config) {
+  require(['jquery', 'bootstrap'], function($) {
 
     $('.vendor-name').click(function() {
       edit_vendor($(this).data('upc'));

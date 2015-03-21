@@ -1,5 +1,5 @@
-require(['./config'], function (config) {
-  require(['jquery', 'bootstrap.min'], function($) {
+require(['/static/js/config.js'], function (config) {
+  require(['jquery'], function($) {
     var input_mode = 'upc';
 
     document.ready = function () {
