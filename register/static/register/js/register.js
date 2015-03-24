@@ -116,6 +116,11 @@ require(['/static/js/config.js'], function (config) {
               $('#tax_total_value').html('$' + data.taxtotal);
               $('#paid_total_value').html('$' + data.paidtotal);
               $('#total_value').html('$' + data.total);
+              if (data.message !== '') {
+                div = document.createElement('div');
+                div.innerHTML = data.message;
+                alert(div.firstChild.nodeValue);
+              }
             },
             error: function(xhr, text, error) {
               alert('There was an error processing the request.');

@@ -83,9 +83,13 @@ class Transaction(models.Model):
 
     def end_transaction(self):
         if self.finish_date is None:
-            self.print_receipt()
-            self.finish_date = timezone.now()
-            self.save()
+            try:
+                self.print_receipt()
+            except PrinterNotFound:
+                raise
+            finally:
+                self.finish_date = timezone.now()
+                self.save()
 
     @staticmethod
     def get_current():
@@ -267,7 +271,12 @@ class Printer():
         self.spool = spool
 
     def open(self):
-        self._printer = open(self.spool, 'w')
+        try:
+            self._printer = open(self.spool, 'w')
+        except FileNotFoundError:
+            raise PrinterNotFound(
+                'Unable to locate printer "' + self.spool + '".'
+            )
 
     def close(self):
         self._printer.close()
@@ -284,3 +293,9 @@ class Printer():
         self._printer.write(
             chr(27) + chr(112) + chr(0) + chr(48) + '0' + chr(10)
         )
+
+class PrinterNotFound(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return self.value

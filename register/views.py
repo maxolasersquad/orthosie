@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from register.models import LineItem, Transaction, Shift
+from register.models import LineItem, Transaction, Shift, PrinterNotFound
 from inventory.models import Grocery, Produce, Upc
 from django.views.decorators.csrf import csrf_exempt
 
@@ -47,9 +47,16 @@ def process_upc(request):
 def tender_transaction(request):
     tender = request.POST['tender']
     transaction = get_object_or_404(Transaction, finish_date=None)
-    transaction.create_tender(float(tender) / 100, 'CASH')
+    message = ''
+    try:
+        transaction.create_tender(float(tender) / 100, 'CASH')
+    except PrinterNotFound as err:
+        message = err
 
-    context_instance = {'transaction': transaction.get_totals()}
+    context_instance = {
+        'transaction': transaction.get_totals(),
+        'message': message
+    }
     return render(
         request,
         'register/tender_transaction.json',
