@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from inventory.models import Grocery, Produce, Vendor
 from django.core.exceptions import ObjectDoesNotExist
+from inventory.models import Item, Grocery, Produce, Vendor
 
 
 def index(request):

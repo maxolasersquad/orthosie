@@ -169,7 +169,7 @@ class LineItem(models.Model):
 
     def __unicode__(self):
         return str(self.scale) + ' x ' + self.description + ' ' +\
-        self.description
+            self.description
 
     def total(self):
         return self.price * self.quantity

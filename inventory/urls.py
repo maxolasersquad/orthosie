@@ -1,7 +1,8 @@
 from django.conf.urls import patterns, url
 from inventory import views
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^$', views.index, name='index'),
     url(r'update_grocery', views.update_grocery, name='update_grocery'),
     url(r'create_grocery', views.create_grocery, name='create_grocery'),

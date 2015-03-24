@@ -1,43 +1,50 @@
+#    Copyright 2013 Jack David Baucum
+#
+#    This file is part of Orthosie.
+#
+#    Orthosie is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    Orthosie is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with Orthosie.  If not, see <http://www.gnu.org/licenses/>.
+
 from django.conf.urls import patterns, include, url
 from rest_framework.urlpatterns import format_suffix_patterns
-from orthosie.views import ItemList, ItemDetail, VendorList, VendorDetail, ShiftList, ShiftDetail, TransactionList, TransactionDetail, LineItemList, LineItemDetail
+from rest_framework import routers
+from inventory.api_views import ItemViewSet, GroceryViewSet, ProduceViewSet, VendorViewSet
+from register.api_views import ShiftViewSet, TransactionViewSet, LineItemViewSet
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^register/', include('register.urls')),
     url(r'^inventory/', include('inventory.urls')),
-    url(r'^$', 'api_root'),
-    url(r'^items/$', ItemList.as_view(), name='item-list'),
-    url(r'^items/(?P<pk>\d+)/$', ItemDetail.as_view(), name='item-detail'),
-    url(r'^vendors/$', VendorList.as_view(), name='vendor-list'),
-    url(
-        r'^vendors/(?P<pk>\d+)/$',
-        VendorDetail.as_view(),
-        name='vendor-detail'
-    ),
-    url(r'^shifts/$', ShiftList.as_view(), name='shift-list'),
-    url(r'^shifts/(?P<pk>\d+)/$', ShiftDetail.as_view(), name='shift-detail'),
-    url(r'^transactions/$', TransactionList.as_view(), name='transaction-list'),
-    url(
-        r'^transactions/(?P<pk>\d+)/$',
-        TransactionDetail.as_view(),
-        name='transaction-detail'
-    ),
-    url(r'^line_items/$', LineItemList.as_view(), name='lineitem-list'),
-    url(
-        r'^line_items/(?P<pk>\d+)/$',
-        LineItemDetail.as_view(),
-        name='lineitem-detail'
-    ),
-
 )
 
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])
 
-urlpatterns += patterns('',
+router = routers.DefaultRouter()
+router.register(r'items', ItemViewSet)
+router.register(r'groceries', GroceryViewSet)
+router.register(r'produce', ProduceViewSet)
+router.register(r'vendors', VendorViewSet)
+router.register(r'shifts', ShiftViewSet)
+router.register(r'transactions', TransactionViewSet)
+router.register(r'line-items', LineItemViewSet)
+
+urlpatterns += patterns(
+    '',
+    url(r'^', include(router.urls)),
     url(
         r'^api-auth/',
         include('rest_framework.urls', namespace='rest_framework')
