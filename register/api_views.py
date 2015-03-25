@@ -15,11 +15,13 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Orthosie.  If not, see <http://www.gnu.org/licenses/>.
 
-from rest_framework import viewsets, generics
-from rest_framework.decorators import api_view
+from django.shortcuts import get_object_or_404
+from rest_framework import generics, renderers, status, viewsets
+from rest_framework.decorators import api_view, detail_route, list_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from register.models import Shift, Transaction, LineItem
+from inventory.models import Grocery, Produce
 from register.serializers import ShiftSerializer, TransactionSerializer
 from register.serializers import LineItemSerializer
 
@@ -50,6 +52,48 @@ class TransactionViewSet(viewsets.ModelViewSet):
     """
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
+
+    @detail_route(
+        methods=['post', 'get'],
+        renderer_classes=[renderers.StaticHTMLRenderer]
+    )
+    def ring_upc(self, request, *args, **kwargs):
+        upc = request.GET['upc']
+        quantity = request.GET['quantity']
+        if len(upc) != 12:
+            return Response('Invalid UPC',  status=status.HTTP_400_BAD_REQUEST)
+        grocery = get_object_or_404(Grocery, upc=upc)
+        transaction = self.get_object()
+        line_item = transaction.create_line_item(grocery, 1)
+        return Response({'success': True})
+
+    @detail_route(
+        methods=['post'],
+        renderer_classes=[renderers.StaticHTMLRenderer]
+    )
+    def ring_plu(self, request, *args, **kwargs):
+        plu = request.GET['plu']
+        quantity = request.GET['quantity']
+        if 4 <= len(plu) <= 5:
+            return Response('Invalid PLU',  status=status.HTTP_400_BAD_REQUEST)
+        produce = get_object_or_404(Produce, plu=plu)
+        transaction = self.get_object()
+        line_item = transaction.create_line_item(produce, 1)
+        return Response({'success': True})
+
+    @detail_route(
+        methods=['post'],
+        renderer_classes=[renderers.StaticHTMLRenderer]
+    )
+    def get_totals(self, request, *args, **kwargs):
+        transaction = self.get_object
+        return Response({'success': true})
+
+    @list_route()
+    def get_current(self, request, *args, **kwargs):
+        transaction = Transaction.get_current()
+        serializer = self.get_serializer(transaction)
+        return Response(serializer.data)
 
 
 class LineItemViewSet(viewsets.ModelViewSet):

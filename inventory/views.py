@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-from inventory.models import Item, Grocery, Produce, Vendor
+from inventory.models import Grocery, Produce, Vendor
 
 
 def index(request):
@@ -66,7 +66,7 @@ def create_grocery(request):
         try:
             vendor = Vendor.objects.get(name=request.POST['vendor'])
         except ObjectDoesNotExist:
-            vendor = get_object_or_404(Vendor, request.POST['vendor'])
+            vendor = Vendor(name=request.POST['vendor'])
             vendor.save()
         item.vendor = vendor
     item.save()

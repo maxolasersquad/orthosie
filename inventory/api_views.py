@@ -15,7 +15,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Orthosie.  If not, see <http://www.gnu.org/licenses/>.
 
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, renderers
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
