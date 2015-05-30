@@ -31,26 +31,26 @@ Orthosie should work on any operating system and any hardware that can run pytho
 
 Install
 =======
-These instructions are for debian-based versions of GNU/Linux.
+These instructions are for debian-based versions of GNU/Linux. It is recommended that you use virtualenvwrapper to segment the orthosie libraries from the rest of your python environment.
 
-Require Packages
-----------------
+Required Packages
+-----------------
     sudo apt-get install python3 python3-setuptools git 
 
-Django
-------
-    wget https://www.djangoproject.com/m/releases/1.6/Django-1.6.tar.gz
-    tar xzvf Django-1.6.tar.gz
-    cd Django-1.6
-    sudo python3 setup.py install
+VirtualEnvWrapper
+-----------------
+    sudo pip3 install virtualenvwrapper
+    mkdir ~/.virtualenvs
+Add the following to your shell init script. e.g. ~/.bashrc or ~/.zshrc
 
-Django-REST-Framework
----------------------
-Orthosie uses Django REST Framework, which can be grabbed from http://django-rest-framework.org/
+    export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+    export WORKON_HOME=~/virtualenvs
+    mkvirtualenv orthosie
 
-    git clone https://github.com/tomchristie/django-rest-framework.git
-    cd django-rest-framework
-    sudo python3 setup.py install
+Pip Packages
+------------
+    pip install Django==1.8.2
+    pip install djangorestframework
 
 Orthosie
 --------
