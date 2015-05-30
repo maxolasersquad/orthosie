@@ -50,7 +50,7 @@ class Grocery(Item):
 
 
 class Produce(Item):
-    plu = models.IntegerField(max_length=5, unique=True)
+    plu = models.IntegerField(unique=True)
     variety = models.CharField(max_length=100)
     size = models.CharField(max_length=30, null=True)
     botanical = models.CharField(max_length=100, null=True)
