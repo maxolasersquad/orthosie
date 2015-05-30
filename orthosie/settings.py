@@ -1,5 +1,7 @@
 import os
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 # Django settings for orthosie project.
 
 DEBUG = True
@@ -14,7 +16,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(os.path.dirname(__file__), 'orthosie.db').replace('\\','/'),
+        'NAME': os.path.join(BASE_DIR, 'orthosie/orthosie.db'),
         'USER': '',
         'PASSWORD': '',
         'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
@@ -157,9 +159,16 @@ LOGGING = {
     }
 }
 
-TAX = .07
-PRINTER = ''
+TAX = .075
+PRINTER = '/dev/null'
 RECEIPT_HEADER = ['Header 1', 'Header 2']
 RECEIPT_FOOTER = ['Footer 1', 'Footer 2']
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
