@@ -40,11 +40,14 @@ Required Packages
 VirtualEnvWrapper
 -----------------
     sudo pip3 install virtualenvwrapper
-    mkdir ~/.virtualenvs
+    mkdir ~/virtualenvs
 Add the following to your shell init script. e.g. ~/.bashrc or ~/.zshrc
 
     export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
     export WORKON_HOME=~/virtualenvs
+
+Create a virtual environment for Orthosie.
+
     mkvirtualenv orthosie
 
 Pip Packages
