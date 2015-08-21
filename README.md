@@ -23,11 +23,11 @@ Orthosie is licensed under the GPLv3. The details of this license can be viewed 
 About
 =====
 Orthosie is a point of sale system written in Python using the Django framework.
-Orthosie supports Python 3 and Django 1.6.
+Orthosie supports Python 3 and Django 1.8.
 
 Supported Systems
 =================
-Orthosie should work on any operating system and any hardware that can run python3 and the Django 1.6. It is only tested to work with Chrome/Chromium and Midori web browsers. Patches and pull requests to fix bugs in any other browsers are always welcome as long as they don't add any undo clutter to the codebase.
+Orthosie should work on any operating system and any hardware that can run python3 and the Django 1.8 framework. It is only tested to work with Chrome/Chromium and Midori web browsers. Patches and pull requests to fix bugs in any other browsers are always welcome as long as they don't add any undo clutter to the codebase.
 
 Install
 =======
@@ -52,8 +52,7 @@ Create a virtual environment for Orthosie.
 
 Pip Packages
 ------------
-    pip install Django==1.8.2
-    pip install djangorestframework
+    pip install -r requirements.txt
 
 Orthosie
 --------
