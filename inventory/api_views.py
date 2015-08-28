@@ -38,6 +38,7 @@ def api_root(request, format=None):
 
 
 class ItemViewSet(viewsets.ModelViewSet):
+
     """
     API endpoint that allows items to be viewed or edited.
     """
@@ -46,6 +47,7 @@ class ItemViewSet(viewsets.ModelViewSet):
 
 
 class GroceryViewSet(viewsets.ModelViewSet):
+
     """
     API endpoint that allows groceries to be viewed or edited.
     """
@@ -54,6 +56,7 @@ class GroceryViewSet(viewsets.ModelViewSet):
 
 
 class ProduceViewSet(viewsets.ModelViewSet):
+
     """
     API endpoint that allows produce to be viewed or edited.
     """
@@ -62,6 +65,7 @@ class ProduceViewSet(viewsets.ModelViewSet):
 
 
 class VendorViewSet(viewsets.ModelViewSet):
+
     """
     API endpoint that allows vendors to be viewed or edited.
     """

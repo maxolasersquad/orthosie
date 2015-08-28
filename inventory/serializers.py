@@ -20,24 +20,28 @@ from rest_framework import serializers
 
 
 class ItemSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Item
         depth = 1
 
 
 class GrocerySerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Grocery
         depth = 1
 
 
 class ProduceSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Produce
         depth = 1
 
 
 class VendorSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Vendor
         depth = 1

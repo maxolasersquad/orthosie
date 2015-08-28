@@ -20,15 +20,18 @@ from rest_framework import serializers
 
 
 class ShiftSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Shift
 
 
 class TransactionSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Transaction
 
 
 class LineItemSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = LineItem

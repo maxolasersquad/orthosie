@@ -57,6 +57,7 @@ class Produce(Item):
 
 
 class Upc:
+
     def __init__(self, upc):
         self.upc = upc
 

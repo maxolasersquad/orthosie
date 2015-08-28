@@ -24,20 +24,25 @@ from decimal import Decimal
 
 
 class ShiftTest(TestCase):
+
     def setUp(self):
         self.shift = Shift(begin_date=timezone.now())
         self.shift.save()
+
     def test_end_shift(self):
         self.shift.end_shift()
         self.assertIsNotNone(self.shift.finish_date)
+
     def test_cannot_end_ended_shift(self):
         self.shift.end_shift()
         finish_date = self.shift.finish_date
         self.shift.end_shift()
         self.assertEqual(self.shift.finish_date, finish_date)
+
     def test_create_transaction(self):
         transaction = self.shift.create_transaction()
         self.assertIsNotNone(transaction)
+
     def test_cannot_create_transaction_on_ended_shift(self):
         transaction = self.shift.create_transaction()
         self.shift.end_shift()
@@ -46,6 +51,7 @@ class ShiftTest(TestCase):
 
 
 class TransactionTest(TestCase):
+
     def setUp(self):
         self.shift = Shift(begin_date=timezone.now())
         self.shift.save()
@@ -134,7 +140,9 @@ class TransactionTest(TestCase):
         self.transaction.cancel()
         self.assertIsNotNone(self.transaction.finish_date)
 
+
 class LineItemTest(TestCase):
+
     def setUp(self):
         self.shift = Shift(begin_date=timezone.now())
         self.shift.save()

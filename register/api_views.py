@@ -39,6 +39,7 @@ def api_root(request, format=None):
 
 
 class ShiftViewSet(viewsets.ModelViewSet):
+
     """
     API endpoint that allows shifts to be viewed or edited.
     """
@@ -47,6 +48,7 @@ class ShiftViewSet(viewsets.ModelViewSet):
 
 
 class TransactionViewSet(viewsets.ModelViewSet):
+
     """
     API endpoint that allows transactions to be viewed or edited.
     """
@@ -61,7 +63,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
         upc = request.GET['upc']
         quantity = request.GET['quantity']
         if len(upc) != 12:
-            return Response('Invalid UPC',  status=status.HTTP_400_BAD_REQUEST)
+            return Response('Invalid UPC', status=status.HTTP_400_BAD_REQUEST)
         grocery = get_object_or_404(Grocery, upc=upc)
         transaction = self.get_object()
         line_item = transaction.create_line_item(grocery, 1)
@@ -75,7 +77,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
         plu = request.GET['plu']
         quantity = request.GET['quantity']
         if 4 <= len(plu) <= 5:
-            return Response('Invalid PLU',  status=status.HTTP_400_BAD_REQUEST)
+            return Response('Invalid PLU', status=status.HTTP_400_BAD_REQUEST)
         produce = get_object_or_404(Produce, plu=plu)
         transaction = self.get_object()
         line_item = transaction.create_line_item(produce, 1)
@@ -97,6 +99,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
 
 
 class LineItemViewSet(viewsets.ModelViewSet):
+
     """
     API endpoint that allows line items to be viewed or edited.
     """

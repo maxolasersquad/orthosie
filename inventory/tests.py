@@ -23,6 +23,7 @@ from inventory.models import Produce
 
 
 class VendorTest(TestCase):
+
     def setUp(self):
         self.vendor = Vendor(name='Brand X')
 
@@ -31,6 +32,7 @@ class VendorTest(TestCase):
 
 
 class GroceryTest(TestCase):
+
     def setUp(self):
         self.vendor = Vendor(name='Brand X')
         self.grocery = Grocery(
@@ -50,6 +52,7 @@ class GroceryTest(TestCase):
 
 
 class ProduceTest(TestCase):
+
     def setUp(self):
         self.produce = Produce(
             name='Kumquat',
@@ -59,6 +62,7 @@ class ProduceTest(TestCase):
 
 
 class UpcTest(TestCase):
+
     def test_verify_correct_check_digit(self):
         self.test_upc = Upc('008274000061')
         self.assertEqual(self.test_upc.get_check_digit(), 1)
