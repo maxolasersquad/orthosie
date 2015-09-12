@@ -7,10 +7,10 @@ from django.views.decorators.csrf import csrf_exempt
 def index(request):
     current_transaction = Transaction.get_current()
     line_items = current_transaction.lineitem_set.all()
-    transaction_total = current_transaction.get_totals()
     context = {
+        'transaction': Transaction.get_current(),
         'line_items': line_items,
-        'transaction_total': transaction_total
+        'transaction_total': current_transaction.get_totals()
     }
     return render(request, 'register/index.html', context)
 

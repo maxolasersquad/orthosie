@@ -76,7 +76,7 @@
 
 #totals {
   position: fixed;
-  bottom: 0px;
+  bottom: 0;
 }
 
 .total_header {

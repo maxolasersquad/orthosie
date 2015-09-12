@@ -16,7 +16,7 @@
 #    along with Orthosie.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.shortcuts import get_object_or_404
-from rest_framework import generics, renderers, status, viewsets
+from rest_framework import renderers, status, viewsets
 from rest_framework.decorators import api_view, detail_route, list_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -56,18 +56,18 @@ class TransactionViewSet(viewsets.ModelViewSet):
     serializer_class = TransactionSerializer
 
     @detail_route(
-        methods=['post', 'get'],
-        renderer_classes=[renderers.StaticHTMLRenderer]
+        methods=['post']
     )
     def ring_upc(self, request, *args, **kwargs):
-        upc = request.GET['upc']
-        quantity = request.GET['quantity']
+        upc = request.POST['upc']
+        quantity = request.POST['quantity']
         if len(upc) != 12:
             return Response('Invalid UPC', status=status.HTTP_400_BAD_REQUEST)
         grocery = get_object_or_404(Grocery, upc=upc)
         transaction = self.get_object()
-        line_item = transaction.create_line_item(grocery, 1)
-        return Response({'success': True})
+        line_item = transaction.create_line_item(grocery, quantity)
+        serializer = LineItemSerializer(line_item, context={'request': request, 'format': self.format_kwarg, 'view': LineItemViewSet})
+        return Response(serializer.data)
 
     @detail_route(
         methods=['post'],
@@ -80,7 +80,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
             return Response('Invalid PLU', status=status.HTTP_400_BAD_REQUEST)
         produce = get_object_or_404(Produce, plu=plu)
         transaction = self.get_object()
-        line_item = transaction.create_line_item(produce, 1)
+        line_item = transaction.create_line_item(produce, quantity)
         return Response({'success': True})
 
     @detail_route(
@@ -89,7 +89,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
     )
     def get_totals(self, request, *args, **kwargs):
         transaction = self.get_object
-        return Response({'success': true})
+        return Response({'success': True})
 
     @list_route()
     def get_current(self, request, *args, **kwargs):

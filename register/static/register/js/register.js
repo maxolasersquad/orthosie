@@ -79,23 +79,21 @@ require(['/static/js/config.js'], function () {
           };
           post_args[csrf_token_input.attr('name')] = csrf_token_input.attr('value');
           $.ajax({
-            url: '/register/process_upc/',
+            url: '/transactions/' + $('#input').data('transaction-id') + '/ring_upc/',
             data: post_args,
             type: 'POST',
             dataType: 'json',
-            success: function(data, status) {
-              if (data.success) {
-                if (transactions.data('status') == 'end') {
-                  transactions.find('table').find('tbody').html('');
-                  transactions.data('status', 'ring');
-                }
-                transactions.find('table').append('<tr id="line-' + data.id + '"><td>' + data.vendor + ' ' + data.name + '</td><td>' + data.quantity + ' @ $' + data.price + '</td><td><i class="fa fa-times text-danger void-line"></i></td></tr>').click(function() {void_line(data.id);});
-                update_totals();
-                transactions.scrollTop(transactions[0].scrollHeight);
+            success: function(data) {
+              if (transactions.data('status') == 'end') {
+                transactions.find('table').find('tbody').html('');
+                transactions.data('status', 'ring');
               }
-              else {
-                alert(data.error);
-              }
+              var parser = document.createElement('a');
+              parser.href = data.url;
+              var id = parser.pathname.match(/[0-9]+/);
+              transactions.find('table').append('<tr id="line-' + id + '"><td>' + data.description + '</td><td>' + data.quantity + ' @ $' + data.price + '</td><td><i class="fa fa-times text-danger void-line"></i></td></tr>').click(function() {void_line(data.id);});
+              update_totals();
+              transactions.scrollTop(transactions[0].scrollHeight);
             },
             error: function() {
               alert('There was an error processing the request.');
