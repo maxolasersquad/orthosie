@@ -19,7 +19,7 @@ from django.conf.urls import patterns, include, url
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework import routers
 from inventory.api_views import ItemViewSet, GroceryViewSet, ProduceViewSet, VendorViewSet
-from register.api_views import ShiftViewSet, TransactionViewSet, LineItemViewSet
+from register.api_views import ShiftViewSet, TransactionViewSet, LineItemViewSet, TenderViewSet
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -41,6 +41,7 @@ router.register(r'vendors', VendorViewSet)
 router.register(r'shifts', ShiftViewSet)
 router.register(r'transactions', TransactionViewSet)
 router.register(r'line-items', LineItemViewSet)
+router.register(r'tenders', TenderViewSet)
 
 urlpatterns += patterns(
     '',

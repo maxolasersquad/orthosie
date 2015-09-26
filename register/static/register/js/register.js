@@ -70,7 +70,8 @@ require(['/static/js/config.js'], function () {
     function submit() {
       var register_input = $('#register_input'),
         csrf_token_input = $('#csrf_token').find('input'),
-        transactions = $('#transactions');
+        transactions = $('#transactions'),
+        transaction_id = $('#input').data('transaction-id');
       switch (input_mode) {
         case 'upc':
           var post_args = {
@@ -79,25 +80,23 @@ require(['/static/js/config.js'], function () {
           };
           post_args[csrf_token_input.attr('name')] = csrf_token_input.attr('value');
           $.ajax({
-            url: '/transactions/' + $('#input').data('transaction-id') + '/ring_upc/',
+            url: '/transactions/' + transaction_id + '/ring_upc/',
             data: post_args,
             type: 'POST',
-            dataType: 'json',
-            success: function(data) {
-              if (transactions.data('status') == 'end') {
-                transactions.find('table').find('tbody').html('');
-                transactions.data('status', 'ring');
-              }
-              var parser = document.createElement('a');
-              parser.href = data.url;
-              var id = parser.pathname.match(/[0-9]+/);
-              transactions.find('table').append('<tr id="line-' + id + '"><td>' + data.description + '</td><td>' + data.quantity + ' @ $' + data.price + '</td><td><i class="fa fa-times text-danger void-line"></i></td></tr>').click(function() {void_line(data.id);});
-              update_totals();
-              transactions.scrollTop(transactions[0].scrollHeight);
-            },
-            error: function() {
-              alert('There was an error processing the request.');
+            dataType: 'json'
+          }).done(function(data){
+            if (transactions.data('status') == 'end') {
+              transactions.find('table').find('tbody').html('');
+              transactions.data('status', 'ring');
             }
+            var parser = document.createElement('a');
+            parser.href = data.url;
+            var id = parser.pathname.match(/[0-9]+/);
+            transactions.find('table').append('<tr id="line-' + id + '"><td>' + data.description + '</td><td>' + data.quantity + ' @ $' + data.price + '</td><td><i class="fa fa-times text-danger void-line"></i></td></tr>').click(function() {void_line(data.id);});
+            update_totals();
+            transactions.scrollTop(transactions[0].scrollHeight);
+          }).fail(function(){
+            alert('There was an error processing the request.');
           });
           break;
         case 'tender':
@@ -107,27 +106,25 @@ require(['/static/js/config.js'], function () {
           };
           post_args[csrf_token_input.attr('name')] = csrf_token_input.attr('value');
           $.ajax({
-            url: '/register/tender_transaction/',
+            url: '/transactions/' + transaction_id + '/tender_transaction/',
             data: post_args,
             type: 'POST',
-            dataType: 'json',
-            success: function(data) {
-              if (data.total <= 0) {
-                transactions.data('status', 'end');
-              }
-              $('#sub_total_value').html('$' + data.subtotal);
-              $('#tax_total_value').html('$' + data.taxtotal);
-              $('#paid_total_value').html('$' + data.paidtotal);
-              $('#total_value').html('$' + data.total);
-              if (data.message !== '') {
-                div = document.createElement('div');
-                div.innerHTML = data.message;
-                alert(div.firstChild.nodeValue);
-              }
-            },
-            error: function() {
-              alert('There was an error processing the request.');
+            dataType: 'json'
+          }).done(function(data){
+            if (data.total <= 0) {
+              transactions.data('status', 'end');
             }
+            $('#sub_total_value').html('$' + data.subtotal);
+            $('#tax_total_value').html('$' + data.taxtotal);
+            $('#paid_total_value').html('$' + data.paidtotal);
+            $('#total_value').html('$' + data.total);
+            if (data.message !== '') {
+              div = document.createElement('div');
+              div.innerHTML = data.message;
+              alert(div.firstChild.nodeValue);
+            }
+          }).fail(function(){
+            alert('There was an error processing the request.');
           });
           break;
         case 'product-search':
@@ -164,28 +161,26 @@ require(['/static/js/config.js'], function () {
         };
       post_args[csrf_token_input.attr('name')] = csrf_token_input.attr('value');
       $.ajax({
-        url: '/register/cancel_line/',
+        url: '/line-items/' + id + '/cancel/',
         data: post_args,
         type: 'POST',
-        dataType: 'json',
-        success: function() {
-          $('#line-' + id).addClass('danger');
-          $('#line-' + id + ' td:nth-child(3)').html('');
-          update_totals();
-        }
+        dataType: 'json'
+      }).done(function(){
+        $('#line-' + id).addClass('danger');
+        $('#line-' + id + ' td:nth-child(3)').html('');
+        update_totals();
       });
     }
 
     function update_totals() {
       $.ajax({
-        url: '/register/transaction_total',
+        url: '/transactions/' + $('#input').data('transaction-id') + '/get_totals/',
         dataType: 'json',
-        success: function(data) {
-          $('#sub_total_value').html('$' + data.subtotal);
-          $('#tax_total_value').html('$' + data.taxtotal);
-          $('#paid_total_value').html('$' + data.paidtotal);
-          $('#total_value').html('$' + data.total);
-        }
+      }).done(function(){
+        $('#sub_total_value').html('$' + data.sub_total);
+        $('#tax_total_value').html('$' + data.tax_total);
+        $('#paid_total_value').html('$' + data.paid_total);
+        $('#total_value').html('$' + data.total);
       });
     }
 
@@ -204,30 +199,28 @@ require(['/static/js/config.js'], function () {
 
     function end_shift() {
       $.ajax({
-        url: '/register/end_shift/',
-        dataType: 'json',
-        success: function() {
-          $('#confirm_endshift').find('div').modal('hide');
-        },
-        error: function() {
-          alert('An error was encountered while trying to end the shift.');
-        }
+        url: '/shifts/'+ $('#input').data('shift-id') + '/end/',
+        type: 'post',
+        dataType: 'json'
+      }).done(function(){
+        $('#confirm_endshift').find('div').modal('hide');
+      }).fail(function(){
+        alert('An error was encountered while trying to end the shift.');
       });
     }
 
     function cancel_transaction() {
       $.ajax({
-        url: '/register/cancel_transaction/',
-        dataType: 'json',
-        success: function() {
-          $('#confirm_cancel_transaction').find('div').modal('hide');
-          $('#transactions').data('status', 'end');
-          $('#transactions'.find('table').find('tbody').find('tr')).remove();
-          update_totals();
-        },
-        error: function() {
-          alert('An error was encountered while trying to cancel this transaction.');
-        }
+        url: '/transactions/' + $('#input').data('transaction-id') + '/cancel/',
+        type: 'post',
+        dataType: 'json'
+      }).done(function(){
+        $('#confirm_cancel_transaction').find('div').modal('hide');
+        $('#transactions').data('status', 'end');
+        $('#transactions'.find('table').find('tbody').find('tr')).remove();
+        update_totals();
+      }).fail(function(){
+        alert('An error was encountered while trying to cancel this transaction.');
       });
     }
 

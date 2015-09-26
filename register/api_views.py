@@ -20,10 +20,11 @@ from rest_framework import renderers, status, viewsets
 from rest_framework.decorators import api_view, detail_route, list_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from register.models import Shift, Transaction, LineItem
+
 from inventory.models import Grocery, Produce
+from register.models import Shift, Transaction, LineItem, PrinterNotFound, Tender
 from register.serializers import ShiftSerializer, TransactionSerializer
-from register.serializers import LineItemSerializer
+from register.serializers import LineItemSerializer, TenderSerializer
 
 
 @api_view(['GET'])
@@ -35,6 +36,7 @@ def api_root(request, format=None):
         'shift': reverse('shift-list', request=request),
         'transaction': reverse('transaction-list', request=request),
         'lineitem': reverse('lineitem-list', request=request),
+        'tender': reverse('tender-list', request=request)
     })
 
 
@@ -45,6 +47,16 @@ class ShiftViewSet(viewsets.ModelViewSet):
     """
     queryset = Shift.objects.all()
     serializer_class = ShiftSerializer
+
+    @detail_route(
+        methods=['post']
+    )
+    def end(self, request, *args, **kwargs):
+        shift = self.get_object()
+        serializer = self.get_serializer(shift)
+        if shift.finish_date is None:
+            shift.end_shift()
+        return Response(serializer.data)
 
 
 class TransactionViewSet(viewsets.ModelViewSet):
@@ -66,7 +78,9 @@ class TransactionViewSet(viewsets.ModelViewSet):
         grocery = get_object_or_404(Grocery, upc=upc)
         transaction = self.get_object()
         line_item = transaction.create_line_item(grocery, quantity)
-        serializer = LineItemSerializer(line_item, context={'request': request, 'format': self.format_kwarg, 'view': LineItemViewSet})
+        serializer = LineItemSerializer(line_item, context={'request': request,
+                                                            'format': self.format_kwarg,
+                                                            'view': LineItemViewSet})
         return Response(serializer.data)
 
     @detail_route(
@@ -97,6 +111,47 @@ class TransactionViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(transaction)
         return Response(serializer.data)
 
+    @detail_route(
+        methods=['post']
+    )
+    def tender_transaction(self, request, *args, **kwargs):
+        tender = request.POST['tender']
+        transaction = self.get_object()
+        try:
+            tender = transaction.create_tender(float(tender) / 100, 'CASH')
+        except PrinterNotFound as err:
+            return Response(err, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = TenderSerializer(tender,
+                                      context={'request': request, 'format': self.format_kwarg, 'view': TenderViewSet})
+        return Response(serializer.data)
+
+    @detail_route(
+        methods=['post']
+    )
+    def cancel(self, request, *args, **kwargs):
+        transaction = self.get_object()
+        transaction.cancel()
+        transaction.save()
+        serializer = self.get_serializer(transaction)
+        return Response(serializer.data)
+
+    @detail_route(
+        methods=['get']
+    )
+    def get_totals(self, request, *args, **kwargs):
+        transaction = self.get_object()
+        totals = transaction.get_totals()
+        return Response({
+            'sub_total': totals.sub_total,
+            'tax_total': totals.tax_total,
+            'paid_total': totals.paid_total,
+            'total': totals.total
+        })
+        # Ugh, not sure why this doesn't work
+        # serializer = TransactionTotalSerializer(totals, context={'format': self.format_kwarg})
+        # return Response(serializer.data)
+
 
 class LineItemViewSet(viewsets.ModelViewSet):
 
@@ -105,3 +160,22 @@ class LineItemViewSet(viewsets.ModelViewSet):
     """
     queryset = LineItem.objects.all()
     serializer_class = LineItemSerializer
+
+    @detail_route(
+        methods=['post']
+    )
+    def cancel(self, request, *args, **kwargs):
+        line_item = self.get_object()
+        line_item.cancel()
+        line_item.save()
+        serializer = self.get_serializer(line_item)
+        return Response(serializer.data)
+
+
+class TenderViewSet(viewsets.ModelViewSet):
+
+    """
+    API endpoint that allows tenders to be viewed or edited.
+    """
+    queryset = Tender.objects.all()
+    serializer_class = TenderSerializer

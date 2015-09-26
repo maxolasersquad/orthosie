@@ -246,10 +246,10 @@ class Receipt():
         self.printer.print_line(
             'Total: ' + "{:19,.2f}".format(trans_totals.sub_total +
                                            trans_totals.tax_total) +
-                                           ' Change: ' +
-                                           "{:20,.2f}".format(
-                                               trans_totals.total)
-                                           + '\n\n'
+            ' Change: ' +
+            "{:20,.2f}".format(
+                trans_totals.total) +
+            '\n\n'
         )
 
 

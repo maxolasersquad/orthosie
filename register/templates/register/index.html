@@ -30,7 +30,7 @@
     <meta charset="UTF-8">
   </head>
   <body>
-    <div id="input" data-transaction-id="{{ transaction.id }}">
+    <div id="input" data-shift-id="{{ transaction.shift.id }}" data-transaction-id="{{ transaction.id }}">
 {% include "register/input.html" %}
     </div>
     <div id="transactions" class="container" data-status="ring">
