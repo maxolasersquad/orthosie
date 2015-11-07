@@ -119,7 +119,7 @@ require(['/static/js/config.js'], function () {
             $('#paid_total_value').html('$' + data.paidtotal);
             $('#total_value').html('$' + data.total);
             if (data.message !== '') {
-              div = document.createElement('div');
+              var div = document.createElement('div');
               div.innerHTML = data.message;
               alert(div.firstChild.nodeValue);
             }
@@ -175,7 +175,7 @@ require(['/static/js/config.js'], function () {
     function update_totals() {
       $.ajax({
         url: '/transactions/' + $('#input').data('transaction-id') + '/get_totals/',
-        dataType: 'json',
+        dataType: 'json'
       }).done(function(){
         $('#sub_total_value').html('$' + data.sub_total);
         $('#tax_total_value').html('$' + data.tax_total);

@@ -15,8 +15,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Orthosie.  If not, see <http://www.gnu.org/licenses/>.
 
-from rest_framework import viewsets, renderers
-from rest_framework.decorators import api_view
+from django.core.exceptions import ObjectDoesNotExist
+from rest_framework import status, viewsets
+from rest_framework.decorators import api_view, detail_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from inventory.serializers import ItemSerializer, GrocerySerializer
@@ -54,6 +55,66 @@ class GroceryViewSet(viewsets.ModelViewSet):
     queryset = Grocery.objects.all()
     serializer_class = GrocerySerializer
 
+    @detail_route(
+        methods=['post']
+    )
+    def update_vendor(self, request, *args, **kwargs):
+        grocery = self.get_object()
+        try:
+            vendor = Vendor.objects.get(name=request.POST['vendor'])
+        except ObjectDoesNotExist:
+            vendor = Vendor(name=request.POST['vendor'])
+            vendor.save()
+        grocery.vendor = vendor
+        grocery.save()
+        grocery = self.get_object()
+        serializer = self.get_serializer(grocery)
+        return Response(serializer.data)
+
+    @detail_route(
+        methods=['post']
+    )
+    def update_name(self, request, *args, **kwargs):
+        grocery = self.get_object()
+        grocery.name = request.POST['name']
+        grocery.save()
+        grocery = self.get_object()
+        serializer = self.get_serializer(grocery)
+        return Response(serializer.data)
+
+    @detail_route(
+        methods=['post']
+    )
+    def update_price(self, request, *args, **kwargs):
+        grocery = self.get_object()
+        grocery.price = request.POST['price']
+        grocery.save()
+        grocery = self.get_object()
+        serializer = self.get_serializer(grocery)
+        return Response(serializer.data)
+
+    @detail_route(
+        methods=['post']
+    )
+    def update_taxable(self, request, *args, **kwargs):
+        grocery = self.get_object()
+        grocery.taxable = (request.POST['taxable'].lower() == 'true')
+        grocery.save()
+        grocery = self.get_object()
+        serializer = self.get_serializer(grocery)
+        return Response(serializer.data)
+
+    @detail_route(
+        methods=['post']
+    )
+    def update_scalable(self, request, *args, **kwargs):
+        grocery = self.get_object()
+        grocery.scalable = (request.POST['scalable'].lower() == 'true')
+        grocery.save()
+        grocery = self.get_object()
+        serializer = self.get_serializer(grocery)
+        return Response(serializer.data)
+
 
 class ProduceViewSet(viewsets.ModelViewSet):
 
@@ -62,6 +123,83 @@ class ProduceViewSet(viewsets.ModelViewSet):
     """
     queryset = Produce.objects.all()
     serializer_class = ProduceSerializer
+
+    @detail_route(
+        methods=['post']
+    )
+    def update_name(self, request, *args, **kwargs):
+        produce = self.get_object()
+        produce.name = request.POST['name']
+        produce.save()
+        produce = self.get_object()
+        serializer = self.get_serializer(produce)
+        return Response(serializer.data)
+
+    @detail_route(
+        methods=['post']
+    )
+    def update_variety(self, request, *args, **kwargs):
+        produce = self.get_object()
+        produce.variety = request.POST['variety']
+        produce.save()
+        produce = self.get_object()
+        serializer = self.get_serializer(produce)
+        return Response(serializer.data)
+
+    @detail_route(
+        methods=['post']
+    )
+    def update_size(self, request, *args, **kwargs):
+        produce = self.get_object()
+        produce.size = request.POST['size']
+        produce.save()
+        produce = self.get_object()
+        serializer = self.get_serializer(produce)
+        return Response(serializer.data)
+
+    @detail_route(
+        methods=['post']
+    )
+    def update_botanical(self, request, *args, **kwargs):
+        produce = self.get_object()
+        produce.botanical = request.POST['botanical']
+        produce.save()
+        produce = self.get_object()
+        serializer = self.get_serializer(produce)
+        return Response(serializer.data)
+
+    @detail_route(
+        methods=['post']
+    )
+    def update_price(self, request, *args, **kwargs):
+        produce = self.get_object()
+        produce.price = request.POST['price']
+        produce.save()
+        produce = self.get_object()
+        serializer = self.get_serializer(produce)
+        return Response(serializer.data)
+
+    @detail_route(
+        methods=['post']
+    )
+    def update_taxable(self, request, *args, **kwargs):
+        produce = self.get_object()
+        produce.taxable = (request.POST['taxable'].lower() == 'true')
+        produce.save()
+        produce = self.get_object()
+        serializer = self.get_serializer(produce)
+        return Response(serializer.data)
+
+    @detail_route(
+        methods=['post']
+    )
+    def update_scalable(self, request, *args, **kwargs):
+        produce = self.get_object()
+        produce.scalable = (request.POST['scalable'].lower() == 'true')
+        produce.save()
+        produce = self.get_object()
+        serializer = self.get_serializer(produce)
+        return Response(serializer.data)
 
 
 class VendorViewSet(viewsets.ModelViewSet):

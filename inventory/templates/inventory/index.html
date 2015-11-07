@@ -42,7 +42,7 @@
         <table id="grocery-list" class="table table-striped table-hover table-condensed table-responsive ">
           <tbody>
   {% for grocery in grocery_items %}
-            <tr id="{{ grocery.upc }}" class="grocery-row">
+            <tr id="{{ grocery.upc }}" class="grocery-row" data-id="{{ grocery.id }}">
               <td id="{{ grocery.upc }}_upc" class="grocery-upc form-control-static">{{ grocery.upc }}</td>
               <td id="{{ grocery.upc }}_vendor_name" class="grocery-vendor-name form-control-static"><span id="{{ grocery.upc }}_vendor" class="vendor-name" data-upc="{{ grocery.upc }}">{{ grocery.vendor.name }}</span> <span id="{{ grocery.upc }}_name" class="grocery-name" data-upc="{{ grocery.upc }}">{{ grocery.name }}</span></td>
               <td id="{{ grocery.upc }}_price" class="grocery-price form-control-static" data-upc="{{ grocery.upc }}">{{ grocery.price }}</td>
@@ -75,7 +75,7 @@
         <table id="produce-list" class="table table-striped table-hover table-condensed table-responsive ">
           <tbody>
   {% for produce in produce_items %}
-            <tr id="{{ produce.plu }}" class="produce-row">
+            <tr id="{{ produce.plu }}" class="produce-row" data-id="{{ produce.id }}">
               <td id="{{ produce.plu }}_plu" class="produce-plu form-control-static">{{ produce.plu }}</td>
               <td id="{{ produce.plu }}_name" class="produce-name form-control-static" data-plu="{{ produce.plu }}">{{ produce.name }}</td>
               <td id="{{ produce.plu }}_variety" class="produce-variety form-control-static" data-plu="{{ produce.plu }}">{{ produce.variety }}</td>
