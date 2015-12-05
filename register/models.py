@@ -66,7 +66,7 @@ class Shift(models.Model):
 
     def print_z_report(self):
         z = ZReport(self)
-        z.print()
+        z.print_out()
 
     class Meta:
         ordering = ['begin_date']
@@ -101,7 +101,7 @@ class Transaction(models.Model):
 
     def print_receipt(self):
         r = Receipt(self)
-        r.print()
+        r.print_out()
 
     def create_line_item(self, item, quantity, scale=None):
         if self.finish_date is None:
@@ -212,7 +212,7 @@ class Receipt():
         self.printer = Printer(settings.PRINTER)
         self.printer.open()
 
-    def print(self):
+    def print_out(self):
         self.print_header()
         self.print_body()
         self.print_footer()
@@ -260,7 +260,7 @@ class ZReport():
         self.printer = Printer(settings.PRINTER)
         self.printer.open()
 
-    def print(self):
+    def print_out(self):
         totals = self.shift.get_totals()
         self.printer.print_line(
             'Transactions: ' + str(totals.transaction_count) + '\n'
