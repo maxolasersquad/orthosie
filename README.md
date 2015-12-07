@@ -50,14 +50,14 @@ Create a virtual environment for Orthosie.
 
     mkvirtualenv orthosie
 
-Pip Packages
-------------
-    pip install -r requirements.txt
-
 Orthosie
 --------
     cd ~
     git clone https://github.com/maxolasersquad/orthosie.git
+
+Pip Packages
+------------
+    pip install -r requirements.txt
 
 SQLite Database
 ---------------
