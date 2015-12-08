@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/maxolasersquad/orthosie.svg?branch=master)](https://travis-ci.org/maxolasersquad/orthosie)
 License
 =======
 
