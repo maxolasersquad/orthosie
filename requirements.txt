@@ -1,2 +1,5 @@
 Django>=1.8
 djangorestframework
+python-memcached
+pep8
+pyflakes
