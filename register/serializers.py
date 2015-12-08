@@ -47,4 +47,3 @@ class TransactionTotalSerializer(serializers.Serializer):
 
     class Meta:
         model = TransactionTotal
-
