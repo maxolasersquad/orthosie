@@ -94,15 +94,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
             return Response('Invalid PLU', status=status.HTTP_400_BAD_REQUEST)
         produce = get_object_or_404(Produce, plu=plu)
         transaction = self.get_object()
-        line_item = transaction.create_line_item(produce, quantity)
-        return Response({'success': True})
-
-    @detail_route(
-        methods=['post'],
-        renderer_classes=[renderers.StaticHTMLRenderer]
-    )
-    def get_totals(self, request, *args, **kwargs):
-        transaction = self.get_object
+        transaction.create_line_item(produce, quantity)
         return Response({'success': True})
 
     @list_route()

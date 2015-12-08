@@ -1,7 +1,6 @@
-from django.shortcuts import render, get_object_or_404
-from register.models import LineItem, Transaction, Shift, PrinterNotFound
+from django.shortcuts import render
+from register.models import Transaction
 from inventory.models import Grocery, Produce
-from django.views.decorators.csrf import csrf_exempt
 
 
 def index(request):
