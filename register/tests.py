@@ -111,6 +111,7 @@ class TransactionTest(TestCase):
     def test_transaction_totals_with_canceled_item(self):
         self.transaction.create_line_item(self.grocery, 1)
         self.transaction.create_line_item(self.grocery, 1).cancel()
+        transaction_total = self.transaction.get_totals()
         self.assertEqual(transaction_total.total, Decimal('50.18'))
         self.assertEqual(transaction_total.tax_total, Decimal('3.28'))
         self.assertEqual(transaction_total.total, Decimal('50.18'))
