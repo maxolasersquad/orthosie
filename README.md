@@ -110,3 +110,7 @@ Licensed MIT. More information at https://github.com/twbs/bootstrap/blob/master/
 
 ## jQuery
 Licenses MIT. More information at https://jquery.org/license/
+
+Chat
+==============
+[![Join the chat at https://gitter.im/maxolasersquad/orthosie](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/maxolasersquad/orthosie?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
