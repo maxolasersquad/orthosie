@@ -46,7 +46,7 @@ class Item(models.Model):
 
 class Grocery(Item):
     upc = models.CharField(max_length=30, unique=True)
-    vendor = models.ForeignKey(Vendor, default=None, blank=True, null=True)
+    vendor = models.ForeignKey(Vendor, default=None, blank=True, null=False)
 
 
 class Produce(Item):
