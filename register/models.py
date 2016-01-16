@@ -121,11 +121,11 @@ class Transaction(models.Model):
                 price=item.price
             )
 
-    def create_tender(self, amount, type):
-        if type in ('CASH', 'CHECK', 'CREDIT', 'EBT'):
+    def create_tender(self, amount, transaction_type):
+        if transaction_type in ('CASH', 'CHECK', 'CREDIT', 'EBT'):
             tender = self.tender_set.create(
                 amount=amount,
-                type=type
+                type=transaction_type
             )
             if self.get_totals().total <= 0:
                 self.end_transaction()
@@ -184,7 +184,7 @@ class Tender(models.Model):
     type = models.CharField(max_length=30)
 
 
-class TransactionTotal():
+class TransactionTotal:
 
     def __init__(self, sub_total, tax_total, paid_total):
         self.sub_total = sub_total
@@ -193,7 +193,7 @@ class TransactionTotal():
         self.total = sub_total + tax_total - paid_total
 
 
-class ShiftTotal():
+class ShiftTotal:
 
     def __init__(self, sub_total, tax_total, total, transaction_count):
         self.sub_total = sub_total
@@ -202,7 +202,7 @@ class ShiftTotal():
         self.transaction_count = transaction_count
 
 
-class Receipt():
+class Receipt:
 
     def __init__(self, transaction, lines=None):
         self.transaction = transaction
@@ -253,7 +253,7 @@ class Receipt():
         )
 
 
-class ZReport():
+class ZReport:
 
     def __init__(self, shift):
         self.shift = shift
@@ -275,7 +275,7 @@ class ZReport():
         self.printer.close()
 
 
-class Printer():
+class Printer:
 
     def __init__(self, spool):
         self.spool = spool
