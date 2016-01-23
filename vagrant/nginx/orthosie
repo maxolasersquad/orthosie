@@ -1,0 +1,14 @@
+server {
+  listen 80;
+  server_name orthosie;
+
+  location = /favicon.ico { access_log off; log_not_found off; }
+  location /static/ {
+    root /vagrant/orthosie;
+  }
+
+  location / {
+    include         uwsgi_params;
+    uwsgi_pass      unix:/vagrant/orthosie/orthosie.sock;
+  }
+}

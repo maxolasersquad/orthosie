@@ -3,3 +3,6 @@ orthosie/orthosie.db
 *.nja
 *.swp
 .idea/
+env/
+.env
+.vagrant
