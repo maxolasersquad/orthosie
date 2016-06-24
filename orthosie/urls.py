@@ -15,21 +15,22 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Orthosie.  If not, see <http://www.gnu.org/licenses/>.
 
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework import routers
 from inventory.api_views import ItemViewSet, GroceryViewSet, ProduceViewSet, VendorViewSet
 from register.api_views import ShiftViewSet, TransactionViewSet, LineItemViewSet, TenderViewSet
+from inventory import urls as inventoryUrls
+from register import urls as registerUrls
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns(
-    '',
-    url(r'^register/', include('register.urls')),
-    url(r'^inventory/', include('inventory.urls')),
-)
+urlpatterns = [
+    url(r'^register/', include(inventoryUrls)),
+    url(r'^inventory/', include(registerUrls)),
+]
 
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])
 
@@ -43,11 +44,10 @@ router.register(r'transactions', TransactionViewSet)
 router.register(r'line-items', LineItemViewSet)
 router.register(r'tenders', TenderViewSet)
 
-urlpatterns += patterns(
-    '',
+urlpatterns += [
     url(r'^', include(router.urls)),
     url(
         r'^api-auth/',
         include('rest_framework.urls', namespace='rest_framework')
     )
-)
+]
