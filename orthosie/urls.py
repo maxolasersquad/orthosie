@@ -28,8 +28,8 @@ from register import urls as registerUrls
 # admin.autodiscover()
 
 urlpatterns = [
-    url(r'^register/', include(inventoryUrls)),
-    url(r'^inventory/', include(registerUrls)),
+    url(r'^register/', include(registerUrls)),
+    url(r'^inventory/', include(inventoryUrls)),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])
