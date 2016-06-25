@@ -16,6 +16,10 @@ Every merge request will obviously be code reviewed. All feedback should be take
 to rebut any feedback. I'm interested in quality code, not stroking my ego or validating my opinions on how I think
 things should be done.
 
+## Unit Tests
+Unit tests are awesome. I'm not likely to reject any pull requests without them, but I will definitely reject a merge
+request if it breaks an existing test.
+
 ## My Promise To You
 I have a full time job, family, and life. However, I will make every reasonable effort to address all discussions of new
 features, bug fixes, and enhancements, as well as contributions in a timely and friendly manner.
