@@ -58,7 +58,9 @@ Orthosie
 
 Pip Packages
 ------------
-    pip install -r requirements.txt
+    pip install -r requirements/common.txt
+    pip install -r requirements/dev.txt
+    pip install -r requirements/prod.txt
 
 SQLite Database
 ---------------
@@ -66,7 +68,8 @@ Getting Orthosie running for the first time requires we setup the sqlite databas
 If you have a different database you want to use, refer to the django documentation at https://docs.djangoproject.com/en/1.6/ref/databases/
 
     cd orthosie
-    python3 manage.py syncdb
+    python3 manage.py makemigrations
+    python3 manage.py migrate
 
 Running
 =======
