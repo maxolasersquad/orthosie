@@ -65,7 +65,7 @@ Pip Packages
 SQLite Database
 ---------------
 Getting Orthosie running for the first time requires we setup the sqlite database file.
-If you have a different database you want to use, refer to the django documentation at https://docs.djangoproject.com/en/1.6/ref/databases/
+If you have a different database you want to use, refer to the django documentation at https://docs.djangoproject.com/en/1.10/ref/databases/
 
     cd orthosie
     python3 manage.py makemigrations
