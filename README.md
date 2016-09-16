@@ -24,7 +24,7 @@ Orthosie is licensed under the GPLv3. The details of this license can be viewed 
 About
 =====
 Orthosie is a point of sale system written in Python using the Django framework.
-Orthosie supports Python 3 and Django 1.8.
+Orthosie supports Python 3 and Django 1.10
 
 Supported Systems
 =================
