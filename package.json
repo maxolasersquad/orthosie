@@ -1,0 +1,32 @@
+{
+  "name": "orthosie",
+  "version": "1.2.0",
+  "description": "Point of sale system written in Python",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.1.0",
+    "requirejs": "^2.3.1",
+    "webpack": "^1.13.2",
+    "webpack-bundle-tracker": "0.0.93",
+    "webpack-dev-server": "^1.15.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxolasersquad/orthosie.git"
+  },
+  "keywords": [
+    "pos",
+    "point of sale"
+  ],
+  "author": "Jack David Baucum",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/maxolasersquad/orthosie/issues"
+  },
+  "homepage": "https://github.com/maxolasersquad/orthosie#readme"
+}

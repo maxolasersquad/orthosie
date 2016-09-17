@@ -16,6 +16,7 @@
 #    along with Orthosie.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.core.exceptions import ObjectDoesNotExist
+from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import api_view, detail_route
 from rest_framework.response import Response
@@ -54,6 +55,21 @@ class GroceryViewSet(viewsets.ModelViewSet):
     """
     queryset = Grocery.objects.all()
     serializer_class = GrocerySerializer
+
+    def create(self, request, *args, **kwargs):
+        name = request.data['name']
+        try:
+            vendor = Vendor.objects.get(name=request.POST['name'])
+        except ObjectDoesNotExist:
+            vendor = Vendor(name=request.POST['name'])
+            vendor.save()
+        data=request.data.copy()
+        data['vendor_id'] = vendor.id
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     @detail_route(
         methods=['post']

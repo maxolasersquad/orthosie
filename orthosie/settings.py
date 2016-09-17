@@ -15,9 +15,10 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'webpack_loader',
     'rest_framework',
     'register',
-    'inventory'
+    'inventory',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -77,7 +78,8 @@ ADMINS = (
 )
 
 STATICFILES_DIRS = (
-    os.path.join(os.path.dirname(__file__), '../static').replace('\\', '/'),
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'assets'),
 )
 
 STATICFILES_FINDERS = (
@@ -107,6 +109,13 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+    }
+}
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'bundles/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
     }
 }
 

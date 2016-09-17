@@ -17,11 +17,12 @@
     along with Orthosie.  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
 {% load staticfiles %}
+{% load render_bundle from webpack_loader %}
 <!DOCTYPE html>
 <html>
   <head>
     <title>Orthosie Inventory Management</title>
-    <script data-main="{% static 'inventory/js/inventory.js' %}" src="{% static '/js/require.js' %}"></script>
+    {% render_bundle 'main' %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static '/css/font-awesome.css' %}">
     <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">

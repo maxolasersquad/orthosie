@@ -3,3 +3,8 @@ orthosie/orthosie.db
 *.nja
 *.swp
 .idea/
+node_modules/
+.vagrant/
+env/
+webpack-stats.json
+assets/bundles/
