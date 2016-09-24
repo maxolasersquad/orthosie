@@ -31,15 +31,24 @@
     <meta charset="UTF-8"/>
   </head>
   <body data-tab="upc">
+  <span id="foo">Hi!</span>
     <form id="csrf_token">
 {% csrf_token %}
     </form>
-    <ul class="nav nav-pills">
-      <li class="active"><a href="#upc" data-toggle="pill">UPC <i class="fa fa-shopping-cart"></i></a></li>
-      <li><a href="#plu" data-toggle="pill">PLU <i class="fa fa-lemon-o"></i></a></li>
+    <ul class="nav nav-pills" id="tab" role="tablist">
+      <li role="presentation" class="active">
+        <a href="#upc" aria-controls="upc" role="tab" data-toggle="pill">
+          UPC <i class="fa fa-shopping-cart"></i>
+        </a>
+      </li>
+      <li role="presentation">
+        <a href="#plu" data-toggle="pill">
+          PLU <i class="fa fa-lemon-o"></i>
+        </a>
+      </li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane active" id="upc">
+      <div role="tabpanel" class="tab-pane active" id="upc">
         <table id="grocery-list" class="table table-striped table-hover table-condensed table-responsive ">
           <tbody>
   {% for grocery in grocery_items %}
@@ -72,7 +81,7 @@
           </tbody>
         </table>
       </div>
-      <div class="tab-pane" id="plu">
+      <div role="tabpanel" class="tab-pane" id="plu">
         <table id="produce-list" class="table table-striped table-hover table-condensed table-responsive ">
           <tbody>
   {% for produce in produce_items %}

@@ -21,11 +21,11 @@ module.exports = {
   ],
   module: {
     loaders: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loaders: [] }
+      { exclude: /node_modules/, loaders: [] }
     ]
   },
   resolve: {
-    modulesDirectories: ['node_modules', 'bower_components'],
-    extensions: ['', '.js', '.jsx']
+    modulesDirectories: ['node_modules'],
+    extensions: ['', '.js']
   }
 };

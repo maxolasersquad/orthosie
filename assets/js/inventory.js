@@ -3,7 +3,7 @@ var axios = require('axios');
 document.addEventListener("DOMContentLoaded", function () {
 
   function get_id_from_upc(upc) {
-    return document.querySelector('#' + upc).data('id');
+    return document.querySelector("[id='" + upc + "']").dataset.id;
   }
 
   function get_id_from_plu(plu) {
@@ -11,414 +11,399 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function save_vendor(upc) {
-    var new_vendor = document.querySelector('#' + upc + '_vendor_edit').value,
+    var new_vendor = document.querySelector("[id='" + upc + "_vendor_edit']").value,
       id = get_id_from_upc(upc);
 
     axios({
+      method: 'post',
       url: '/groceries/' + id + '/update_vendor/',
       data: {vendor: new_vendor},
-      method: 'post',
       responseType: 'json'
-    }).then(function (response) {
+    }).then(function (data) {
       "use strict";
-      document.querySelector('#' + upc + '_vendor').html(response.vendor.name);
+      document.querySelector("[id='" + upc + "_vendor']").innerHTML = data.vendor.name;
     }).catch(function (error) {
       "use strict";
-      alert('There was an error processing the request.' + '\n' + error);
+      alert('There was an error processing the request.\n' + error);
     });
   }
 
   function edit_vendor(upc) {
-    var upc_vendor = document.querySelector('#' + upc + '_vendor');
-    if (upc_vendor.find('input').length === 0) {
-      upc_vendor.html('<input type="text" id="' + upc + '_vendor_edit" class="grocery-edit grocery-vendor-edit" value="' + upc_vendor.html() + '">');
-      document.querySelector('#' + upc + '_vendor_edit').focus().blur(function () {
+    var upc_vendor = document.querySelector("[id='" + upc + "_vendor']");
+    if (upc_vendor.querySelector('input').length === 0) {
+      upc_vendor.innerHTML = '<input type="text" id="' + upc + '_vendor_edit" class="grocery-edit grocery-vendor-edit" value="' + upc_vendor.innerHTML + '">';
+      var vendor_edit = document.querySelector("[id=['" + upc + "_vendor_edit']");
+      vendor_edit.focus();
+      vendor_edit.addEventListener('blur', function() {
         save_vendor(upc);
       });
     }
   }
 
   function save_name(upc) {
-    var new_name = document.querySelector('#' + upc + '_name_edit').val(),
+    var new_name = document.querySelector("[id='" + upc + "_name_edit']").value,
       id = get_id_from_upc(upc);
 
-    document.querySelector.ajax({
+    axios({
+      method: 'post',
       url: '/groceries/' + id + '/update_name/',
       data: {name: new_name},
-      type: 'POST',
-      dataType: 'json',
-      success: function (data) {
-        document.querySelector('#' + upc + '_name').html(data.name);
-      },
-      error: function (xhr, text, error) {
-        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
-      }
+      responseType: 'json'
+    }).then(function(data){
+        document.querySelector("[id=['" + upc + "_name']").innerHTML = data.name;
+    }).catch(function(error){
+        alert('There was an error processing the request.\n' + error);
     });
 
   }
 
   function edit_name(upc) {
-    var upc_name = document.querySelector('#' + upc + '_name');
-    if (upc_name.find('input').length === 0) {
-      upc_name.html("<input type='text' id='" + upc + "_name_edit' class='grocery-name-edit' value='" + upc_name.html() + "'>");
-      document.querySelector('#' + upc + '_name_edit').focus().blur(function () {
+    var upc_name = document.querySelector("[id='" + upc + "_name']");
+    if (upc_name.querySelector('input').length === 0) {
+      upc_name.innerHTML = "<input type='text' id='" + upc + "_name_edit' class='grocery-name-edit' value='" + upc_name.innerHTML() + "'>";
+      var name_edit = document.querySelector("[id='" + upc + "_name_edit']");
+      name_edit.focus();
+      name_edit.addEventListener('blur', function() {
         save_name(upc);
       });
     }
   }
 
   function save_price(upc) {
-    var new_price = document.querySelector('#' + upc + '_price_edit').val(),
+    var new_price = document.querySelector("[id='" + upc + "_price_edit']").value,
       id = get_id_from_upc(upc);
 
-    document.querySelector.ajax({
+    axios({
+      method: 'post',
       url: '/groceries/' + id + '/update_price/',
       data: {price: new_price},
-      type: 'POST',
-      dataType: 'json',
-      success: function (data) {
-        document.querySelector('#' + upc + '_price').html(data.price);
-      },
-      error: function (xhr, text, error) {
-        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
-      }
+      responseType: 'json'
+    }).then(function(data) {
+        document.querySelector("[id='" + upc + "_price']").innerHTML = data.price;
+    }).catch(function(error){
+        alert('There was an error processing the request.\n' + error);
     });
 
   }
 
   function edit_price(upc) {
-    if (document.querySelector('#' + upc + '_price > input').length === 0) {
-      var upc_price = document.querySelector('#' + upc + '_price');
-      upc_price.html("<input type='number' id='" + upc + "_price_edit' class='grocery-price-edit' value='" + upc_price.html() + "'>");
-      document.querySelector('#' + upc + '_price_edit').focus().blur(function () {
+    if (document.querySelector("[id='" + upc + "_price'] > input").length === 0) {
+      var upc_price = document.querySelector("[id='" + upc + "_price']");
+      upc_price.innerHTML = "<input type='number' id='" + upc + "_price_edit' class='grocery-price-edit' value='" + upc_price.innerHTML + "'>";
+      var price_edit = document.querySelector("[id='" + upc + "_price_edit']");
+      price_edit.focus()
+      price_edit.addEventListener('blur', function() {
         save_price(upc);
       });
     }
   }
 
   function toggle_grocery_taxable(upc) {
-    var taxable = !(document.querySelector('#' + upc + '_taxable').html() === 'Taxable'),
+    var taxable = !(document.querySelector("[id='" + upc + "_taxable']").innerHTML === 'Taxable'),
       id = get_id_from_upc(upc);
 
-    document.querySelector.ajax({
+    axios({
+      method: 'post',
       url: '/groceries/' + id + '/update_taxable/',
       data: {taxable: taxable},
-      type: 'POST',
-      dataType: 'json',
-      success: function (data) {
-        if (data.taxable) {
-          document.querySelector('#' + upc + '_taxable').html('Taxable');
-        }
-        else {
-          document.querySelector('#' + upc + '_taxable').html('Non-Taxable');
-        }
-      },
-      error: function (xhr, text, error) {
-        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
+      responseType: 'json'
+    }).then(function(data) {
+      if (data.taxable) {
+        document.querySelector("[id='" + upc + "_taxable']").innerHTML = 'Taxable';
       }
+      else {
+        document.querySelector("[id='" + upc + "_taxable']").innerHTML = 'Non-Taxable';
+      }
+    }).catch(function(error) {
+      alert('There was an error processing the request.\n' + error);
     });
 
   }
 
   function toggle_grocery_scalable(upc) {
-    var scalable = !(document.querySelector('#' + upc + '_scalable').html() === 'Scalable'),
+    var scalable = !(document.querySelector("[id='" + upc + "_scalable']").innerHTML === 'Scalable'),
       id = get_id_from_upc(upc);
 
-    document.querySelector.ajax({
+    axios({
+      method: 'post',
       url: '/groceries/' + id + '/update_scalable/',
       data: {scalable: scalable},
-      type: 'POST',
-      dataType: 'json',
-      success: function (data) {
-        if (data.scalable) {
-          document.querySelector('#' + upc + '_scalable').html('Scalable');
-        }
-        else {
-          document.querySelector('#' + upc + '_scalable').html('Non-Scalable');
-        }
-      },
-      error: function (xhr, text, error) {
-        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
+      responseType: 'json'
+    }).then(function(data) {
+      var scalable = document.querySelector("id=['" + upc + "_scalable']");
+      if (data.scalable) {
+        scalable.innerHTML = 'Scalable';
       }
+      else {
+        scalable.innerHTML = 'Non-Scalable';
+      }
+    }).catch(function(error) {
+      alert('There was an error processing the request.\n' + error);
     });
 
   }
 
   function new_grocery() {
-    var grocery_input = document.querySelector('#grocery').find('input'),
-      grocery_vendor_input = document.querySelector('#grocery_vendor').find('input'),
-      grocery_name_input = document.querySelector('#grocery_name').find('input'),
-      grocery_price_input = document.querySelector('#grocery_price').find('input'),
-      grocery_upc_input = document.querySelector('#grocery_upc').find('input'),
-      scalable = document.querySelector('#grocery_scalable').html() === 'Scalable',
-      taxable = document.querySelector('#grocery_taxable').html() === 'Taxable',
-      csrf_token_input = document.querySelector('#csrf_token').find('input'),
+    var grocery_input = document.querySelector('#grocery').querySelector('input'),
+      grocery_vendor_input = document.querySelector('#grocery_vendor').querySelector('input'),
+      grocery_name_input = document.querySelector('#grocery_name').querySelector('input'),
+      grocery_price_input = document.querySelector('#grocery_price').querySelector('input'),
+      grocery_upc_input = document.querySelector('#grocery_upc').querySelector('input'),
+      scalable = document.querySelector('#grocery_scalable').innerHTML === 'Scalable',
+      taxable = document.querySelector('#grocery_taxable').innerHTML === 'Taxable',
+      csrf_token_input = document.querySelector('#csrf_token').querySelector('input'),
       post_args = {
-        upc: grocery_upc_input.val(),
-        vendor: grocery_vendor_input.val(),
-        name: grocery_name_input.val(),
-        price: grocery_price_input.val(),
+        upc: grocery_upc_input.value,
+        vendor: grocery_vendor_input.value,
+        name: grocery_name_input.value,
+        price: grocery_price_input.value,
         scalable: scalable,
         taxable: taxable
       };
-    if (grocery_input.val() === '' || grocery_vendor_input.val() === '' || grocery_name_input.val() === '' || grocery_price_input.val() === '') {
+    if (grocery_input.value === '' || grocery_vendor_input.value === '' || grocery_name_input.value === '' || grocery_price_input.value === '') {
       return;
     }
-    if (grocery_upc_input.find(':invalid').length === 1) {
+    if (grocery_upc_input.querySelector(':invalid').length === 1) {
       alert('Invalid UPC');
       return;
     }
 
     post_args[csrf_token_input.attr('name')] = csrf_token_input.attr('value');
 
-    document.querySelector.ajax({
+    axios({
+      method: 'post',
       url: '/groceries/',
       data: post_args,
-      type: 'POST',
-      dataType: 'json',
-      success: function (data) {
+      responseType: 'json'
+    }).then(function(data){
         console.log(data);
         //location.reload();
-      },
-      error: function (xhr, text, error) {
-        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
-      }
+    }).catch(function(error){
+      alert('There was an error processing the request.\n' + error);
     });
+
   }
 
   function save_produce_name(plu) {
-    var new_name = document.querySelector('#' + plu + '_name_edit').val(),
+    var new_name = document.querySelector("[id='" + plu + "_name_edit']").value,
       id = get_id_from_plu(plu);
 
-    document.querySelector.ajax({
+    axios({
+      method: 'post',
       url: '/produce/' + id + '/update_name/',
       data: {name: new_name},
-      type: 'POST',
-      dataType: 'json',
-      success: function (data) {
-        document.querySelector('#' + plu + '_name').html(data.name);
-      },
-      error: function (xhr, text, error) {
-        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
-        document.querySelector('#' + plu + '_name').focus();
-      }
+      returnType: 'json'
+    }).then(function(data){
+        document.querySelector("[id='" + plu + "_name']").innerHTML = data.name;
+    }).catch(function(error){
+        alert('There was an error processing the request.\n' + error);
+        document.querySelector("[id='" + plu + "_name']").focus;
     });
 
   }
 
   function edit_produce_name(plu) {
-    var plu_name = document.querySelector('#' + plu + '_name');
-    if (plu_name.find('input').length === 0) {
-      plu_name.html('<input type="text" placeholder="Name" id="' + plu + '_name_edit" class="produce-name-edit" value="' + plu_name.html() + '">');
-      document.querySelector('#' + plu + '_name_edit').focus().blur(function () {
+    var plu_name = document.querySelector("[id='" + plu + "_name']");
+    if (plu_name.querySelector('input').length === 0) {
+      plu_name.innerHTML = '<input type="text" placeholder="Name" id="' + plu + '_name_edit" class="produce-name-edit" value="' + plu_name.innerHTML + '">';
+      document.querySelector("[id='" + plu + "_name_edit']").focus().addEventListener('blur', function () {
         save_produce_name(plu);
       });
     }
   }
 
   function save_produce_variety(plu) {
-    var new_variety = document.querySelector('#' + plu + '_variety_edit').val(),
+    var new_variety = document.querySelector("[id='" + plu + "_variety_edit']").value,
       id = get_id_from_plu(plu);
 
-    document.querySelector.ajax({
+    axios({
+      method: 'post',
       url: '/produce/' + id + '/update_variety/',
       data: {variety: new_variety},
-      type: 'POST',
-      dataType: 'json',
-      success: function (data) {
-        document.querySelector('#' + plu + '_variety').html(data.variety);
-      },
-      error: function (xhr, text, error) {
-        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
-        document.querySelector('#' + plu + '_variety').focus();
-      }
+      returnType: 'json'
+    }).then(function(data) {
+        document.querySelector("[id='" + plu + "_variety']").innerHTML = data.variety;
+    }).catch(function(data) {
+        alert('There was an error processing the request.\n' + error);
+        document.querySelector("[id='" + plu + "_variety']").focus();
     });
   }
 
   function edit_produce_variety(plu) {
-    var plu_variety = document.querySelector('#' + plu + '_variety');
-    if (plu_variety.find('input').length === 0) {
-      plu_variety.html('<input type="text" placeholder="Variety" id="' + plu + '_variety_edit" class="produce-variety-edit" value="' + plu_variety.html() + '">');
-      document.querySelector('#' + plu + '_variety_edit').focus().blur(function () {
+    var plu_variety = document.querySelector("[id='" + plu + "_variety']");
+    if (plu_variety.querySelector('input').length === 0) {
+      plu_variety.innerHTML = '<input type="text" placeholder="Variety" id="' + plu + '_variety_edit" class="produce-variety-edit" value="' + plu_variety.innerHTML + '">';
+      document.querySelector("[id='" + plu + "_variety_edit']").focus().addEventListener('blur', function () {
         save_produce_variety(plu);
       });
     }
   }
 
   function save_produce_size(plu) {
-    var new_size = document.querySelector('#' + plu + '_size_edit').val(),
+    var new_size = document.querySelector("[id='" + plu + "_size_edit']").value,
       id = get_id_from_plu(plu);
 
-    document.querySelector.ajax({
+    axios({
+      method: 'post',
       url: '/produce/' + id + '/update_size/',
       data: {size: new_size},
-      type: 'POST',
-      dataType: 'json',
-      success: function (data) {
-        document.querySelector('#' + plu + '_size').html(data.size);
-      },
-      error: function (xhr, text, error) {
-        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
-        document.querySelector('#' + plu + '_size').focus();
-      }
+      returnType: 'json'
+    }).then(function(data) {
+        document.querySelector("[id='" + plu + "_size']").innerHTML = data.size;
+    }).catch(function(error) {
+        alert('There was an error processing the request.\n' + error);
+        document.querySelector("[id='" + plu + "_size']").focus();
     });
-  }
+
+}
 
   function edit_produce_size(plu) {
-    var plu_size = document.querySelector('#' + plu + '_size');
-    if (plu_size.find('input').length === 0) {
-      plu_size.html('<input type="text" placeholder="Size" id="' + plu + '_size_edit" class="produce-size-edit" value="' + plu_size.html() + '">');
-      document.querySelector('#' + plu + '_size_edit').focus().blur(function () {
+    var plu_size = document.querySelector("[id='" + plu + "_size']");
+    if (plu_size.querySelector('input').length === 0) {
+      plu_size.innerHTML = '<input type="text" placeholder="Size" id="' + plu + '_size_edit" class="produce-size-edit" value="' + plu_size.innerHTML + '">';
+      document.querySelector("[id='" + plu + "_size_edit']").focus().addEventListener('blur', function () {
         save_produce_size(plu);
       });
     }
   }
 
   function save_produce_botanical(plu) {
-    var new_botanical = document.querySelector('#' + plu + '_botanical_edit').val(),
+    var new_botanical = document.querySelector("[id='" + plu + "_botanical_edit']").value,
       id = get_id_from_plu(plu);
 
-    document.querySelector.ajax({
+    axios({
+      method: 'post',
       url: '/produce/' + id + '/update_botanical/',
       data: {botanical: new_botanical},
-      type: 'POST',
-      dataType: 'json',
-      success: function (data) {
-        document.querySelector('#' + plu + '_botanical').html(data.botanical);
-      },
-      error: function (xhr, text, error) {
-        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
-        document.querySelector('#' + plu + '_botanical').focus();
-      }
+      returnType: 'json'
+    }).then(function(data) {
+        document.querySelector("[id='" + plu + "_botanical']").innerHTML = data.botanical;
+    }).catch(function(error) {
+        alert('There was an error processing the request.\n' + error);
+        document.querySelector("[id='" + plu + "_botanical']").focus();
     });
   }
 
   function edit_produce_botanical(plu) {
-    var plu_botanical = document.querySelector('#' + plu + '_botanical');
-    if (plu_botanical.find('input').length === 0) {
-      plu_botanical.html('<input type="text" placeholder="Botanical" id="' + plu + '_botanical_edit" class="produce-botanical-edit" value="' + plu_botanical.html() + '">');
-      document.querySelector('#' + plu + '_botanical_edit').focus().blur(function () {
+    var plu_botanical = document.querySelector("[id='" + plu + "_botanical']");
+    if (plu_botanical.querySelector('input').length === 0) {
+      plu_botanical.innerHTML = '<input type="text" placeholder="Botanical" id="' + plu + '_botanical_edit" class="produce-botanical-edit" value="' + plu_botanical.innerHTML + '">';
+      document.querySelector("[id='" + plu + "_botanical_edit']").focus().addEventListener('blur', function () {
         save_produce_botanical(plu);
       });
     }
   }
 
   function save_produce_price(plu) {
-    var new_price = document.querySelector('#' + plu + '_price_edit').val(),
+    var new_price = document.querySelector("[id='" + plu + "_price_edit']").value,
       id = get_id_from_plu(plu);
 
-    document.querySelector.ajax({
+    axios({
+      method: 'post',
       url: '/produce/' + id + '/update_price/',
       data: {price: new_price},
-      type: 'POST',
-      dataType: 'json',
-      success: function (data) {
-        document.querySelector('#' + plu + '_price').html(data.price);
-      },
-      error: function (xhr, text, error) {
-        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
-        document.querySelector('#' + plu + '_price').focus();
-      }
+      returnType: 'json'
+    }).then(function(data) {
+        document.querySelector("[id='" + plu + "_price']").innerHTML = data.price;
+    }).catch(function(error) {
+        alert('There was an error processing the request.\n' + error);
+        document.querySelector("[id='" + plu + "_price']").focus();
     });
 
   }
 
   function edit_produce_price(plu) {
-    var plu_price = document.querySelector('#' + plu + '_price');
-    if (plu_price.find('input').length === 0) {
-      plu_price.html('<input type="number" id="' + plu + '_price_edit" class="produce-price-edit" value="' + plu_price.html() + '">');
-      document.querySelector('#' + plu + '_price_edit').focus().blur(function () {
+    var plu_price = document.querySelector("[id='" + plu + "_price']");
+    if (plu_price.querySelector('input').length === 0) {
+      plu_price.innerHTML = '<input type="number" id="' + plu + '_price_edit" class="produce-price-edit" value="' + plu_price.innerHTML + '">';
+      document.querySelector("[id='" + plu + "_price_edit']").focus().addEventListener('blur', function () {
         save_produce_price(plu);
       });
     }
   }
 
   function toggle_produce_scalable(plu) {
-    var scalable = !(document.querySelector('#' + plu + '_scalable').html() === 'Scalable'),
+    var scalable = !(document.querySelector("[id='" + plu + "_scalable']").innerHTML === 'Scalable'),
       id = get_id_from_upc(plu);
 
-    document.querySelector.ajax({
+    axios({
+      method: 'post',
       url: '/produce/' + id + '/update_scalable/',
       data: {scalable: scalable},
-      type: 'POST',
-      dataType: 'json',
-      success: function (data) {
+      returnType: 'json'
+    }).then(function(data) {
         if (data.scalable) {
-          document.querySelector('#' + plu + '_scalable').html('Scalable');
+          document.querySelector("[id='" + plu + "_scalable']").innerHTML = 'Scalable';
         }
         else {
-          document.querySelector('#' + plu + '_scalable').html('Non-Scalable');
+          document.querySelector("[id='" + plu + "_scalable']").innerHTML = 'Non-Scalable';
         }
-      },
-      error: function (xhr, text, error) {
-        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
-      }
+    }).catch(function(error) {
+        alert('There was an error processing the request.\n' + error);
     });
 
   }
 
   function toggle_produce_taxable(plu) {
-    var taxable = !(document.querySelector('#' + plu + '_taxable').html() === 'Taxable'),
+    var taxable = !(document.querySelector("[id='" + plu + "_taxable']").innerHTML === 'Taxable'),
       id = get_id_from_upc(plu);
 
-    document.querySelector.ajax({
+    axios({
+      method: 'post',
       url: '/produce/' + id + '/update_taxable/',
       data: {taxable: taxable},
-      type: 'POST',
-      dataType: 'json',
-      success: function (data) {
+      returnType: 'json'
+    }).then(function(data) {
         if (data.taxable) {
-          document.querySelector('#' + plu + '_taxable').html('Taxable');
+          document.querySelector("[id='" + plu + "_taxable']").innerHTML = 'Taxable';
         }
         else {
-          document.querySelector('#' + plu + '_taxable').html('Non-Taxable');
+          document.querySelector("[id='" + plu + "_taxable']").innerHTML = 'Non-Taxable';
         }
-      },
-      error: function (xhr, text, error) {
-        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
-      }
+    }).catch(function(error) {
+        alert('There was an error processing the request.\n' + error);
     });
 
   }
 
   function new_produce() {
-    var produce_plu_input = document.querySelector('#produce_plu').find('input'),
-      produce_name_input = document.querySelector('#produce_name').find('input'),
-      produce_price_input = document.querySelector('#produce_price').find('input'),
-      produce_variety_input = document.querySelector('#produce_variety').find('input'),
-      produce_size_input = document.querySelector('#produce_size').find('input'),
-      produce_botanical_input = document.querySelector('#produce_botanical').find('input'),
-      scalable = document.querySelector('#produce_scalable').html() === 'Scalable',
-      taxable = document.querySelector('#produce_taxable').html() === 'Taxable',
-      csrf_token_input = document.querySelector('#csrf_token').find('input'),
-      produce_list_tr_last = document.querySelector('#produce-list').find('tr:last'),
+    var produce_plu_input = document.querySelector('#produce_plu').querySelector('input'),
+      produce_name_input = document.querySelector('#produce_name').querySelector('input'),
+      produce_price_input = document.querySelector('#produce_price').querySelector('input'),
+      produce_variety_input = document.querySelector('#produce_variety').querySelector('input'),
+      produce_size_input = document.querySelector('#produce_size').querySelector('input'),
+      produce_botanical_input = document.querySelector('#produce_botanical').querySelector('input'),
+      scalable = document.querySelector('#produce_scalable').innerHTML === 'Scalable',
+      taxable = document.querySelector('#produce_taxable').innerHTML === 'Taxable',
+      csrf_token_input = document.querySelector('#csrf_token').querySelector('input'),
+      produce_list_tr_last = document.querySelector('#produce-list').querySelector('tr:last'),
       post_args = {
-        plu: produce_plu_input.val(),
-        name: produce_name_input.val(),
-        variety: produce_variety_input.val(),
-        size: produce_size_input.val(),
-        botanical: produce_botanical_input.val(),
-        price: produce_price_input.val(),
+        plu: produce_plu_input.value,
+        name: produce_name_input.value,
+        variety: produce_variety_input.value,
+        size: produce_size_input.value,
+        botanical: produce_botanical_input.value,
+        price: produce_price_input.value,
         scalable: scalable,
         taxable: taxable
       };
-    if (produce_plu_input.val() === '' || produce_name_input.val() === '' || produce_price_input.val() === '') {
+    if (produce_plu_input.value === '' || produce_name_input.value === '' || produce_price_input.value === '') {
       return;
     }
-    if (produce_plu_input.find(':invalid').length === 1) {
+    if (produce_plu_input.querySelector(':invalid').length === 1) {
       alert('Invalid PLU');
       return;
     }
 
     post_args[csrf_token_input.attr('name')] = csrf_token_input.attr('value');
 
-    document.querySelector.ajax({
+    axios({
+      method: 'post',
       url: '/inventory/create_produce',
       data: post_args,
-      type: 'POST',
-      dataType: 'json',
-      success: function (data) {
-        produce_list_tr_last.find('input').val('');
+      returnType: 'json'
+    }).then(function(data) {
+        produce_list_tr_last.querySelector('input').val('');
         produce_list_tr_last.before(
           '<tr id="' + data.plu + '" class="grocery-row">' +
           '<td id="' + data.plu + '_plu" class="produce-plu form-control-static">' + data.plu + '</td>' +
@@ -433,79 +418,120 @@ document.addEventListener("DOMContentLoaded", function () {
           '<td id="' + data.upc + '_taxable" class="grocery-taxable" data-upc="' + data.upc + '">' + (!data.taxable ? 'Non-' : '') + 'Taxable</td>' +
           '</tr>'
         );
-      },
-      error: function (xhr, text, error) {
-        alert('There was an error processing the request.' + '\n' + text + '\n' + error);
-      }
+    }).catch(function(data) {
+        alert('There was an error processing the request.\n' + error);
     });
   }
 
-  document.querySelector('.vendor-name').click(function () {
-    edit_vendor(document.querySelector(this).data('upc'));
-  });
-
-  document.querySelector('.grocery-name').click(function () {
-    edit_name(document.querySelector(this).data('upc'));
-  });
-
-  document.querySelector('.grocery-price').click(function () {
-    edit_price(document.querySelector(this).data('upc'));
-  });
-
-  document.querySelector('.grocery-scalable').click(function () {
-    toggle_grocery_scalable(document.querySelector(this).data('upc'));
-  });
-
-  document.querySelector('.grocery-taxable').each(function () {
-    document.querySelector(this).click(function () {
-      toggle_grocery_taxable(document.querySelector(this).data('upc'));
+  var vendorNames = document.querySelectorAll('.vendor-name');
+  for (var i = 0; i < vendorNames.length; ++i) {
+    vendorNames[i].addEventListener('click', function () {
+      edit_vendor(document.querySelector(this).dataset.upc);
     });
-    document.querySelector('.new-inventory').each(function () {
-      document.querySelector(this).blur(function () {
-        if (document.querySelector('body').data('tab') === 'upc') {
-          new_grocery();
-        }
-        else {
-          new_produce();
-        }
-      });
+  }
+
+  var groceryNames = document.querySelectorAll('.grocery-name');
+  for (var i = 0; i < groceryNames.length; ++i) {
+    groceryNames[i].addEventListener('click', function () {
+      edit_name(document.querySelector(this).dataset.upc);
     });
-  });
+  }
 
-  document.querySelector('.produce-name').click(function () {
-    edit_produce_name(document.querySelector(this).data('plu'));
-  });
+  var groceryPrices = document.querySelectorAll('.grocery-price');
+  for (var i = 0; i < groceryPrices.length; ++i) {
+    groceryPrices[i].addEventListener('click', function () {
+      edit_price(document.querySelector(this).dataset.upc);
+    });
+  }
 
-  document.querySelector('.produce-variety').click(function () {
-    edit_produce_variety(document.querySelector(this).data('plu'));
-  });
+  var groceryScalables = document.querySelectorAll('.grocery-scalable');
+  for (var i = 0; i < groceryScalables.length; ++i) {
+    groceryScalables[i].addEventListener('click', function () {
+      console.log('[groceryScalables][this]', this);
+      toggle_grocery_scalable(this.dataset.upc);
+    });
+  }
 
-  document.querySelector('.produce-size').click(function () {
-    edit_produce_size(document.querySelector(this).data('plu'));
-  });
+  var groceryTaxables = document.querySelectorAll('.grocery-taxable');
+  for (var i = 0; i < groceryTaxables.length; ++i) {
+    groceryTaxables[i].addEventListener('click', function () {
+      toggle_grocery_taxable(this.dataset.upc);
+    });
+  };
 
-  document.querySelector('.produce-botanical').click(function () {
-    edit_produce_botanical(document.querySelector(this).data('plu'));
-  });
+  var newInventories = document.querySelectorAll('.new-inventory');
+  for (var i = 0; i < newInventories.length; ++i) {
+    newInventories[i].addEventListener('blur', function () {
+      if (document.querySelector('body').dataset.tab === 'upc') {
+        new_grocery();
+      }
+      else {
+        new_produce();
+      }
+    });
+  };
 
-  document.querySelector('.produce-price').click(function () {
-    edit_produce_price(document.querySelector(this).data('plu'));
-  });
+  var produceNames = document.querySelectorAll('.produce-name');
+  for (var i = 0; i < produceNames.length; ++i) {
+    produceNames[i].addEventListener('click', function () {
+      edit_produce_name(document.querySelector(this).dataset.plu);
+    });
+  }
 
-  document.querySelector('.produce-scalable').click(function () {
-    toggle_produce_scalable(document.querySelector(this).data('plu'));
-  });
+  var produceVarieties = document.querySelectorAll('.produce-variety');
+  for (var i = 0; i < produceVarieties.length; ++i) {
+    produceVarieties[i].addEventListener('click', function () {
+      edit_produce_variety(document.querySelector(this).dataset.plu);
+    });
+  }
 
-  document.querySelector('.produce-taxable').click(function () {
-    toggle_produce_taxable(document.querySelector(this).data('plu'));
-  });
+  var produceSizes = document.querySelectorAll('.produce-size');
+  for (var i = 0; i < produceSizes.length; ++i) {
+    produceSizes[i].addEventListener('click', function () {
+      edit_produce_size(document.querySelector(this).dataset.plu);
+    });
+  }
 
-  document.querySelector('#upc').click(function () {
-    document.querySelector('body').data('tab', 'upc');
-  });
+  var produceBotanicals = document.querySelectorAll('.produce-botanical');
+  for (var i = 0; i < produceBotanicals.length; ++i) {
+    produceBotanicals[i].addEventListener('click', function () {
+      edit_produce_botanical(document.querySelector(this).dataset.plu);
+    });
+  }
 
-  document.querySelector('#plu').click(function () {
-    document.querySelector('body').data('tab', 'plu');
-  });
+  var producePrices = document.querySelectorAll('.produce-price');
+  for (var i = 0; i < producePrices.length; ++i) {
+    producePrices[i].addEventListener('click', function () {
+      edit_produce_price(document.querySelector(this).dataset.plu);
+    });
+  }
+
+  var produceScalables = document.querySelectorAll('.produce-scalable');
+  for (var i = 0; i < produceScalables.length; ++i) {
+    produceScalables[i].addEventListener('click', function () {
+      toggle_produce_scalable(document.querySelector(this).dataset.plu);
+    });
+  }
+
+  var produceTaxables = document.querySelectorAll('.produce-taxable');
+  for (var i = 0; i < produceTaxables.length; ++i) {
+    produceTaxables[i].addEventListener('click', function () {
+      toggle_produce_taxable(document.querySelector(this).dataset.plu);
+    });
+  }
+
+  var upcs = document.querySelector('#upc');
+  for (var i = 0; i < upcs.length; ++i) {
+    upcs[i].addEventListener('click', function () {
+      document.querySelector('body').dataset.tab =  'upc';
+    });
+  }
+
+  var plus = document.querySelector('#plu');
+  for (var i = 0; i < plus.length; ++i) {
+    plus[i].addEventListener('click', function () {
+      document.querySelector('body').dataset.tab = plu;
+    });
+  }
 
 });

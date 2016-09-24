@@ -46,6 +46,7 @@ Add the following to your shell init script. e.g. ~/.bashrc or ~/.zshrc
 
     export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
     export WORKON_HOME=~/virtualenvs
+    source /usr/local/bin/virtualenvwrapper.sh
 
 Create a virtual environment for Orthosie.
 
@@ -70,6 +71,12 @@ If you have a different database you want to use, refer to the django documentat
     cd orthosie
     python3 manage.py makemigrations
     python3 manage.py migrate
+
+Node Modules
+------------
+sudo apt-get install nodejs npm
+npm install
+./node_modules/.bin/webpack --config webpack.config.js --watch
 
 Running
 =======
