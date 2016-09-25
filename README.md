@@ -36,7 +36,7 @@ These instructions are for debian-based versions of GNU/Linux. It is recommended
 
 Required Packages
 -----------------
-    sudo apt-get install python3 python3-setuptools git 
+    sudo apt-get install python3 python3-pip python3-setuptools git 
 
 VirtualEnvWrapper
 -----------------
