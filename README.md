@@ -47,6 +47,10 @@ Add the following to your shell init script. e.g. ~/.bashrc or ~/.zshrc
     export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
     export WORKON_HOME=~/virtualenvs
 
+[Initialize virtualwrapper](http://virtualenvwrapper.readthedocs.io/en/latest/index.html#introduction)
+
+    source /usr/local/bin/virtualenvwrapper.sh
+    
 Create a virtual environment for Orthosie.
 
     mkvirtualenv orthosie
